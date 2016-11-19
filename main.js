@@ -13,15 +13,15 @@ module.exports.loop = function () {
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length);
 
-	if (harvesters.length < 2) {
+	if (harvesters.length < 2 && Game.rooms['W31N61'].energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
 	}
-	if (upgraders.length < 4) {
+	if (upgraders.length < 4 && Game.rooms['W31N61'].energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 		console.log('new upgrader', name);
 	}
-	if (builders.length < 2) {
+	if (builders.length < 2 && Game.rooms['W31N61'].energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 		console.log('new builder', name);
 	}
