@@ -11,7 +11,7 @@ var roleUpgrader = {
             creep.say('upgrading');
         }
 
-        if (creep.memeory.upgrading) {
+        if (creep.memory.upgrading) {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
