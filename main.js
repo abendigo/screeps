@@ -15,12 +15,15 @@ module.exports.loop = function () {
 
 	if (harvesters.length < 2) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+		console.log('new harvestor', name);
 	}
 	if (upgraders.length < 4) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+		console.log('new upgrader', name);
 	}
 	if (builders.length < 2) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+		console.log('new builder', name);
 	}
 
     for(var name in Game.creeps) {
