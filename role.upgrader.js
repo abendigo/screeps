@@ -2,7 +2,6 @@ var roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        console.log('upgrader', creep.carry)
 	    if (creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
             creep.say('harvesting');
@@ -12,7 +11,7 @@ var roleUpgrader = {
             creep.say('upgrading');
         }
 
-        if (creep.memory.upgrading) {
+        if (!creep.memory.upgrading) {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
