@@ -13,7 +13,7 @@ module.exports.loop = function () {
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length);
 
-	if (harvestors.length < 2) {
+	if (harvesters.length < 2) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 	}
 	if (upgraders.length < 4) {
