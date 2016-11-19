@@ -19,7 +19,7 @@ module.exports.loop = function () {
 	if (upgraders.length < 4) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 	}
-	if (builders.length < 3) {
+	if (builders.length < 2) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 	}
 
