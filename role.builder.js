@@ -41,6 +41,7 @@ var roleBuilder = {
 	    }
 	    else {
 	        var sources = creep.room.find(FIND_SOURCES);
+	        console.log('source.length', sources.length)
             if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[options.source]);
             }
