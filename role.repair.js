@@ -1,7 +1,7 @@
 var roleRepair = {
 
 	/** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, source) {
     	if (creep.fatigue)
     		return;
 

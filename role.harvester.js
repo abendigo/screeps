@@ -1,7 +1,10 @@
 var roleHarvester = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, options) {
+        options = options || {};
+        options.source = options.source || 1;
+
         if (creep.fatigue)
             return;
 
@@ -13,7 +16,6 @@ var roleHarvester = {
             creep.memory.deliver = true;
             creep.say('delivering');
         }
-
 
         if (creep.memory.deliver) {
             var targets = creep.room.find(FIND_STRUCTURES, {
@@ -29,8 +31,8 @@ var roleHarvester = {
             }
         } else {
             var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1]);
+            if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[options.source]);
             }
         }
 	}

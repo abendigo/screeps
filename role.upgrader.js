@@ -4,6 +4,7 @@ var roleUpgrader = {
     run: function(creep, options) {
         options = options || {};
         options.source = options.source || 0;
+
 	    if (creep.fatigue)
             return;
 
