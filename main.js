@@ -58,7 +58,7 @@ module.exports.loop = function () {
 	// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repair'});
 	// 	console.log('new builder', name);
 	// }
-
+*/
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -73,8 +73,7 @@ module.exports.loop = function () {
         if (creep.memory.role == 'repair') {
         	roleRepair.run(creep);
         }
-    }
-*/    
+    }    
 }
 
 
