@@ -22,8 +22,8 @@ module.exports.loop = function () {
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
 
 	// Always have 1 harvester, no matter what
-	if (harvesters.length < 1 && energyAvailable >= 200) {
-		var name = Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+	if (harvesters.length < 1 && energyAvailable >= 300) {
+		var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
 	}
 
