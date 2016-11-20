@@ -13,8 +13,9 @@ module.exports.loop = function () {
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+	var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
 
-	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length);
+	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', reparis.length);
 
 
 	if (harvesters.length < 1 && energyAvailable >= 200) {
@@ -25,12 +26,16 @@ module.exports.loop = function () {
 		var name = Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], { role: 'harvester' } );
 		console.log('new big harvestor', name);
 	}
-	if (upgraders.length < 4 && Game.rooms['W31N61'].energyAvailable >= 200) {
+	if (upgraders.length < 4 && .energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 		console.log('new upgrader', name);
 	}
-	if (builders.length < 6 && Game.rooms['W31N61'].energyAvailable >= 200) {
+	if (builders.length < 6 && .energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+		console.log('new builder', name);
+	}
+	if (repairs.length < 4 && .energyAvailable >= 300) {
+		var name = Game.spawns['home'].createCreep([WORK, WORK,CARRY,MOVE], undefined, {role: 'repair'});
 		console.log('new builder', name);
 	}
 
