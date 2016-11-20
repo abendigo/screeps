@@ -28,6 +28,10 @@ module.exports.loop = function () {
 			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 			console.log('new upgrader', name);
 		}
+		if (builders.length < 2 && energyAvailable >= 300) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
+			console.log('new builder', name);
+		}
 	} else if (energyCapacityAvailable == 550) {
 
 
