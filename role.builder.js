@@ -20,9 +20,10 @@ var roleBuilder = {
                 }
             } else {
             	var targets = creep.room.find(FIND_STRUCTURES, { 
-			    filter: (structure) => { 
-			       return ((structure.hits < 5000) && (structure.hits > 0))
-			   }
+				    filter: (structure) => { 
+				       return ((structure.hits < 5000) && (structure.hits > 0))
+				   }
+				});
 
 	            if(targets.length) {
 	            	creep.say('repair');
