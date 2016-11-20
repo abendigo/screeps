@@ -5,10 +5,11 @@ var roleRepair = require('role.repair');
 
 module.exports.loop = function () {
 	for(var name in Game.rooms) {
-        console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
+        console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
     }
 
     var energyAvailable = Game.rooms['W27N68'].energyAvailable;
+    var energyCapacityAvailable = Game.rooms['W27N68'].energyCapacityAvailable;
     var home = 'Spawn1';
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
