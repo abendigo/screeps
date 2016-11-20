@@ -2,6 +2,8 @@ var roleRepair = {
 
 	/** @param {Creep} creep **/
     run: function(creep) {
+    	if (creep.fatigue)
+    		return;
 
 	    if(creep.memory.repair && creep.carry.energy == 0) {
             creep.memory.repair = false;
