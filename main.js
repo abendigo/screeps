@@ -8,9 +8,11 @@ module.exports.loop = function () {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
     }
 
-    var energyAvailable = Game.rooms['W27N68'].energyAvailable;
-    var energyCapacityAvailable = Game.rooms['W27N68'].energyCapacityAvailable;
-    var home = 'Spawn1';
+    var roomName = 'W63S24';
+    var room = Game.rooms[roomName];
+    var energyAvailable = room.energyAvailable;
+    var energyCapacityAvailable = room.energyCapacityAvailable;
+    var home = 'home';
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
