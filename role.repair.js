@@ -1,7 +1,10 @@
 var roleRepair = {
 
 	/** @param {Creep} creep **/
-    run: function(creep, source) {
+    run: function(creep, options) {
+        options = options || {};
+        options.source = options.source || 1;
+
     	if (creep.fatigue)
     		return;
 
@@ -29,8 +32,8 @@ var roleRepair = {
 	    }
 	    else {
 	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[options.source]);
             }
 	    }
 	}
