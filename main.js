@@ -19,26 +19,30 @@ module.exports.loop = function () {
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
 
 
-	if (harvesters.length < 1 && energyAvailable >= 200) {
+	if (harvesters.length < 2 && energyAvailable >= 200) {
 		var name = Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
 	}
-	if (harvesters.length < 2 && energyAvailable >= 550) {
-		var name = Game.spawns[home].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], { role: 'harvester' } );
-		console.log('new big harvestor', name);
-	}
-	if (upgraders.length < 6 && energyAvailable >= 550) {
-		var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+	// if (harvesters.length < 2 && energyAvailable >= 550) {
+	// 	var name = Game.spawns[home].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], { role: 'harvester' } );
+	// 	console.log('new big harvestor', name);
+	// }
+	if (upgraders.length < 6 && energyAvailable >= 200) {
+		var name = Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 		console.log('new upgrader', name);
 	}
-	if (builders.length < 2 && energyAvailable >= 400) {
-		var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
-		console.log('new builder', name);
-	}
-	if (repairs.length < 2 && energyAvailable >= 400) {
-		var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repair'});
-		console.log('new builder', name);
-	}
+	// if (upgraders.length < 6 && energyAvailable >= 550) {
+	// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+	// 	console.log('new upgrader', name);
+	// }
+	// if (builders.length < 2 && energyAvailable >= 400) {
+	// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+	// 	console.log('new builder', name);
+	// }
+	// if (repairs.length < 2 && energyAvailable >= 400) {
+	// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repair'});
+	// 	console.log('new builder', name);
+	// }
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
