@@ -8,15 +8,22 @@ module.exports.loop = function () {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy');
     }
 
+    var energyAvailable = Game.rooms['W31N61'].energyAvailable;
+
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length);
 
-	if (harvesters.length < 2 && Game.rooms['W31N61'].energyAvailable >= 200) {
+
+	if (harvesters.length < 1 && energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
+	}
+	if (harvesters.length < 3 && energyAvailable >= 550) {
+		var name = Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], { role: 'harvester' } );
+		console.log('new big harvestor', name);
 	}
 	if (upgraders.length < 4 && Game.rooms['W31N61'].energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
