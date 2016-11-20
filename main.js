@@ -22,7 +22,7 @@ module.exports.loop = function () {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
 	}
-	if (harvesters.length < 3 && energyAvailable >= 550) {
+	if (harvesters.length < 2 && energyAvailable >= 550) {
 		var name = Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], { role: 'harvester' } );
 		console.log('new big harvestor', name);
 	}
@@ -30,11 +30,11 @@ module.exports.loop = function () {
 		var name = Game.spawns['home'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'upgrader'});
 		console.log('new upgrader', name);
 	}
-	if (builders.length < 6 && energyAvailable >= 200) {
+	if (builders.length < 1 && energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 		console.log('new builder', name);
 	}
-	if (repairs.length < 4 && energyAvailable >= 400) {
+	if (repairs.length < 1 && energyAvailable >= 400) {
 		var name = Game.spawns['home'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repair'});
 		console.log('new builder', name);
 	}
