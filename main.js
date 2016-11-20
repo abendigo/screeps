@@ -45,14 +45,14 @@ module.exports.loop = function () {
 		// 	console.log('new repair', name);
 		// }
 	} else if (energyCapacityAvailable >= 550) {
-		if (harvesters.length < 2 && energyAvailable >= 500) {
-			var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
-			console.log('new harvestor', name);
-		}
-		if (upgraders.length < 4 && energyAvailable >= 500) {
-			var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
-			console.log('new upgrader', name);
-		}
+		// if (harvesters.length < 2 && energyAvailable >= 500) {
+		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+		// 	console.log('new harvestor', name);
+		// }
+		// if (upgraders.length < 4 && energyAvailable >= 500) {
+		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+		// 	console.log('new upgrader', name);
+		// }
 
 	}
 
