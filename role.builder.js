@@ -2,6 +2,7 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep, options) {
+    	console.log('roleBuilder', options)
         options = options || {};
         options.source = options.source || 1;
 
