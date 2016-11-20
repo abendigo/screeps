@@ -15,7 +15,7 @@ module.exports.loop = function () {
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 	var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
 
-	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', reparis.length);
+	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
 
 
 	if (harvesters.length < 1 && energyAvailable >= 200) {
