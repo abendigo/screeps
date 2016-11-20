@@ -22,7 +22,7 @@ module.exports.loop = function () {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 		console.log('new upgrader', name);
 	}
-	if (builders.length < 2 && Game.rooms['W31N61'].energyAvailable >= 200) {
+	if (builders.length < 6 && Game.rooms['W31N61'].energyAvailable >= 200) {
 		var name = Game.spawns['home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 		console.log('new builder', name);
 	}
