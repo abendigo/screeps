@@ -45,6 +45,11 @@ module.exports.loop = function () {
 		// 	console.log('new repair', name);
 		// }
 	} else if (energyCapacityAvailable >= 550) {
+		if (harvesters.length < 3) {
+			if (energyAvailable >= 550) {
+				Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+			}
+		}
 		// if (harvesters.length < 2 && energyAvailable >= 500) {
 		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
 		// 	console.log('new harvestor', name);
