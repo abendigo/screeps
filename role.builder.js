@@ -2,7 +2,6 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep, options) {
-    	console.log('roleBuilder', options.source)
         options = options || {};
         options.source = options.source || 1;
 
@@ -19,7 +18,6 @@ var roleBuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	    	console.log('------ 1')
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -41,9 +39,7 @@ var roleBuilder = {
             }
 	    }
 	    else {
-	    	console.log('------ 2')
 	        var sources = creep.room.find(FIND_SOURCES);
-	        console.log('source.length', sources.length)
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
             }
