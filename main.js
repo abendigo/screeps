@@ -19,21 +19,38 @@ module.exports.loop = function () {
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
 
-	if (energyCapacityAvailable == 300) {
-		if (harvesters.length < 2 && energyAvailable >= 300) {
+	// Always have 1 harvester, no matter what
+	if (harvesters.length < 1 && energyAvailable >= 200) {
+		var name = Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+		console.log('new harvestor', name);
+	}
+
+	if (energyCapacityAvailable < 550) {
+		if (harvesters.length < 1 && energyAvailable >= 300) {
 			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 			console.log('new harvestor', name);
-		}
-		if (upgraders.length < 2 && energyAvailable >= 300) {
-			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
-			console.log('new upgrader', name);
 		}
 		if (builders.length < 2 && energyAvailable >= 300) {
 			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
 			console.log('new builder', name);
 		}
-	} else if (energyCapacityAvailable == 550) {
-
+		if (upgraders.length < 4 && energyAvailable >= 300) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+			console.log('new upgrader', name);
+		}
+		// if (repairs.length < 2 && energyAvailable >= 300) {
+		// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'repair'});
+		// 	console.log('new repair', name);
+		// }
+	} else if (energyCapacityAvailable >= 550) {
+		if (harvesters.length < 2 && energyAvailable >= 500) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+			console.log('new harvestor', name);
+		}
+		if (upgraders.length < 4 && energyAvailable >= 500) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+			console.log('new upgrader', name);
+		}
 
 	}
 

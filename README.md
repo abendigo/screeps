@@ -14,3 +14,5 @@ Game.spawns['home'].createCreep( [WORK, CARRY, MOVE], undefined, { role: 'upgrad
 
 
 Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], 'HarvesterBig', { role: 'harvester' } );
+
+W27N68
