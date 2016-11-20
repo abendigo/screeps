@@ -19,7 +19,21 @@ module.exports.loop = function () {
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
 
+	if (energyCapacityAvailable == 300) {
+		if (harvesters.length < 2 && energyAvailable >= 300) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+			console.log('new harvestor', name);
+		}
+		if (upgraders.length < 2 && energyAvailable >= 300) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+			console.log('new upgrader', name);
+		}
+	} else if (energyCapacityAvailable == 550) {
 
+
+	}
+
+/*
 	if (harvesters.length < 2 && energyAvailable >= 200) {
 		var name = Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 		console.log('new harvestor', name);
@@ -60,6 +74,7 @@ module.exports.loop = function () {
         	roleRepair.run(creep);
         }
     }
+*/    
 }
 
 
