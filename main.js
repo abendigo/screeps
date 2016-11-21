@@ -46,7 +46,7 @@ module.exports.loop = function () {
 		// 	console.log('new repair', name);
 		// }
 	} else if (energyCapacityAvailable >= 550) {
-		if (harvesters.length < 1) {
+		if (harvesters.length < 2) {
 			if (energyAvailable >= 550) {
 				Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
 			} else if (energyAvailable >= 200) {
