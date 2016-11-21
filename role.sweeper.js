@@ -32,7 +32,7 @@ var roleUpgrader = {
                 }
             } else {
                 creep.say('no litter');
-                creep.memery.deliver = true;
+                creep.memory.deliver = true;
             }
         }
     }
