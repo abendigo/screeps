@@ -11,7 +11,10 @@ var roleH2 = require('role.h2');
  };
 
 
+
 module.exports.loop = function () {
+	console.log('roles', roles);
+	
 	for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
     }
