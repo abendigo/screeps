@@ -14,7 +14,7 @@ var roleH2 = require('role.h2');
 
 module.exports.loop = function () {
 	console.log('roles', roles);
-	
+
 	for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
     }
@@ -148,9 +148,9 @@ module.exports.loop = function () {
         	roleSweeper.run(creep);
         }
 
-        if (creep.memoy.role == 'h2') {
-        	roleH2.run(creep);
-        }
+        // if (creep.memory.role == 'h2') {
+        // 	roleH2.run(creep);
+        // }
 
         if (creep.memory.role == 'h2') {
         	roles['h2'].run(creep);
