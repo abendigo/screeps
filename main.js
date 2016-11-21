@@ -9,6 +9,12 @@ module.exports.loop = function () {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
     }
 
+	for (var i in Memory.creeps) {
+		if (!Game.creeps[i]) {
+			delete Memory.creeps[i];
+		}
+	}	
+
     var roomName = 'W63S24';
     var room = Game.rooms[roomName];
     var energyAvailable = room.energyAvailable;
