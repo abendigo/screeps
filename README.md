@@ -11,7 +11,7 @@ Game.spawns['Spawn1'].createCreep( [WORK, CARRY, MOVE], 'Builder1', { role: 'bui
 
 
 Game.spawns['home'].createCreep( [WORK, CARRY, MOVE], undefined, { role: 'upgrader'} );
-
+Game.spawns['home'].createCreep( [CARRY, CARRY, CARRY,MOVE,MOVE,MOVE,MOVE], undefined, { role: 'sweeper'} );
 
 Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], 'HarvesterBig', { role: 'harvester' } );
 

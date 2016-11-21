@@ -24,7 +24,7 @@ var roleUpgrader = {
                 }
             });
 
-            console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
+            // console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
             if (container.store[RESOURCE_ENERGY] > 0) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);

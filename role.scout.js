@@ -43,7 +43,7 @@ var roleScout = {
 		    	creep.moveTo(Game.flags.Flag2);
 		    } else {
 		    	var sources = Game.rooms[roomName].find(FIND_SOURCES);
-		    	console.log('sources', sources.length);
+		    	// console.log('sources', sources.length);
 
 		        // var sources = creep.room.find(FIND_SOURCES);
 		        if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
