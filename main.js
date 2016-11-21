@@ -2,6 +2,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepair = require('role.repair');
+var roleScout = require('role.scout');
 
 module.exports.loop = function () {
 	for(var name in Game.rooms) {
@@ -116,6 +117,9 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'repair') {
         	roleRepair.run(creep, {source: 1});
+        }
+        if (creep.memory.role == 'scout') {
+        	roleScout.run(creep);
         }
     }    
 }
