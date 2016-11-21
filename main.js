@@ -26,8 +26,9 @@ module.exports.loop = function () {
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 	var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
+	var sweepers = _.filter(Game.creeps, (creep) => creep.memory.role == 'sweeper');
 
-	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length);
+	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length, 'sweepers', sweepers.length);
 
 	// Always have 1 harvester, no matter what
 	if (harvesters.length < 1) {
