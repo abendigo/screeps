@@ -4,6 +4,7 @@ var roleBuilder = require('role.builder');
 var roleRepair = require('role.repair');
 var roleScout = require('role.scout');
 var roleSweeper = require('role.sweeper');
+var roleH2 = require('role.h2');
 
  let roles = {
  	'h2': require('role.h2')
@@ -142,6 +143,10 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'sweeper') {
         	roleSweeper.run(creep);
+        }
+
+        if (creep.memoy.role == 'h2') {
+        	roleH2.run(creep);
         }
 
         if (creep.memory.role == 'h2') {
