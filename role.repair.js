@@ -23,6 +23,7 @@ var roleRepair = {
 	    if(creep.memory.repair) {
 			if (creep.memory.target) {
 				var target = Game.getObjectById(creep.memory.target);
+				console.log(creep.name, 'hits', target.hits)
 				if (target == null) {
 					console.log('target not found')
 					creep.memory.target = false;
