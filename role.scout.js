@@ -4,7 +4,7 @@ var roleScout = {
     run: function(creep) {
     	console.log('roleScout', creep.room.name);
 
-    	creep.moveTo(Game.flags.Flag1);
+    	creep.moveTo(Game.flags.Flag2);
 	}
 };
 
