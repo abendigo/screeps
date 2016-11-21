@@ -20,9 +20,10 @@ var roleRepair = {
 
 	    if(creep.memory.repair) {
 			if (creep.memory.target) {
-				if (creep.memory.target.hits < 5000) {
-					if(creep.repair(creep.memory.target) == ERR_NOT_IN_RANGE) {
-						creep.moveTo(creep.memory.target);
+				var target = Game.getObjectById(creep.memory.target);
+				if (target.hits < 5000) {
+					if(creep.repair(target) == ERR_NOT_IN_RANGE) {
+						creep.moveTo(target);
 					}
 				} else {
 					console.log('already fixed')
@@ -37,7 +38,7 @@ var roleRepair = {
             	if (targets.length) {
 					var index = Math.round(Math.random() * targets.length);
 					console.log('target', index)
-					creep.memory.target = targets[index];
+					creep.memory.target = targets[index].id;
 				}
             }
 	    }
