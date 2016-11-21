@@ -25,7 +25,7 @@ var roleUpgrader = {
                 }
             });
 
-            console.log('container', containers.length);
+            console.log('container', containers);
 
             
             var sources = creep.room.find(FIND_SOURCES);
