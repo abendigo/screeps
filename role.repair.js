@@ -2,7 +2,7 @@ var roleRepair = {
 
 	/** @param {Creep} creep **/
     run: function(creep, options) {
-		console.log('roleRepair', creep.name, creep.memory.target);
+		// console.log('roleRepair', creep.name, creep.memory.target);
 		
         options = options || {};
         options.source = options.source || 1;
@@ -23,16 +23,16 @@ var roleRepair = {
 	    if(creep.memory.repair) {
 			if (creep.memory.target) {
 				var target = Game.getObjectById(creep.memory.target);
-				console.log(creep.name, 'hits', target.hits, 'of', target.hitsMax)
+				// console.log(creep.name, 'hits', target.hits, 'of', target.hitsMax)
 				if (target == null) {
-					console.log('target not found')
+					// console.log('target not found')
 					creep.memory.target = false;
 				} else if (target.hits < Math.min(target.hitsMax, 5000)) {
 					if(creep.repair(target) == ERR_NOT_IN_RANGE) {
 						creep.moveTo(target);
 					}
 				} else {
-					console.log('already fixed')
+					// console.log('already fixed')
 					creep.memory.target = false;
 				}
 			} else {
@@ -43,7 +43,7 @@ var roleRepair = {
 				});
             	if (targets.length) {
 					var index = Math.round(Math.random() * targets.length);
-					console.log('target', index)
+					// console.log('target', index)
 					creep.memory.target = targets[index].id;
 				}
             }
