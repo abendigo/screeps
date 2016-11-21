@@ -60,7 +60,7 @@ module.exports.loop = function () {
 			if (energyAvailable >= 550) {
 				Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repair'});
 			}
-		} else if (builders.length < 4) {
+		} else if (builders.length < 8) {
 			if (energyAvailable >= 550) {
 				Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
 			}
