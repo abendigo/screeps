@@ -35,7 +35,7 @@ var roleRepair = {
 					}
 				});
             	if (targets.length) {
-					var index = Math.random() * targets.length;
+					var index = Math.round(Math.random() * targets.length);
 					console.log('target', index)
 					creep.memory.target = targets[index];
 				}
