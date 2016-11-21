@@ -2,7 +2,7 @@ var roleRepair = {
 
 	/** @param {Creep} creep **/
     run: function(creep, options) {
-		console.log('roleRepair', creep.name);
+		console.log('roleRepair', creep.name, creep.memory.target);
 		
         options = options || {};
         options.source = options.source || 1;
