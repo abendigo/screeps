@@ -18,13 +18,16 @@ var roleUpgrader = {
         }
 
         if (!creep.memory.upgrading) {
-            var containers = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == 'container';
                 }
             });
 
-            console.log('container', containers);
+            console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
+            if (container.store[RESOURCE_ENERGY] > 0) {
+                
+            }
 
             
             var sources = creep.room.find(FIND_SOURCES);
