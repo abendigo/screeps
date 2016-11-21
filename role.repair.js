@@ -19,15 +19,26 @@ var roleRepair = {
 
 
 	    if(creep.memory.repair) {
-			var targets = creep.room.find(FIND_STRUCTURES, { 
-			   filter: (structure) => { 
-			       return ((structure.hits < 5000) && (structure.hits > 0))
-			   }
-			});
-            if(targets.length) {
-                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
-                }
+			if (creep.memory.target) {
+				if (creep.memory.target.hits < 5000) {
+					if(creep.repair(creep.memory.target) == ERR_NOT_IN_RANGE) {
+						creep.moveTo(creep.memory.target);
+					}
+				} else {
+					console.log('already fixed')
+					creep.memory.target = false;
+				}
+			} else {
+				var targets = creep.room.find(FIND_STRUCTURES, { 
+					filter: (structure) => { 
+						return ((structure.hits < 5000) && (structure.hits > 0))
+					}
+				});
+            	if (targets.length) {
+					var index = Math.random * targets.length;
+					console.log('target', index)
+					creep.memory.target = targets[index];
+				}
             }
 	    }
 	    else {
