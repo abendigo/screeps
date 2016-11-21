@@ -2,7 +2,7 @@ var roleScout = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-    	console.log('roleScout');
+    	console.log('roleScout', creep.room.name);
 
     	creep.moveTo(Game.flags.Flag1);
 	}
