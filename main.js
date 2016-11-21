@@ -5,6 +5,11 @@ var roleRepair = require('role.repair');
 var roleScout = require('role.scout');
 var roleSweeper = require('role.sweeper');
 
+ let roles = {
+ 	'h2': require('role.h2')
+ };
+
+
 module.exports.loop = function () {
 	for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
@@ -62,22 +67,22 @@ module.exports.loop = function () {
 			// } else if (energyAvailable >= 200) {
 			// 	Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 			}
-		} else if (upgraders.length < 4) {
-			if (energyAvailable >= 500) {
-				Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
-			}
-		} else if (repairs.length < 4) {
-			if (energyAvailable >= 550) {
-				Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
-			}
-		} else if (builders.length < 4) {
-			if (energyAvailable >= 550) {
-				Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
-			}
-		} else {
-			if (energyAvailable >= 500) {
-				Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
-			}
+		// } else if (upgraders.length < 4) {
+		// 	if (energyAvailable >= 500) {
+		// 		Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+		// 	}
+		// } else if (repairs.length < 4) {
+		// 	if (energyAvailable >= 550) {
+		// 		Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
+		// 	}
+		// } else if (builders.length < 4) {
+		// 	if (energyAvailable >= 550) {
+		// 		Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+		// 	}
+		// } else {
+		// 	if (energyAvailable >= 500) {
+		// 		Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+		// 	}
 		}
 		// if (harvesters.length < 2 && energyAvailable >= 500) {
 		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
@@ -137,6 +142,10 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'sweeper') {
         	roleSweeper.run(creep);
+        }
+
+        if (creep.memory.role == 'h2') {
+        	roles['h2'].run(creep);
         }
     }    
 }
