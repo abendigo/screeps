@@ -20,7 +20,7 @@ var roleUpgrader = {
         if (!creep.memory.upgrading) {
             var containers = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureTypes == STRUCTURE_CONTAINER;
+                    return structure.structureType == STRUCTURE_CONTAINER;
                 }
             });
 
