@@ -45,8 +45,20 @@ var roleUpgrader = {
                     creep.moveTo(litter[0]);
                 }
             } else {
-                creep.say('no litter');
-                creep.memory.deliver = true;
+                var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
+                    }
+                });
+                // console.log(creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
+                if (container && container.store[RESOURCE_ENERGY] > 0) {
+                    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(container);
+                    }
+                } else {
+                    creep.say('no litter');
+                    creep.memory.deliver = true;
+                }
             }
         }
     }
