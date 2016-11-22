@@ -70,8 +70,7 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        }
-		// if (harvesters.length < 2) {
+		// } else if (harvesters.length < 2) {
 			// if (energyAvailable >= 550) {
 			// 	Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
 			// // } else if (energyAvailable >= 200) {
@@ -102,8 +101,6 @@ module.exports.loop = function () {
 		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
 		// 	console.log('new upgrader', name);
 		}
-
-	} else {
 
 	}
 
