@@ -13,7 +13,8 @@ var roleScout = require('role.scout');
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
     'sweeper': require('role.sweeper'),
-    'upgrader': require('role.upgrader')
+    'upgrader': require('role.upgrader'),
+    'wallcrew': require('role.wallcrew'),
  };
 
 
@@ -76,6 +77,10 @@ module.exports.loop = function () {
         } else if (creeps['roadcrew'].lenght < 4) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'roadcrew'});
+            }
+        } else if (creeps['wallcrew'].lenght < 4) {
+            if (energyAvailable >= 500) {
+                Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'wallcrew'});
             }
         } else if (creeps['upgrader'].length < 5) {
             if (energyAvailable >= 500) {
