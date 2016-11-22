@@ -43,7 +43,7 @@ var roleRepair = {
 				});
             	if (targets.length) {
 					var index = parseInt(Math.random() * targets.length);
-					creep.say('target ' + index + 'of' + targets.length)
+					creep.say(index + ':' + targets.length)
 					creep.memory.target = targets[index].id;
 				}
             }
