@@ -41,43 +41,43 @@ module.exports.loop = function () {
         console.log(role, creeps[role].length); 
     }
 
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-	var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
-	var sweepers = _.filter(Game.creeps, (creep) => creep.memory.role == 'sweeper');
-    var h2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'h2');
+    // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+	// var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+	// var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+	// var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
+	// var sweepers = _.filter(Game.creeps, (creep) => creep.memory.role == 'sweeper');
+    // var h2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'h2');
 
 	console.log('h2', h2.length, 'harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length, 'sweepers', sweepers.length);
 
 	// Always have 1 harvester, no matter what
-	if (harvesters.length < 1) {
+	if (creeps['harvesters'].length < 1) {
 		if (energyAvailable >= 300) {
 			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 			console.log('new harvestor', name);
 		}
     } else if (energyCapacityAvailable <= 800) {
-        if (h2.length < 4) {
+        if (creeps['h2'].length < 4) {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        } else if (sweepers.length < 4) {
+        } else if (creeps['sweepers'].length < 4) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
-        } else if (harvesters.length < 2) {
+        } else if (creeps['harvesters'].length < 2) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
-        } else if (builders.length < 4) {
+        } else if (creeps['builders'].length < 4) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
             }
-        } else if (upgraders.length < 5) {
+        } else if (creeps['upgraders'].length < 5) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
             }
-        } else if (repairs.length < 4) {
+        } else if (creeps['repairs'].length < 4) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
             }
