@@ -35,8 +35,10 @@ module.exports.loop = function () {
     var energyCapacityAvailable = room.energyCapacityAvailable;
     var home = 'home';
 
+    let creeps = {};
     for (var role in roles) {
-        console.log('role', role);
+        creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
+        console.log('role', creeps[role].lengths) 
     }
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
