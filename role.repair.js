@@ -3,7 +3,7 @@ var roleRepair = {
 	/** @param {Creep} creep **/
     run: function(creep, options) {
 		// console.log('roleRepair', creep.name, creep.memory.target);
-		
+
         options = options || {};
         options.source = options.source || 1;
 
@@ -36,14 +36,14 @@ var roleRepair = {
 					creep.memory.target = false;
 				}
 			} else {
-				var targets = creep.room.find(FIND_STRUCTURES, { 
-					filter: (structure) => { 
+				var targets = creep.room.find(FIND_STRUCTURES, {
+					filter: (structure) => {
 						return ((structure.hits < Math.min(structure.hitsMax, 5000)) && (structure.hits > 0))
 					}
 				});
             	if (targets.length) {
 					var index = parseInt(Math.random() * targets.length);
-					// console.log('target', index, 'of', targets.length)
+					creep.say('target ' + index + 'of' + targets.length)
 					creep.memory.target = targets[index].id;
 				}
             }
