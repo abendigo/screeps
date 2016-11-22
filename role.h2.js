@@ -6,7 +6,7 @@ var role = {
 
     run: function(creep) {
         var target = Game.getObjectById('57ef9ccc86f108ae6e60cd6e');
-        if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
+        if (creep.harvest(target) != OK) {
             creep.moveTo(target);
         }
     }
