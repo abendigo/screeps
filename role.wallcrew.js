@@ -20,7 +20,7 @@ var role = {
                 if (target == null) {
                     creep.say('$%#@')
                     creep.memory.target = false;
-                } else if (target.hits < Math.min(target.hitsMax, 5000)) {
+                } else if (target.hits < Math.min(target.hitsMax, 15000)) {
                     if (creep.repair(target) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     }
@@ -32,7 +32,7 @@ var role = {
                 var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType == STRUCTURE_WALL &&
-                               structure.hits < Math.min(structure.hitsMax, 5000) &&
+                               structure.hits < Math.min(structure.hitsMax, 15000) &&
                                structure.hits > 0;
                     }
                 });
