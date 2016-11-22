@@ -51,7 +51,7 @@ var role = {
                 }
             });
 
-            console.log(creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
+            console.log('roadcrew', creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
             if (container.store[RESOURCE_ENERGY] > 0) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
