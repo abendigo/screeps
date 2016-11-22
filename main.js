@@ -51,7 +51,7 @@ module.exports.loop = function () {
 	// console.log('h2', h2.length, 'harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length, 'sweepers', sweepers.length);
 
 	// Always have 1 harvester, no matter what
-	if (creeps['harvesters'].length < 1) {
+	if (creeps['harvester'].length < 1) {
 		if (energyAvailable >= 300) {
 			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 			console.log('new harvestor', name);
@@ -61,23 +61,23 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        } else if (creeps['sweepers'].length < 4) {
+        } else if (creeps['sweeper'].length < 4) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
-        } else if (creeps['harvesters'].length < 2) {
+        } else if (creeps['harvester'].length < 2) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
-        } else if (creeps['builders'].length < 4) {
+        } else if (creeps['builder'].length < 4) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
             }
-        } else if (creeps['upgraders'].length < 5) {
+        } else if (creeps['upgrader'].length < 5) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
             }
-        } else if (creeps['repairs'].length < 4) {
+        } else if (creeps['repair'].length < 4) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
             }
