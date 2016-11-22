@@ -13,11 +13,12 @@ var roleUpgrader = {
 	    }
 
         if (creep.memory.deliver) {
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == 'container';
-                }
-            });
+            var container = Game.getObjectById('58337fda4503a6a6427e41a2');
+            // var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //     filter: (structure) => {
+            //         return structure.structureType == 'container';
+            //     }
+            // });
 
             if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(container);
