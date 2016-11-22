@@ -29,7 +29,7 @@ var role = {
                     creep.memory.target = false;
                 }
             } else {
-                var target = creep.room.findClosestByRange(FIND_STRUCTURES, {
+                var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType == STRUCTURE_ROAD &&
                                structure.hits < structure.hitsMax &&
