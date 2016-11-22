@@ -30,6 +30,10 @@ module.exports.loop = function () {
     var energyCapacityAvailable = room.energyCapacityAvailable;
     var home = 'home';
 
+    for (var role in roles) {
+        console.log('role', role);
+    }
+
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
