@@ -5,7 +5,7 @@ var roleBuilder = {
         options = options || {};
         options.source = options.source || 1;
 
-    	if (creep.fatigue)
+    	if (creep.fatigue || creep.spawning)
     		return;
 
 	    if(creep.memory.building && creep.carry.energy == 0) {
