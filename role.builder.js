@@ -24,8 +24,8 @@ var roleBuilder = {
                     creep.moveTo(targets[0]);
                 }
             } else {
-            	var targets = creep.room.find(FIND_STRUCTURES, { 
-				    filter: (structure) => { 
+            	var targets = creep.room.find(FIND_STRUCTURES, {
+				    filter: (structure) => {
 				       return ((structure.hits < Math.min(structure.hitsMax, 5000)) && (structure.hits > 0))
 				   }
 				});
@@ -39,10 +39,10 @@ var roleBuilder = {
             }
 	    }
 	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
-            }
+        // var sources = creep.room.find(FIND_SOURCES);
+         //    if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+         //        creep.moveTo(sources[0]);
+         //    }
 	    }
 	}
 };

@@ -23,24 +23,24 @@ var roleUpgrader = {
                     if (structure.structureType == 'container') {
                         console.log('energy', structure.store[RESOURCE_ENERGY]);
                     }
-                    return structure.structureType == 'container';
+                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
                 }
             });
 
-            console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
+            console.log(creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
             if (container.store[RESOURCE_ENERGY] > 0) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
                 }
-            } else {
-                var sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[options.source]);
-                }
+            // } else {
+            //     var sources = creep.room.find(FIND_SOURCES);
+            //     if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
+            //         creep.moveTo(sources[options.source]);
+            //     }
             }
         }
         else {
-            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }
         }

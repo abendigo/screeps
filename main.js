@@ -51,13 +51,17 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        } else if (sweepers.length < 2) {
+        } else if (sweepers.length < 4) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
         } else if (harvesters.length < 2) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+            }
+        } else if (builders.length < 4) {
+            if (energyAvailable >= 550) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
             }
         } else if (upgraders.length < 5) {
             if (energyAvailable >= 500) {
