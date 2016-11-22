@@ -1,14 +1,19 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleRepair = require('role.repair');
+// var roleHarvester = require('role.harvester');
+//var roleUpgrader = require('role.upgrader');
+//var roleBuilder = require('role.builder');
+// var roleRepair = require('role.repair');
 var roleScout = require('role.scout');
-var roleSweeper = require('role.sweeper');
-var roleH2 = require('role.h2');
+// var roleSweeper = require('role.sweeper');
+// var roleH2 = require('role.h2');
 
  let roles = {
+    'builder': require('role.builder'),
  	'h2': require('role.h2'),
-    'roadcrew': require('role.roadcrew')
+    'harvester': require('role.harvester'),
+    'repair': require('role.repair'),
+    'roadcrew': require('role.roadcrew'),
+    'sweeper': require('role.sweeper'),
+    'upgrader': require('role.upgrader')
  };
 
 
@@ -80,30 +85,32 @@ module.exports.loop = function () {
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep, {source: 1});
-        }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep, {source: 0});
-        }
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep, {source: 1});
-        }
-        if (creep.memory.role == 'repair') {
-        	roleRepair.run(creep, {source: 1});
-        }
-        if (creep.memory.role == 'scout') {
-        	roleScout.run(creep);
-        }
-        if (creep.memory.role == 'sweeper') {
-        	roleSweeper.run(creep);
-        }
+        // if(creep.memory.role == 'harvester') {
+        //     roleHarvester.run(creep, {source: 1});
+        // }
+        // if(creep.memory.role == 'upgrader') {
+        //     roleUpgrader.run(creep, {source: 0});
+        // }
+        // if(creep.memory.role == 'builder') {
+        //     roleBuilder.run(creep, {source: 1});
+        // }
+        // if (creep.memory.role == 'repair') {
+        // 	roleRepair.run(creep, {source: 1});
+        // }
+        // if (creep.memory.role == 'scout') {
+        // 	roleScout.run(creep);
+        // }
+        // if (creep.memory.role == 'sweeper') {
+        // 	roleSweeper.run(creep);
+        // }
 
         // if (creep.memory.role == 'h2') {
         // 	roleH2.run(creep);
         // }
         if (roles[creep.memory.role]) {
             roles[creep.memory.role].run(creep);
+        } else {
+            console.log('no run for role:', creep.memory.role);
         }
 
         // if (creep.memory.role == 'h2') {
