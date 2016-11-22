@@ -1,5 +1,4 @@
 var role = {
-
     /** @param {Creep} creep **/
     run: function(creep) {
         if (creep.fatigue || creep.spawning)
