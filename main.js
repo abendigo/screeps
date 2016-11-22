@@ -39,7 +39,7 @@ module.exports.loop = function () {
     let creeps = {};
     for (var role in roles) {
         creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
-        console.log(role, creeps[role].length); 
+        console.log(role, creeps[role].length);
     }
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -62,7 +62,7 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        } else if (creeps['sweeper'].length < 2) {
+        } else if (creeps['sweeper'].length < 1) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
