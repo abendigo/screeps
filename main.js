@@ -71,8 +71,8 @@ module.exports.loop = function () {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
         } else if (creeps['builder'].length < 2) {
-            if (energyAvailable >= 550) {
-                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+            if (energyAvailable >= 600) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
             }
         } else if (creeps['roadcrew'].length < 2) {
             if (energyAvailable >= 500) {
@@ -91,8 +91,8 @@ module.exports.loop = function () {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
             }
         } else {
-            if (energyAvailable >= 550) {
-                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+            if (energyAvailable >= 600) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
             }
         }
     }
