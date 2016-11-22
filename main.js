@@ -36,15 +36,16 @@ module.exports.loop = function () {
 	var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 	var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
 	var sweepers = _.filter(Game.creeps, (creep) => creep.memory.role == 'sweeper');
+    var h2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'h2');
 
 	console.log('harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length, 'sweepers', sweepers.length);
 
 	// Always have 1 harvester, no matter what
 	if (harvesters.length < 1) {
-		// if (energyAvailable >= 300) {
-		// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-		// 	console.log('new harvestor', name);
-		// }
+		if (energyAvailable >= 300) {
+			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+			console.log('new harvestor', name);
+		}
 	}
 
 	else if (energyCapacityAvailable < 550) {
@@ -65,16 +66,21 @@ module.exports.loop = function () {
 		// 	console.log('new repair', name);
 		// }
 	} else if (energyCapacityAvailable <= 800) {
+        if (h2.length < 4) {
+            if (energyAvailable >= 300) {
+                Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
+            }
+        }
 		// if (harvesters.length < 2) {
 			// if (energyAvailable >= 550) {
 			// 	Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
 			// // } else if (energyAvailable >= 200) {
 			// // 	Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
 			// }
-		// } else if (upgraders.length < 4) {
-		// 	if (energyAvailable >= 500) {
-		// 		Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
-		// 	}
+		} else if (upgraders.length < 4) {
+			if (energyAvailable >= 500) {
+				Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+			}
 		// } else if (repairs.length < 4) {
 		// 	if (energyAvailable >= 550) {
 		// 		Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
@@ -95,7 +101,7 @@ module.exports.loop = function () {
 		// if (upgraders.length < 4 && energyAvailable >= 500) {
 		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
 		// 	console.log('new upgrader', name);
-		// }
+		}
 
 	} else {
 
