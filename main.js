@@ -55,6 +55,10 @@ module.exports.loop = function () {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
+        } else if (harvesters.length < 2) {
+            if (energyAvailable >= 550) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+            }
         } else if (upgraders.length < 4) {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
