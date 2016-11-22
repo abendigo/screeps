@@ -21,7 +21,7 @@ var roleUpgrader = {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     if (structure.structureType == 'container') {
-                        console.log(st'energy', structure.store[RESOURCE_ENERGY]);
+                        console.log('energy', structure.store[RESOURCE_ENERGY]);
                     }
                     return structure.structureType == 'container';
                 }
