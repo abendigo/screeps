@@ -23,7 +23,7 @@ module.exports.loop = function () {
 		if (!Game.creeps[i]) {
 			delete Memory.creeps[i];
 		}
-	}	
+	}
 
     var roomName = 'W63S24';
     var room = Game.rooms[roomName];
@@ -41,9 +41,9 @@ module.exports.loop = function () {
 
 	// Always have 1 harvester, no matter what
 	if (harvesters.length < 1) {
-		if (energyAvailable >= 300) {
-			var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-			console.log('new harvestor', name);
+		// if (energyAvailable >= 300) {
+		// 	var name = Game.spawns[home].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+		// 	console.log('new harvestor', name);
 		}
 	}
 
@@ -65,12 +65,12 @@ module.exports.loop = function () {
 		// 	console.log('new repair', name);
 		// }
 	} else if (energyCapacityAvailable <= 800) {
-		if (harvesters.length < 2) {
-			if (energyAvailable >= 550) {
-				Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
-			// } else if (energyAvailable >= 200) {
-			// 	Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-			}
+		// if (harvesters.length < 2) {
+			// if (energyAvailable >= 550) {
+			// 	Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+			// // } else if (energyAvailable >= 200) {
+			// // 	Game.spawns[home].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+			// }
 		// } else if (upgraders.length < 4) {
 		// 	if (energyAvailable >= 500) {
 		// 		Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
@@ -87,7 +87,7 @@ module.exports.loop = function () {
 		// 	if (energyAvailable >= 500) {
 		// 		Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
 		// 	}
-		}
+		// }
 		// if (harvesters.length < 2 && energyAvailable >= 500) {
 		// 	var name = Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
 		// 	console.log('new harvestor', name);
@@ -155,7 +155,7 @@ module.exports.loop = function () {
         if (creep.memory.role == 'h2') {
         	roles['h2'].run(creep);
         }
-    }    
+    }
 }
 
 
