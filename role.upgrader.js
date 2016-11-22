@@ -20,12 +20,13 @@ var roleUpgrader = {
         if (!creep.memory.upgrading) {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    // console.log(structure.store(RESOURCE_ENERGY), 'of', structure.storeCapacity);
+                    var x =  Game.getObjectById(structure.id);
+                    console.log('energy', x.store[RESOURCE_ENERGY]);
                     return structure.structureType == 'container';
                 }
             });
 
-            // console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
+            console.log('container', container, 'energy', container.store[RESOURCE_ENERGY]);
             if (container.store[RESOURCE_ENERGY] > 0) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
