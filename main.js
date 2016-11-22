@@ -59,6 +59,10 @@ module.exports.loop = function () {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
             }
+        } else if (repairs.length < 4) {
+            if (energyAvailable >= 500) {
+                Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
+            }
         }
     }
 
