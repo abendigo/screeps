@@ -6,8 +6,6 @@ var role = {
             return;
 
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
-
-        console.log('sweeper', creep.name, 'energy', creep.room.energyAvailable, 'of', creep.room.energyCapacityAvailable)
         console.log('litter', litter.length);
 
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
@@ -47,10 +45,18 @@ var role = {
                 }
             }
         } else {
-            var litter = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-            if (litter) {
-                if (creep.pickup(litter) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(litter);
+            if (litter.length) {
+                let target = litter[0];
+
+                for (let i = 1; i < litter.length; i++) {
+                    console.log(target.amount, '<', litter[i].amount);
+                    if (target.amount < litter[i].amount) {
+                        target = litter[i];
+                    }
+                }
+
+                if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
         }

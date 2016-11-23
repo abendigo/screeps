@@ -5,11 +5,6 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        var litter = creep.room.find(FIND_DROPPED_ENERGY);
-
-        console.log('sweeper', creep.name, 'energy', creep.room.energyAvailable, 'of', creep.room.energyCapacityAvailable)
-        console.log('litter', litter.length);
-
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
             creep.say('sweeping');
