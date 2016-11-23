@@ -28,6 +28,18 @@ var role = {
                     creep.memory.target = false;
                 }
             } else {
+                let site = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_WALL;
+                    }
+                });
+
+                if (site) {
+                    if(creep.build(site) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(site);
+                    }
+                } else {
+
                 let targetHits = 5000;
                 var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -74,6 +86,7 @@ var role = {
                 } else {
                     creep.say('none');
                 }
+            }
             }
         } else {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
