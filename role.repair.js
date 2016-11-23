@@ -27,7 +27,7 @@ var roleRepair = {
 				if (target == null) {
 					// console.log('target not found')
 					creep.memory.target = false;
-				} else if (target.hits < target.hitsMax, 5000) {
+				} else if (target.hits < target.hitsMax) {
 					if(creep.repair(target) == ERR_NOT_IN_RANGE) {
 						creep.moveTo(target);
 					}
