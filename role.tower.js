@@ -8,16 +8,24 @@ var role = {
         if (hostile) {
             tower.attack(hostile);
         } else {
-            let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == STRUCTURE_RAMPART &&
-                           structure.hits < Math.min(20000, structure.hitsMax) &&
-                           structure.hits > 0;
+            let creep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
+                filter: (next) => {
+                    return next.hits < next.hitsMax;
                 }
             });
-            if (target) {
-                if (tower.repair(target) == ERR_NOT_IN_RANGE) {
-                    tower.moveTo(towtargeter);
+
+            if (creep) {
+                target.heal(creep);
+            } else {
+                let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_RAMPART &&
+                               structure.hits < Math.min(20000, structure.hitsMax) &&
+                               structure.hits > 0;
+                    }
+                });
+                if (target) {
+                    tower.repair(target);
                 }
             }
         }
