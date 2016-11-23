@@ -67,7 +67,14 @@ module.exports.loop = function () {
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
     for (let x of containers) {
-        console.log('container', x)
+        console.log('container', x.id)
+        if (room.memory.containers[x.id]) {
+            if (room.memory.containers[x.id] != 'available') {
+                console.log('assigned to', room.memory.containers[x.id])
+            }
+        } else {
+            room.memory.containers[x.id] = 'available';
+        }
     }
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
