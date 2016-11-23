@@ -1,7 +1,11 @@
-var roleUpgrader = {
+var role = {
 
     /** @param {Creep} creep **/
     run: function(creep, options) {
+        if (creep.fatigue || creep.spawning)
+            return;
+
+        console.log('sweeper', creep.name, 'energy', creep.room.energyAvailable, 'of', creep.room.energyCapacityAvailable)
 
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
@@ -64,4 +68,4 @@ var roleUpgrader = {
     }
 };
 
-module.exports = roleUpgrader;
+module.exports = role;
