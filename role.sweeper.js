@@ -51,7 +51,7 @@ var role = {
             if (creep.room.energyAvailable > 800) {
                 var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return structure.structureType == STRUCTURE_EXTENSION && structure.store[RESOURCE_ENERGY] > 0;
+                        return structure.structureType == STRUCTURE_EXTENSION && structure.energy > 0;
                     }
                 });
 
