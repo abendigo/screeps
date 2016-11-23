@@ -36,6 +36,9 @@ var roleUpgrader = {
             //     if(creep.harvest(sources[options.source]) == ERR_NOT_IN_RANGE) {
             //         creep.moveTo(sources[options.source]);
             //     }
+            } else if (creep.carry.energy > 0) {
+                creep.memory.upgrading = true;
+                creep.say('upgrading');
             }
         }
         else {
