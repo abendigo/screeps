@@ -19,8 +19,8 @@ var role = {
 
             console.log('xxxx', container)
             if (container) {
-                creep.room.memory.containers[container.id] = creep.id;
-                creep.memory.container = creep.id;
+                creep.room.memory.containers[container.id] = creep.name;
+                creep.memory.container = container.id;
             }
         }
 

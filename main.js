@@ -50,7 +50,7 @@ module.exports.loop = function () {
 
 
     if (!room.memory.containers) {
-        room.memory.containers = {a: 'b'};
+        room.memory.containers = {};
     }
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
@@ -75,6 +75,7 @@ module.exports.loop = function () {
                     console.log('still alive')
                 } else {
                     console.log('dad dead daed')
+                    room.memory.containers[x.id] = 'available';
                 }
             }
         } else {
