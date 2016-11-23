@@ -18,16 +18,18 @@ var roleUpgrader = {
         }
 
         if (!creep.memory.upgrading) {
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
-                }
-            });
+            var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
+
+            // var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //     filter: (structure) => {
+            //         return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
+            //     }
+            // });
 
             // console.log(creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
-            if (container && container.store[RESOURCE_ENERGY] > 0) {
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
+            if (storage && storage.store[RESOURCE_ENERGY] > 0) {
+                if (creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(storage);
                 }
             // } else {
             //     var sources = creep.room.find(FIND_SOURCES);
