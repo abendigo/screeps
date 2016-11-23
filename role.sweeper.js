@@ -53,7 +53,7 @@ var role = {
                 creep.say('deliver');
             } else {
                 creep.say('parking');
-
+                creep.moveTo(Game.flags.parking);
             }
         }
     }
