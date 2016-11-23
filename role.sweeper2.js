@@ -46,6 +46,9 @@ var role = {
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
+            } else if (creep.carry.energy > 0) {
+                creep.memory.deliver = true;
+                creep.say('deliver');
             }
         }
     }
