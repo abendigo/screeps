@@ -60,12 +60,14 @@ module.exports.loop = function () {
     console.log('containers', containers.length, creeps.h2.length);
 
     if (!room.memory.containers) {
-        room.memory.containers = {a: 'b'};
+        room.memory.containers = {};
+    } else if (room.memory.containers.a) {
+        delete room.memory.containers.a;
     }
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
     for (let x in containers) {
-
+        console.log('container', x)
     }
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
