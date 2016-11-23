@@ -31,10 +31,37 @@ var role = {
                 var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType == STRUCTURE_WALL &&
-                               structure.hits < Math.min(structure.hitsMax, 15000) &&
+                               structure.hits < Math.min(structure.hitsMax, 5000) &&
                                structure.hits > 0;
                     }
                 });
+                if (!target) {
+                    target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.structureType == STRUCTURE_WALL &&
+                                   structure.hits < Math.min(structure.hitsMax, 15000) &&
+                                   structure.hits > 0;
+                        }
+                    });
+                }
+                if (!target) {
+                    target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.structureType == STRUCTURE_WALL &&
+                                   structure.hits < Math.min(structure.hitsMax, 45000) &&
+                                   structure.hits > 0;
+                        }
+                    });
+                }
+                if (!target) {
+                    target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.structureType == STRUCTURE_WALL &&
+                                   structure.hits < Math.min(structure.hitsMax, 135000) &&
+                                   structure.hits > 0;
+                        }
+                    });
+                }
 
                 if (target) {
                     creep.say(target.id);
