@@ -57,7 +57,7 @@ module.exports.loop = function () {
     let containers = room.find(FIND_STRUCTURES, {
         filter: structure => structure.structureType == STRUCTURE_CONTAINER
     });
-    console.log('containers', containers.length, h2.length);
+    console.log('containers', containers.length, creeps.h2.length);
 
     if (!room.memory.containers) {
         room.memory.containers = {a: 'b'};
