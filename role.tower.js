@@ -2,7 +2,7 @@ var role = {
 
     /** @param {Creep} creep **/
     run: function(tower) {
-        console.log('tower', tower.name)
+        console.log('tower', tower.energy)
     }
 };
 
