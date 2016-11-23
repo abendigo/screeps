@@ -19,9 +19,12 @@ var role = {
             } else {
                 let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return structure.structureType == STRUCTURE_RAMPART &&
-                               structure.hits < Math.min(20000, structure.hitsMax) &&
-                               structure.hits > 0;
+                        return (structure.structureType == STRUCTURE_RAMPART &&
+                                structure.hits < Math.min(20000, structure.hitsMax) &&
+                                structure.hits > 0) ||
+                               (structure.structureType == STRUCTURE_CONTAINER &&
+                                structure.hits < structure.hitsMax &&
+                                structure.hits > 0);
                     }
                 });
                 if (target) {
