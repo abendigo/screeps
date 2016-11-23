@@ -40,6 +40,12 @@ var role = {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
                 }
+            } else if (creep.carry.energy > 0) {
+                creep.memory.deliver = true;
+                creep.say('deliver');
+            } else {
+                creep.say('park');
+                creep.moveTo(Game.flags.parking);
             }
         }
     }
