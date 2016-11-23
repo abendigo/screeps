@@ -19,7 +19,7 @@ var role = {
 	        creep.say('deliver');
 	    }
 
-        // Take EXTENSION energy and save it to TOWER or STORAGE
+        // Find dropped ENERGY and store it in EXTENSIONS or SPAWN
 
         if (creep.memory.deliver) {
             let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
@@ -33,27 +33,25 @@ var role = {
                     creep.moveTo(storage);
                 }
             }
-        } else {
 
-            if (creep.room.energyAvailable > 800) {
-                var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.structureType == STRUCTURE_EXTENSION && structure.energy > 0;
-                    }
-                });
-
-                if (container) {
-                    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(container);
-                    }
-                } else {
-                    console.log('sweeper', creep.name, 'no extension');
-                    creep.say('#$%^');
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                        structure.energy < structure.energyCapacity;
                 }
+            });
 
-            } else if (creep.carry.energy > 0) {
-                creep.memory.deliver = true;
-                creep.say('deliver');
+            if (target) {
+                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            }
+        } else {
+            var litter = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+            if (litter) {
+                if (creep.pickup(litter) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(litter);
+                }
             }
         }
     }

@@ -13,6 +13,8 @@ var roleScout = require('role.scout');
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
     'sweeper': require('role.sweeper'),
+    'sweeper2': require('role.sweeper2'),
+    'sweeper3': require('role.sweeper3'),
     'upgrader': require('role.upgrader'),
     'wallcrew': require('role.wallcrew'),
  };
@@ -62,13 +64,21 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
+        } else if (creeps['harvester'].length < 3) {
+            if (energyAvailable >= 550) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+            }
         } else if (creeps['sweeper'].length < 1) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
-        } else if (creeps['harvester'].length < 3) {
-            if (energyAvailable >= 550) {
-                Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+        } else if (creeps['sweeper2'].length < 1) {
+            if (energyAvailable > 350) {
+                Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper2'});
+            }
+        } else if (creeps['sweeper3'].length < 1) {
+            if (energyAvailable > 350) {
+                Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper3'});
             }
         } else if (creeps['builder'].length < 1) {
             if (energyAvailable >= 600) {
