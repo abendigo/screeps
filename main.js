@@ -51,6 +51,7 @@ module.exports.loop = function () {
 
     let containers = room.find(FIND_MY_STRUCTURES, {
         filter: structure => {
+            console.log(structure.structureType);
             return structure.structureType == STRUCTURE_CONTAINER;
         }
     });
