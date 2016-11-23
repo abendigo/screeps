@@ -6,6 +6,8 @@ var roleScout = require('role.scout');
 // var roleSweeper = require('role.sweeper');
 // var roleH2 = require('role.h2');
 
+var roleTower = require('role.tower');
+
  let roles = {
     'builder': require('role.builder'),
  	'h2': require('role.h2'),
@@ -118,9 +120,6 @@ module.exports.loop = function () {
         }
     }
 
-    for (let name in Game.rooms) {
-        let towers = Game.rooms[name].find(STRUCTURE_TOWER);
-
-        console.log('game', name, 'has', towers.length, 'towers');
-    }
+    let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
+    roleTower.run(tower);
 }
