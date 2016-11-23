@@ -50,7 +50,7 @@ module.exports.loop = function () {
 
 
     let containers = room.find(FIND_MY_STRUCTURES, {
-        filter: structure => structure.structureType == STRUCTURE_CONTAINER;
+        filter: structure => structure.structureType == STRUCTURE_CONTAINER
     });
     console.log('containers', containers.length)
 
