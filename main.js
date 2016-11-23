@@ -93,8 +93,8 @@ module.exports.loop = function () {
         //         Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'wallcrew'});
         //     }
         } else if (creeps['upgrader'].length < 3) {
-            if (energyAvailable >= 500) {
-                Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+            if (energyAvailable >= 550) {
+                Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
             }
         } else if (creeps['repair'].length < 1) {
             if (energyAvailable >= 500) {
