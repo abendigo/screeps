@@ -66,7 +66,7 @@ module.exports.loop = function () {
     }
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
-    for (let x in containers) {
+    for (let x of containers) {
         console.log('container', x)
     }
 
