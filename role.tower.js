@@ -11,7 +11,7 @@ var role = {
             let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == STRUCTURE_RAMPART &&
-                           structure.hits < structure.hitsMax &&
+                           structure.hits < Math.min(20000, structure.hitsMax) &&
                            structure.hits > 0;
                 }
             });
