@@ -19,7 +19,7 @@ var role = {
                 if (target == null) {
                     creep.say('$%#@')
                     creep.memory.target = false;
-                } else if (target.hits < Math.min(target.hitsMax, 15000)) {
+                } else if (target.hits < creep.memory.targetHits) {
                     if (creep.repair(target) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     }
@@ -28,6 +28,7 @@ var role = {
                     creep.memory.target = false;
                 }
             } else {
+                let targetHits = 5000;
                 var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType == STRUCTURE_WALL &&
@@ -36,6 +37,7 @@ var role = {
                     }
                 });
                 if (!target) {
+                    targetHits = 15000;
                     target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => {
                             return structure.structureType == STRUCTURE_WALL &&
@@ -45,6 +47,7 @@ var role = {
                     });
                 }
                 if (!target) {
+                    targetHits = 45000;
                     target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => {
                             return structure.structureType == STRUCTURE_WALL &&
@@ -54,6 +57,7 @@ var role = {
                     });
                 }
                 if (!target) {
+                    targetHits = 135000;
                     target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => {
                             return structure.structureType == STRUCTURE_WALL &&
@@ -66,6 +70,7 @@ var role = {
                 if (target) {
                     creep.say(target.id);
                     creep.memory.target = target.id;
+                    creep.memory.targetHits = targetHits;
                 } else {
                     creep.say('none');
                 }
