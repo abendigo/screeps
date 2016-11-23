@@ -48,6 +48,12 @@ module.exports.loop = function () {
     }
     console.log(output);
 
+
+    let containers = room.find(FIND_MY_STRUCTURES, {
+        filter: structure => structure.structureType == STRUCTURE_CONTAINER;
+    });
+    console.log('containers', containers.length)
+
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	// var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 	// var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
