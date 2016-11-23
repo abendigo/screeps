@@ -41,7 +41,7 @@ module.exports.loop = function () {
     var home = 'home';
 
     let creeps = {};
-    let output;
+    let output = '';
     for (var role in roles) {
         creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
         output += `${role}: ${creeps[role].length} `;
