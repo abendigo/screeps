@@ -108,40 +108,19 @@ module.exports.loop = function () {
     }
 
 
-    for(var name in Game.creeps) {
+    for (let name in Game.creeps) {
         var creep = Game.creeps[name];
-        // if(creep.memory.role == 'harvester') {
-        //     roleHarvester.run(creep, {source: 1});
-        // }
-        // if(creep.memory.role == 'upgrader') {
-        //     roleUpgrader.run(creep, {source: 0});
-        // }
-        // if(creep.memory.role == 'builder') {
-        //     roleBuilder.run(creep, {source: 1});
-        // }
-        // if (creep.memory.role == 'repair') {
-        // 	roleRepair.run(creep, {source: 1});
-        // }
-        // if (creep.memory.role == 'scout') {
-        // 	roleScout.run(creep);
-        // }
-        // if (creep.memory.role == 'sweeper') {
-        // 	roleSweeper.run(creep);
-        // }
 
-        // if (creep.memory.role == 'h2') {
-        // 	roleH2.run(creep);
-        // }
         if (roles[creep.memory.role]) {
             roles[creep.memory.role].run(creep);
         } else {
             console.log('no run for role:', creep.memory.role);
         }
+    }
 
-        // if (creep.memory.role == 'h2') {
-        // 	roles['h2'].run(creep);
-        // }
+    for (let name in Game.rooms) {
+        let towers = Game.rooms[name].find(STRUCTURE_TOWER);
+
+        console.log('game', name, 'has', towers.length, 'towers');
     }
 }
-
-
