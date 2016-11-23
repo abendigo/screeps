@@ -52,7 +52,6 @@ var role = {
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-                creep.say('parking');
                 creep.moveTo(Game.flags.parking);
             }
         }
