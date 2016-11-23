@@ -49,10 +49,24 @@ module.exports.loop = function () {
     console.log(output);
 
 
+    if (!room.memory.containers) {
+        room.memory.containers = {a: 'b'};
+    }
+    console.log('memory.containers', JSON.stringify(room.memory.containers));
+
     let containers = room.find(FIND_STRUCTURES, {
         filter: structure => structure.structureType == STRUCTURE_CONTAINER
     });
-    console.log('containers', containers.length)
+    console.log('containers', containers.length, h2.length);
+
+    if (!room.memory.containers) {
+        room.memory.containers = {a: 'b'};
+    }
+    console.log('memory.containers', JSON.stringify(room.memory.containers));
+
+    for (let x in containers) {
+
+    }
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	// var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
