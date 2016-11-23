@@ -64,6 +64,9 @@ var role = {
                     creep.say('#$%^');
                 }
 
+            } else if (creep.carry.energy > 0) {
+                creep.memory.deliver = true;
+                creep.say('deliver');
             }
 /*
 
