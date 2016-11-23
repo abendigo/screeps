@@ -17,7 +17,7 @@ var role = {
 	    }
 
         if (creep.memory.deliver) {
-            var storage = Game.getObejctById('5834d53ba28559d70a076e2c');
+            var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
             if (creep.transfer(strogae, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(storage);
             }
