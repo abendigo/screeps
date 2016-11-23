@@ -71,6 +71,11 @@ module.exports.loop = function () {
         if (room.memory.containers[x.id]) {
             if (room.memory.containers[x.id] != 'available') {
                 console.log('assigned to', room.memory.containers[x.id])
+                if (room.creeps[room.memory.containers[x.id]]) {
+                    console.log('still alive')
+                } else {
+                    console.log('dad dead daed')
+                }
             }
         } else {
             room.memory.containers[x.id] = 'available';
