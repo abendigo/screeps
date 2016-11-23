@@ -32,11 +32,11 @@ var role = {
         } else {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
+                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] >= 50;
                 }
             });
 
-            if (container && container.store[RESOURCE_ENERGY] > 0) {
+            if (container) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
                 }
