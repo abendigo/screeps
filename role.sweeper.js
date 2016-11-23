@@ -20,9 +20,16 @@ var role = {
 	    }
 
         if (creep.memory.deliver) {
-            var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
-            if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(storage);
+            let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
+            if (tower.energy < tower.energyCapacity) {
+                if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(tower);
+                }
+            } else {
+                var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
+                if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(storage);
+                }
             }
             // var container = Game.getObjectById('58337fda4503a6a6427e41a2');
 
