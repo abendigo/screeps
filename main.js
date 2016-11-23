@@ -41,10 +41,13 @@ module.exports.loop = function () {
     var home = 'home';
 
     let creeps = {};
+    let output;
     for (var role in roles) {
         creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
+        output += `${role}: ${creeps[role].length} `;
         console.log(role, creeps[role].length);
     }
+    console.log(output);
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	// var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
