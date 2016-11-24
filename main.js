@@ -60,11 +60,10 @@ module.exports.loop = function () {
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
     for (let j in room.memory.containers) {
-        console.log('j', j);
-        // let y = Game.getObjectById(j);
-        // if (!y) {
-        //     delete room.memory.containers[j];
-        // }
+        let y = Game.getObjectById(j);
+        if (!y) {
+            delete room.memory.containers[j];
+        }
     }
 
     for (let x of containers) {
