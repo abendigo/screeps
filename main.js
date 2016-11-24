@@ -96,7 +96,7 @@ module.exports.loop = function () {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
-        } else if (creeps['harvester'].length < 2) {
+        } else if (creeps['harvester'].length < 1) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
