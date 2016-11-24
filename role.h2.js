@@ -8,6 +8,8 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
+        console.log('pos', creep.pos.roomName, creep.pos.x, creep.pos.y);
+
         if (creep.memory.container) {
             console.log('assigned to', creep.memory.container);
         } else if (creep.room.memory.containers) {
