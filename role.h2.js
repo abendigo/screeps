@@ -12,6 +12,8 @@ var role = {
 
         if (creep.memory.container) {
             console.log('assigned to', creep.memory.container);
+            let j = Game.getObjectById(creep.memory.container);
+            console.log('--j', j.pos.roomName, j.pos.x, j.pos.y);
         } else if (creep.room.memory.containers) {
             console.log('need to pick one');
 
