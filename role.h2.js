@@ -11,12 +11,14 @@ var role = {
         console.log(creep.name, 'pos', creep.pos.roomName, creep.pos.x, creep.pos.y);
 
         if (creep.memory.arrived) {
-            console.log('harvesting')
+            console.log(creep.name, 'harvesting')
             let source;
             if (!creep.memory.source) {
-                let source = creep.pos.findClosestByRange(FIND_SOURCES);
+                console.log(creep.name, 'get source')
+                source = creep.pos.findClosestByRange(FIND_SOURCES);
                 creep.memory.source = source.id;
             } else {
+                console.log(creep.name, 'use source')
                 source = Game.getObjectById(creep.memory.source);
             }
 
@@ -25,14 +27,14 @@ var role = {
             let target = Game.getObjectById(creep.memory.container);
 
             if (creep.pos.x != target.pos.x && creep.pos.y != target.pos.y) {
-                console.log('moving...')
+                console.log(creep.name, 'moving...')
                 creep.moveTo(target, {reusePath: 5});
             } else {
-                console.log('arrived')
+                console.log(creep.name, 'arrived')
                 creep.memory.arrived = true;
             }
         } else if (creep.room.memory.containers) {
-            console.log('need to pick one');
+            console.log(creep.name, 'need to pick one');
 
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: structure => {
@@ -41,13 +43,13 @@ var role = {
                 }
             });
 
-            console.log('xxxx', container)
+            console.log(creep.name, 'xxxx', container)
             if (container) {
                 creep.room.memory.containers[container.id] = creep.name;
                 creep.memory.container = container.id;
             }
         } else {
-            console.log('HELP NOTHING TO DO')
+            console.log(creep.name, 'HELP NOTHING TO DO')
         }
 
 
