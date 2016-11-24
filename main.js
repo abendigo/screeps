@@ -111,11 +111,11 @@ module.exports.loop = function () {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
-        } else if (creeps['sweeper2'].length < 1) {
+        } else if (creeps['sweeper2'].length < 3) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper2'});
             }
-        } else if (creeps['sweeper3'].length < 2) {
+        } else if (creeps['sweeper3'].length < 3) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper3'});
             }
