@@ -10,7 +10,7 @@ var role = {
 
         console.log(creep.name, 'pos', creep.pos.roomName, creep.pos.x, creep.pos.y);
 
-        if (creep.memory.arrived) {
+        if (creep.memory.xxxarrived) {
             console.log(creep.name, 'harvesting')
             let source;
             if (!creep.memory.source) {
@@ -31,8 +31,8 @@ var role = {
                 console.log(creep.name, 'moving...')
                 creep.moveTo(target);
             } else {
-                console.log(creep.name, 'arrived')
-                creep.memory.arrived = true;
+                console.log(creep.name, '========================================================== arrived')
+                creep.memory.xxxarrived = true;
             }
         } else if (creep.room.memory.containers) {
             console.log(creep.name, 'need to pick one');
