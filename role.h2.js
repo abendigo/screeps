@@ -31,7 +31,7 @@ var role = {
 
         var target = Game.getObjectById('57ef9ccc86f108ae6e60cd6e');
         if (creep.harvest(target) != OK) {
-            let rc = creep.moveTo(target, {reusePath: 50});
+            let rc = creep.moveTo(target, {reusePath: 5});
             console.log('rc', rc)
         }
     }
