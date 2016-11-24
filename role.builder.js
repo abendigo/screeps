@@ -45,17 +45,18 @@ var roleBuilder = {
          //    }
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
+                    return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
+                           (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
+                           (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50);
                 }
             });
 
             if (container) {
-                console.log('builder', creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
-                if (container.store[RESOURCE_ENERGY] > 0) {
-                    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(container);
-                    }
+                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(container);
                 }
+            } else {
+                creep.moveTo(Game.flags.parking);
             }
 	    }
 	}
