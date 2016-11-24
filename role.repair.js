@@ -1,4 +1,6 @@
-var roleRepair = {
+let lib = require('lib');
+
+let roleRepair = {
 
 	/** @param {Creep} creep **/
     run: function(creep, options) {
@@ -7,7 +9,7 @@ var roleRepair = {
         options = options || {};
         options.source = options.source || 1;
 
-    	if (creep.fatigue)
+        if (creep.fatigue || creep.spawning)
     		return;
 
 	    if(creep.memory.repair && creep.carry.energy == 0) {
@@ -52,22 +54,7 @@ var roleRepair = {
             }
 	    }
 	    else {
-
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
-                           (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
-                           (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50);
-                }
-            });
-
-            if (container) {
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
-                }
-            } else {
-                creep.moveTo(Game.flags.parking);
-            }
+            lib.refuel(creep);
 	    }
 	}
 };

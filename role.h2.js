@@ -1,3 +1,5 @@
+let lib = require('lib');
+
 var role = {
 
 	spawn: function() {

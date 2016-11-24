@@ -1,10 +1,12 @@
+let lib = require('lib');
+
 var roleScout = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
     	console.log('roleScout', creep.room.name);
 
-        if (creep.fatigue)
+        if (creep.fatigue || creep.spawning)
             return;
 
         if(creep.memory.deliver && creep.carry.energy == 0) {
@@ -54,4 +56,4 @@ var roleScout = {
 	}
 };
 
-module.exports = roleScout;   
+module.exports = roleScout;

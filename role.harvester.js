@@ -1,3 +1,5 @@
+let lib = require('lib');
+
 var roleHarvester = {
 
     /** @param {Creep} creep **/
@@ -5,7 +7,7 @@ var roleHarvester = {
         options = options || {};
         options.source = options.source || 1;
 
-        if (creep.fatigue)
+        if (creep.fatigue || creep.spawning)
             return;
 
         if(creep.memory.deliver && creep.carry.energy == 0) {

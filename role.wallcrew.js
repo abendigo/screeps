@@ -1,3 +1,5 @@
+let lib = require('lib');
+
 var role = {
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -89,18 +91,7 @@ var role = {
             }
             }
         } else {
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == 'container' && structure.store[RESOURCE_ENERGY] > 0;
-                }
-            });
-
-            // console.log('roadcrew', creep.name, 'container', container, 'energy', container.store[RESOURCE_ENERGY]);
-            if (container && container.store[RESOURCE_ENERGY] > 0) {
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
-                }
-            }
+            lib.refuel(creep);
         }
     }
 };

@@ -1,3 +1,5 @@
+let lib = require('lib');
+
 var role = {
 
     /** @param {Creep} creep **/
@@ -23,6 +25,9 @@ var role = {
                                 structure.hits < Math.min(20000, structure.hitsMax) &&
                                 structure.hits > 0) ||
                                (structure.structureType == STRUCTURE_CONTAINER &&
+                                structure.hits < structure.hitsMax &&
+                                structure.hits > 0) ||
+                               (structure.structureType == STRUCTURE_STORAGE &&
                                 structure.hits < structure.hitsMax &&
                                 structure.hits > 0);
                     }

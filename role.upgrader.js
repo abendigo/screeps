@@ -1,3 +1,5 @@
+let lib = require('lib');
+
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
@@ -5,7 +7,7 @@ var roleUpgrader = {
         options = options || {};
         options.source = options.source || 0;
 
-	    if (creep.fatigue)
+        if (creep.fatigue || creep.spawning)
             return;
 
         if (creep.memory.upgrading && creep.carry.energy == 0) {
