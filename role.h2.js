@@ -10,10 +10,24 @@ var role = {
 
         console.log(creep.name, 'pos', creep.pos.roomName, creep.pos.x, creep.pos.y);
 
-        if (creep.memory.container) {
-            console.log('assigned to', creep.memory.container);
-            let j = Game.getObjectById(creep.memory.container);
-            console.log('--j', j.pos.roomName, j.pos.x, j.pos.y);
+        if (creep.memory.arrived) {
+            console.log('harvesting')
+            if (!creep.memory.source) {
+                let source = creep.pos.findClosestByRange(FIND_SOURCES);
+                creep.memory.source = source.id;
+            }
+
+            creep.harvest(source);
+        } else if (creep.memory.container) {
+            let target = Game.getObjectById(creep.memory.container);
+
+            if (creep.pos.x != target.pos.x && creep.pos.y != target.pos.y) {
+                console.log('moving...')
+                creep.moveTo(target, {reusePath: 5});
+            } else {
+                console.log('arrived')
+                creep.memory.arrived = true;
+            }
         } else if (creep.room.memory.containers) {
             console.log('need to pick one');
 
@@ -29,15 +43,17 @@ var role = {
                 creep.room.memory.containers[container.id] = creep.name;
                 creep.memory.container = container.id;
             }
+        } else {
+            console.log('HELP NOTHING TO DO')
         }
 
 
 
-        var target = Game.getObjectById('57ef9ccc86f108ae6e60cd6e');
-        if (creep.harvest(target) != OK) {
-            let rc = creep.moveTo(target, {reusePath: 5});
-            console.log('rc', rc)
-        }
+        // var target = Game.getObjectById('57ef9ccc86f108ae6e60cd6e');
+        // if (creep.harvest(target) != OK) {
+        //     let rc = creep.moveTo(target, {reusePath: 5});
+        //     console.log('rc', rc)
+        // }
     }
 };
 
