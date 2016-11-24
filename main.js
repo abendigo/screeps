@@ -135,10 +135,10 @@ module.exports.loop = function () {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
             }
-        } else if (creeps['repair'].length < 1) {
-            if (energyAvailable >= 500) {
-                Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
-            }
+        // } else if (creeps['repair'].length < 1) {
+        //     if (energyAvailable >= 500) {
+        //         Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
+        //     }
         } else {
             // if (energyAvailable >= 600) {
             //     Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
