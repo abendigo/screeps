@@ -1,4 +1,4 @@
-let lib = require(lib);
+let lib = require('lib');
 
 let roleBuilder = {
 
