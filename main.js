@@ -160,7 +160,7 @@ module.exports.loop = function () {
         }
     }
 
-    for (let tower in towers) {
+    for (let tower of towers) {
         console.log('tower', tower)
     }
     let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
