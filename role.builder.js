@@ -1,4 +1,6 @@
-var roleBuilder = {
+let lib = require(lib);
+
+let roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep, options) {
@@ -39,10 +41,12 @@ var roleBuilder = {
             }
 	    }
 	    else {
+            lib.refuel(creep);
         // var sources = creep.room.find(FIND_SOURCES);
          //    if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
          //        creep.moveTo(sources[0]);
          //    }
+/*
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
@@ -58,6 +62,7 @@ var roleBuilder = {
             } else {
                 creep.moveTo(Game.flags.parking);
             }
+*/
 	    }
 	}
 };
