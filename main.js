@@ -100,7 +100,7 @@ module.exports.loop = function () {
 			console.log('new harvestor', name);
 		}
     } else { //if (energyCapacityAvailable <= 800) {
-        if (creeps['h2'].length < 4) {
+        if (creeps['h2'].length < containers.length) {
             if (energyAvailable >= 300) {
                 Game.spawns[home].createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             }
