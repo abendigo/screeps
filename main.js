@@ -49,21 +49,14 @@ module.exports.loop = function () {
     console.log(output);
 
 
-    if (!room.memory.containers) {
-        room.memory.containers = {};
-    }
-    console.log('memory.containers', JSON.stringify(room.memory.containers));
-
     let containers = room.find(FIND_STRUCTURES, {
         filter: structure => structure.structureType == STRUCTURE_CONTAINER
     });
-    console.log('containers', containers.length, creeps.h2.length);
 
     if (!room.memory.containers) {
         room.memory.containers = {};
-    } else if (room.memory.containers.a) {
-        delete room.memory.containers.a;
     }
+    console.log('containers', containers.length, creeps.h2.length);
     console.log('memory.containers', JSON.stringify(room.memory.containers));
 
     for (let x of containers) {
@@ -71,11 +64,10 @@ module.exports.loop = function () {
             if (room.memory.containers[x.id] == 'available') {
                 console.log('--- container', x.id, 'available')
             } else {
-                console.log('--- container', x.id,'assigned to', room.memory.containers[x.id])
                 if (Game.creeps[room.memory.containers[x.id]]) {
-                    console.log('still alive')
+                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
                 } else {
-                    console.log('dad dead daed')
+                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
                     room.memory.containers[x.id] = 'available';
                 }
             }
