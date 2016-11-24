@@ -5,6 +5,9 @@ var role = {
 	},
 
     run: function(creep) {
+        if (creep.fatigue || creep.spawning)
+            return;
+
         if (creep.memory.container) {
             console.log('assigned to', creep.memory.container);
         } else if (creep.room.memory.containers) {
@@ -28,7 +31,8 @@ var role = {
 
         var target = Game.getObjectById('57ef9ccc86f108ae6e60cd6e');
         if (creep.harvest(target) != OK) {
-            creep.moveTo(target);
+            let rc = creep.moveTo(target, {reusePath: 50});
+            console.log('rc', rc)
         }
     }
 };
