@@ -12,9 +12,12 @@ var role = {
 
         if (creep.memory.arrived) {
             console.log('harvesting')
+            let source;
             if (!creep.memory.source) {
                 let source = creep.pos.findClosestByRange(FIND_SOURCES);
                 creep.memory.source = source.id;
+            } else {
+                source = Game.getObjectById(creep.memory.source);
             }
 
             creep.harvest(source);
