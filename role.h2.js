@@ -41,6 +41,7 @@ var role = {
                 creep.memory.container = container.id;
             } else {
                 console.log(creep.name, 'HELP NO EMPTY CONTIANERS');
+                creep.suicide();
             }
         } else {
             console.log(creep.name, 'HELP NOTHING TO DO')
