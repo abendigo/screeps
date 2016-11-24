@@ -107,22 +107,22 @@ module.exports.loop = function () {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
-        } else if (creeps['sweeper'].length < 3) {
+        } else if (creeps['sweeper'].length < 2) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
-        } else if (creeps['sweeper2'].length < 3) {
+        } else if (creeps['sweeper2'].length < 2) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper2'});
             }
-        } else if (creeps['sweeper3'].length < 3) {
+        } else if (creeps['sweeper3'].length < 2) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper3'});
             }
-        } else if (creeps['builder'].length < 2) {
-            if (energyAvailable >= 600) {
-                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
-            }
+//        } else if (creeps['builder'].length < 2) {
+//            if (energyAvailable >= 600) {
+//                Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
+//            }
         } else if (creeps['roadcrew'].length < 1) {
         //     if (energyAvailable >= 500) {
         //         Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'roadcrew'});
