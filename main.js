@@ -49,7 +49,7 @@ module.exports.loop = function () {
     console.log(output);
 
     let towers = room.find(FIND_STRUCTURES, {
-        filter: structure.structureType == STRUCTURE_TOWER
+        filter: structure => structure.structureType == STRUCTURE_TOWER
     });
 
     let containers = room.find(FIND_STRUCTURES, {
