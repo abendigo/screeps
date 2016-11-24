@@ -27,7 +27,7 @@ var role = {
                     return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
                 }
             });
-            if (tower.energy < tower.energyCapacity) {
+            if (tower && tower.energy < tower.energyCapacity) {
                 if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tower);
                 }
