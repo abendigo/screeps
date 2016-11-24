@@ -21,7 +21,12 @@ var role = {
         // Take EXTENSION energy and save it to TOWER or STORAGE
 
         if (creep.memory.deliver) {
-            let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
+            // let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
+            let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
+                }
+            });
             if (tower.energy < tower.energyCapacity) {
                 if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tower);
