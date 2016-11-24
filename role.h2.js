@@ -25,10 +25,11 @@ var role = {
             creep.harvest(source);
         } else if (creep.memory.container) {
             let target = Game.getObjectById(creep.memory.container);
+        console.log(creep.name, 'pos', creep.pos.roomName, creep.pos.x, creep.pos.y, 'target', target.pos.roomName, target.pos.x, target.pos.y);
 
             if (creep.pos.x != target.pos.x && creep.pos.y != target.pos.y) {
                 console.log(creep.name, 'moving...')
-                creep.moveTo(target, {reusePath: 5});
+                creep.moveTo(target);
             } else {
                 console.log(creep.name, 'arrived')
                 creep.memory.arrived = true;
