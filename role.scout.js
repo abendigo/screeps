@@ -24,6 +24,7 @@ var roleScout = {
                         creep.moveTo(enemy);
                 } else {
                     console.log('all gone');
+                    creep.suicide();
                 }
             }
         } else {
