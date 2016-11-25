@@ -103,7 +103,7 @@ module.exports.loop = function () {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             }
-        } else if (creeps['sweeper'].length < 4) {
+        } else if (creeps['sweeper'].length < 2) {
             if (energyAvailable > 350) {
                 Game.spawns[home].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
             }
@@ -127,7 +127,7 @@ module.exports.loop = function () {
             if (energyAvailable >= 500) {
                 Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'wallcrew'});
             }
-        } else if (creeps['upgrader'].length < 5) {
+        } else if (creeps['upgrader'].length < 3) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
             }
