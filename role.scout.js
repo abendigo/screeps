@@ -14,8 +14,18 @@ var roleScout = {
             creep.moveTo(exit);
         } else if (creep.room.name === 'W63S23') {  // Target
             let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
-            if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
-                creep.moveTo(spawn);
+            if (spawn) {
+                if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
+                    creep.moveTo(spawn);
+            } else {
+                let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEP);
+                if (enemy) {
+                    if (creep.attack(enemy) == ERR_NOT_IN_RANGE)
+                        creep.moveTo(enemy);
+                } else {
+                    console.log('all gone');
+                }
+            }
         } else {
             console.log('WHERE AM I?')
             creep.suicide();
