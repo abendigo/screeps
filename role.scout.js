@@ -18,7 +18,7 @@ var roleScout = {
                 if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
                     creep.moveTo(spawn);
             } else {
-                let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEP);
+                let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
                 if (enemy) {
                     if (creep.attack(enemy) == ERR_NOT_IN_RANGE)
                         creep.moveTo(enemy);
