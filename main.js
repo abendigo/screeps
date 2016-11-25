@@ -1,11 +1,3 @@
-// var roleHarvester = require('role.harvester');
-//var roleUpgrader = require('role.upgrader');
-//var roleBuilder = require('role.builder');
-// var roleRepair = require('role.repair');
-var roleScout = require('role.scout');
-// var roleSweeper = require('role.sweeper');
-// var roleH2 = require('role.h2');
-
 var roleTower = require('role.tower');
 
  let roles = {
@@ -14,6 +6,7 @@ var roleTower = require('role.tower');
     'harvester': require('role.harvester'),
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
+    'scout': require('role.scout'),
     'sweeper': require('role.sweeper'),
     'sweeper2': require('role.sweeper2'),
     'sweeper3': require('role.sweeper3'),
@@ -142,6 +135,10 @@ module.exports.loop = function () {
         //     if (energyAvailable >= 500) {
         //         Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
         //     }
+        } else if (creeps['scout'].length < 1) {
+            if (energyAvailable >= 550) {
+                Game.spawns[home].createCreep([ARRACK,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'scout'});
+            }
         } else {
             // if (energyAvailable >= 600) {
             //     Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});

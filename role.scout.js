@@ -4,11 +4,21 @@ var roleScout = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-    	console.log('roleScout', creep.room.name);
+    	console.log('roleScout', creep.name, creep.room.name);
 
         if (creep.fatigue || creep.spawning)
             return;
 
+        if (creep.room.name === 'W63S24') {  // Home
+            let exit = creep.room.find(EXIT_TOP);
+            console.log('exit', exit)
+        } else if (creep.room.name === 'W63S23') {  // Target
+
+        } else {
+            console.log('WHERE AM I?')
+            creep.suicide();
+        }
+/*
         if(creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
             creep.say('harvesting');
@@ -54,6 +64,7 @@ var roleScout = {
 		    }
 		}
 	}
+*/
 };
 
 module.exports = roleScout;
