@@ -18,6 +18,7 @@ var roleScout = {
             console.log('WHERE AM I?')
             creep.suicide();
         }
+    }
 /*
         if(creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
