@@ -135,7 +135,7 @@ module.exports.loop = function () {
         //     if (energyAvailable >= 500) {
         //         Game.spawns[home].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
         //     }
-        } else if (creeps['scout'].length < 1) {
+        } else if (creeps['scout'].length < 5) {
             if (energyAvailable >= 550) {
                 Game.spawns[home].createCreep([ATTACK,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'scout'});
             }
