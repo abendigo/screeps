@@ -10,7 +10,7 @@ var roleScout = {
             return;
 
         if (creep.room.name === 'W63S24') {  // Home
-            let exit = creep.room.find(EXIT_TOP);
+            let exit = creep.room.find(FIND_EXIT_TOP);
             console.log('exit', exit)
         } else if (creep.room.name === 'W63S23') {  // Target
 
