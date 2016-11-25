@@ -14,7 +14,8 @@ var roleScout = {
             creep.moveTo(exit);
         } else if (creep.room.name === 'W63S23') {  // Target
             let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
-            creep.moveTo(spawn);
+            if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
+                creep.moveTo(spawn);
         } else {
             console.log('WHERE AM I?')
             creep.suicide();
