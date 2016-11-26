@@ -20,6 +20,13 @@ var roleUpgrader = {
         }
 
         if (!creep.memory.upgrading) {
+            if (creep.room.energyCapacityAvailable > 550) {
+                var sources = creep.room.find(FIND_SOURCES);
+                if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0]);
+                }
+            } else {
+            
             var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
 
             // var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -41,6 +48,7 @@ var roleUpgrader = {
             } else if (creep.carry.energy > 0) {
                 creep.memory.upgrading = true;
                 creep.say('upgrading');
+            }
             }
         }
         else {
