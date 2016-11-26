@@ -17,10 +17,13 @@ var role = {
         }
 
         if (creep.room.name === 'W63S24') {  // Home
+            console.log('1')
             if (creep.memory.upgrading) {
+                console.log('2')
                 let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
                 creep.moveTo(exit);
             } else {
+                console.log('3')
                 lib.refuel(creep);
             }
         } else if (creep.room.name === 'W63S23') {  // Target
