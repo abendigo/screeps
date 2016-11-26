@@ -9,7 +9,7 @@ var role = {
         });
         console.log('roads', roads.length);
         if (roads.length)
-            roads[0].remove();
+            console.log('rc', roads[0].remove());
         // for (road of roads) {
         //     road.remove();
         // }
