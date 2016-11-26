@@ -24,11 +24,22 @@ var role = {
             }
         } else if (creep.room.name === 'W63S23') {  // Target
             if (creep.memory.building) {
-                let spawn = Game.getObjectById('5839afe65264786f089450c3')
-                console.log('spawn', spawn)
-                if (spawn) {
-                    if (creep.build(spawn) == ERR_NOT_IN_RANGE)
-                        creep.moveTo(spawn);
+                // let spawn = Game.getObjectById('5839afe65264786f089450c3')
+                // console.log('spawn', spawn)
+                // if (spawn) {
+                //     if (creep.build(spawn) == ERR_NOT_IN_RANGE)
+                //         creep.moveTo(spawn);
+                // }
+                var targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                                structure.energy < structure.energyCapacity;
+                        }
+                });
+                if(targets.length > 0) {
+                    if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(targets[0]);
+                    }
                 }
             } else {
                 let sources = creep.room.find(FIND_SOURCES);
