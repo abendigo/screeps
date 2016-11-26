@@ -24,10 +24,11 @@ var role = {
             }
         } else if (creep.room.name === 'W63S23') {  // Target
             if (creep.memory.building) {
-                let claim = Game.getObjectById('57ef9ccb86f108ae6e60cd6c')
-                if (claim) {
-                    if (creep.build(claim) == ERR_NOT_IN_RANGE)
-                        creep.moveTo(claim);
+                let spawn = Game.getObjectById('57ef9ccb86f108ae6e60cd6c')
+                console.log('spawn', spawn)
+                if (spawn) {
+                    if (creep.build(spawn) == ERR_NOT_IN_RANGE)
+                        creep.moveTo(spawn);
                 }
             } else {
                 let sources = creep.room.find(FIND_SOURCES);
