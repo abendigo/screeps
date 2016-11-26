@@ -28,6 +28,18 @@ var role = {
         }
         console.log(output);
 
+        let containers = room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_CONTAINER
+        });
+
+        if (!room.memory.containers) {
+            room.memory.containers = {};
+        }
+        console.log('containers', containers.length, creeps.h2.length);
+        console.log('memory.containers', JSON.stringify(room.memory.containers));
+
+
+
         if (creeps['harvester'].length < 1) {
             console.log(`${room.name}: need harvester`);
             if (room.energyAvailable >= 300) {
@@ -36,13 +48,13 @@ var role = {
         } 
         
         if (room.energyCapacityAvailable < 550) {
-            console.log('----====')
             if (creeps.builder.length < 1) {
-            console.log(`${room.name}: need builderer`);
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
                 }
             }
+        } else {
+            console.log('PANIC ===================================')
         }
         
     }
