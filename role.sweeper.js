@@ -7,7 +7,7 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log('sweeper', creep.name, 'energy', creep.room.energyAvailable, 'of', creep.room.energyCapacityAvailable)
+//        console.log('sweeper', creep.name, 'energy', creep.room.energyAvailable, 'of', creep.room.energyCapacityAvailable)
 
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
@@ -51,7 +51,7 @@ var role = {
                         creep.moveTo(container);
                     }
                 } else {
-                    console.log('sweeper', creep.name, 'no extension');
+//                    console.log('sweeper', creep.name, 'no extension');
                     creep.say('#$%^');
                 }
 

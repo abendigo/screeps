@@ -8,7 +8,7 @@ var role = {
             return;
 
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
-        console.log('litter', litter.length);
+//        console.log('litter', litter.length);
 
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
@@ -56,7 +56,7 @@ var role = {
                 let target = litter[0];
 
                 for (let i = 1; i < litter.length; i++) {
-                    console.log(target.amount, '<', litter[i].amount);
+                    // console.log(target.amount, '<', litter[i].amount);
                     if (target.amount < litter[i].amount) {
                         target = litter[i];
                     }
