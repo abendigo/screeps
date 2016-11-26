@@ -83,7 +83,7 @@ var role = {
                 console.log('yyyyyyyy')
                 if (room.energyAvailable >= 300) {
                     console.log('zzzzzzzz')
-                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+                    console.log('rc', spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'}));
                 }
             }
             else if (creeps.builder.length < 2) {
