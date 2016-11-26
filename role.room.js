@@ -14,7 +14,7 @@ var role = {
         //     road.remove();
         // }
 
-        let spawns = room.find(FIND_STRUCTURE, {
+        let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
         console.log('spawns', spawns);
