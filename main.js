@@ -93,7 +93,7 @@ module.exports.loop = function () {
     // var h2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'h2');
 
 	// console.log('h2', h2.length, 'harvestors', harvesters.length, 'upgraders', upgraders.length, 'builders', builders.length, 'repairs', repairs.length, 'sweepers', sweepers.length);
-
+/*
 	// Always have 1 harvester, no matter what
 	if (creeps['harvester'].length < 1) {
 		if (energyAvailable >= 300) {
@@ -151,7 +151,7 @@ module.exports.loop = function () {
             // }
         }
     }
-
+*/
 
     for (let name in Game.creeps) {
         var creep = Game.creeps[name];
