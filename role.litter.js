@@ -77,7 +77,7 @@ var role = {
                     }
                 });
                 console.log('flg', flag)
-                let rc = creep.moveTo(Game.flags[flag]);
+                let rc = creep.moveTo(Game.flags.parking);
                 console.log('rc', rc)
             }
         }
