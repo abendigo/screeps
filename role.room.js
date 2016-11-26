@@ -36,8 +36,8 @@ var role = {
         if (!room.memory.containers) {
             room.memory.containers = {};
         }
-        console.log('containers', containers.length, creeps.h2.length);
-        console.log('memory.containers', JSON.stringify(room.memory.containers));
+        // console.log('containers', containers.length, creeps.h2.length);
+        // console.log('memory.containers', JSON.stringify(room.memory.containers));
 
         for (let j in room.memory.containers) {
             let y = Game.getObjectById(j);
@@ -49,12 +49,12 @@ var role = {
         for (let x of containers) {
             if (room.memory.containers[x.id]) {
                 if (room.memory.containers[x.id] == 'available') {
-                    console.log('--- container', x.id, 'available')
+                    // console.log('--- container', x.id, 'available')
                 } else {
                     if (Game.creeps[room.memory.containers[x.id]]) {
-                        console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+                        // console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
                     } else {
-                        console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+                        // console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
                         room.memory.containers[x.id] = 'available';
                     }
                 }
