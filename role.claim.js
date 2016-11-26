@@ -10,7 +10,11 @@ var role = {
             let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W63S23') {  // Target
-            
+            let claim = creep.pos.findClosestByRange(STRUCTURE_CONTROLLER);
+            if (claim) {
+                if (creep.claim(claim) == ERR_NOT_IN_RANGE)
+                    creep.moveTo(claim);
+            }
         } else {
             console.log('WHERE AM I?')
             creep.suicide();
