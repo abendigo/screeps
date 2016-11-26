@@ -77,6 +77,11 @@ var role = {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
                 }
             }
+            else if (creeps.upgraderer.length < 2) {
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+                }
+            }
         } else {
             if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {

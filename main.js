@@ -1,5 +1,5 @@
 var roleRoom = require('role.room');
-var roleTower = require('role.tower');
+// var roleTower = require('role.tower');
 
  let roles = {
     'builder': require('role.builder'),
@@ -33,8 +33,8 @@ module.exports.loop = function () {
     }
 
 
-    var roomName = 'W63S24';
-    var room = Game.rooms[roomName];
+    // var roomName = 'W63S24';
+    // var room = Game.rooms[roomName];
     // var energyAvailable = room.energyAvailable;
     // var energyCapacityAvailable = room.energyCapacityAvailable;
     // var home = 'home';
@@ -47,9 +47,9 @@ module.exports.loop = function () {
     // }
     // console.log(output);
 
-    let towers = room.find(FIND_STRUCTURES, {
-        filter: structure => structure.structureType == STRUCTURE_TOWER
-    });
+    // let towers = room.find(FIND_STRUCTURES, {
+    //     filter: structure => structure.structureType == STRUCTURE_TOWER
+    // });
 
     // let containers = room.find(FIND_STRUCTURES, {
     //     filter: structure => structure.structureType == STRUCTURE_CONTAINER
