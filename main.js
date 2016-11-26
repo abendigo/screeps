@@ -5,6 +5,7 @@ var roleTower = require('role.tower');
     'builder': require('role.builder'),
     'claim': require('role.claim'),
     'claimbuilder': require('role.claimbuilder'),
+    'claimupgrader': require('role.claimupgrader'),
  	'h2': require('role.h2'),
     'harvester': require('role.harvester'),
     'repair': require('role.repair'),
