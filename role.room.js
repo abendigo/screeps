@@ -35,9 +35,13 @@ var role = {
             }
         } 
         
-        if (room.energyAvailable < 550) {
+        if (room.energyCapacityAvailable < 550) {
+            console.log('----====')
             if (creeps.builder.length < 1) {
-                spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
+            console.log(`${room.name}: need builderer`);
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
+                }
             }
         }
         
