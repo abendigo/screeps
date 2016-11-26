@@ -72,14 +72,14 @@ var role = {
         } 
         
         if (room.energyCapacityAvailable < 550) {
-            if (creeps.builder.length < 1) {
-                if (room.energyAvailable >= 300) {
-                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
-                }
-            }
-            else if (creeps.upgrader.length < 2) {
+            if (creeps.upgrader.length < 2) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+                }
+            }
+            else if (creeps.builder.length < 2) {
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
                 }
             }
         } else {
