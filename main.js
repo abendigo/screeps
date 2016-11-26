@@ -33,8 +33,8 @@ module.exports.loop = function () {
     }
 
 
-    // var roomName = 'W63S24';
-    // var room = Game.rooms[roomName];
+    var roomName = 'W63S24';
+    var room = Game.rooms[roomName];
     // var energyAvailable = room.energyAvailable;
     // var energyCapacityAvailable = room.energyCapacityAvailable;
     // var home = 'home';
