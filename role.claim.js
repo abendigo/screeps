@@ -15,7 +15,7 @@ var role = {
 //            let claim = creep.pos.findClosestByRange(STRUCTURE_CONTROLLER);
             console.log('claim', claim)
             if (claim) {
-                if (creep.claim(claim) == ERR_NOT_IN_RANGE)
+                if (creep.claimController(claim) == ERR_NOT_IN_RANGE)
                     creep.moveTo(claim);
             }
         } else {
