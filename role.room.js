@@ -8,6 +8,9 @@ var role = {
             filter: structure => structure.structureType == STRUCTURE_ROAD
         });
         console.log('roads', roads.length);
+        for (road of roads) {
+            console.log('road', road);
+        }
 
         let creeps = {};
         let output = `${room.name}: `;
