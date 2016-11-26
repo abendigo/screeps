@@ -20,15 +20,17 @@ var roleTower = require('role.tower');
 
 
 module.exports.loop = function () {
-	for (let name in Game.rooms) {
-        roleRoom.run(Game.rooms[name]);
-    }
-
+    // Clean up memory of dead creeps
 	for (var i in Memory.creeps) {
 		if (!Game.creeps[i]) {
 			delete Memory.creeps[i];
 		}
 	}
+
+	for (let name in Game.rooms) {
+        roleRoom.run(Game.rooms[name], roles);
+    }
+
 
     var roomName = 'W63S24';
     var room = Game.rooms[roomName];

@@ -1,7 +1,7 @@
 //let lib = require('lib');
 
 var role = {
-    run: function(room) {
+    run: function(room, roles) {
         console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
 
         let creeps = {};
