@@ -16,6 +16,7 @@ var role = {
         // }
 
         let creeps = {};
+        let containers;
     if (room.energyCapacityAvailable >= 300) {
 
         let spawns = room.find(FIND_STRUCTURES, {
@@ -32,7 +33,7 @@ var role = {
         }
         console.log(creeps, output);
 
-        let containers = room.find(FIND_STRUCTURES, {
+        containers = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_CONTAINER
         });
 
