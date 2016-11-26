@@ -4,7 +4,7 @@ var role = {
 
     /** @param {Creep} creep **/
     run: function(tower) {
-        console.log('tower', tower.energy)
+        // console.log('tower', tower.energy)
 
         let hostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (hostile) {

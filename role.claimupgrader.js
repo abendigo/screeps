@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log('claimupgrader', creep.name, creep.room.name, creep.memory.upgrading)
+        // console.log('claimupgrader', creep.name, creep.room.name, creep.memory.upgrading)
     
         if (creep.fatigue || creep.spawning)
             return;
