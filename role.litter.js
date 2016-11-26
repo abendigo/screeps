@@ -71,8 +71,12 @@ var role = {
             } else {
                 creep.say('park');
                 let flag = creep.room.find(FIND_FLAGS, {
-                    filter: structure => structure.name.startsWith('parking')
+                    filter: structure => {
+                        console.log(structure.name);
+                        return structure.name.startsWith('parking');
+                    }
                 });
+                console.log('flg', flag)
                 creep.moveTo(flag);
             }
         }
