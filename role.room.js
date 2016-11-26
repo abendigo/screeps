@@ -73,7 +73,13 @@ var role = {
         
         if (room.energyCapacityAvailable < 550) {
             console.log('xxxxxxxxxxxxx')
-            if (creeps.upgrader.length < 2) {
+            if (creeps['harvester'].length < 2) {
+                console.log(`${room.name}: need harvester`);
+                if (room.energyAvailable >= 300) {
+                    var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                }
+            } 
+            else if (creeps.upgrader.length < 2) {
                 console.log('yyyyyyyy')
                 if (room.energyAvailable >= 300) {
                     console.log('zzzzzzzz')
