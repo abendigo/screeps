@@ -42,9 +42,10 @@ let roleBuilder = {
 	    }
 	    else {
             if (creep.room.energyCapacityAvailable < 550) {
-                var sources = creep.room.find(FIND_SOURCES);
-                if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[0]);
+                let source = Game.getObjectById('57ef9ccb86f108ae6e60cd6b');
+                // var sources = creep.room.find(FIND_SOURCES);
+                if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
                 }
             } else {
                 lib.refuel(creep);
