@@ -38,6 +38,29 @@ var role = {
         console.log('containers', containers.length, creeps.h2.length);
         console.log('memory.containers', JSON.stringify(room.memory.containers));
 
+    for (let j in room.memory.containers) {
+        let y = Game.getObjectById(j);
+        if (!y) {
+            delete room.memory.containers[j];
+        }
+    }
+
+    for (let x of containers) {
+        if (room.memory.containers[x.id]) {
+            if (room.memory.containers[x.id] == 'available') {
+                console.log('--- container', x.id, 'available')
+            } else {
+                if (Game.creeps[room.memory.containers[x.id]]) {
+                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+                } else {
+                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+                    room.memory.containers[x.id] = 'available';
+                }
+            }
+        } else {
+            room.memory.containers[x.id] = 'available';
+        }
+    }
 
 
         if (creeps['harvester'].length < 1) {
@@ -55,7 +78,7 @@ var role = {
             }
         } else {
             if (creeps['h2'].length < containers.length) {
-                if (eroom.nergyAvailable >= 300) {
+                if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
             // } else if (creeps['harvester'].length < 1) {

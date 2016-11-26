@@ -33,57 +33,57 @@ module.exports.loop = function () {
     }
 
 
-    var roomName = 'W63S24';
-    var room = Game.rooms[roomName];
-    var energyAvailable = room.energyAvailable;
-    var energyCapacityAvailable = room.energyCapacityAvailable;
-    var home = 'home';
+    // var roomName = 'W63S24';
+    // var room = Game.rooms[roomName];
+    // var energyAvailable = room.energyAvailable;
+    // var energyCapacityAvailable = room.energyCapacityAvailable;
+    // var home = 'home';
 
-    let creeps = {};
-    let output = '';
-    for (var role in roles) {
-        creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
-        output += `${role}: ${creeps[role].length} `;
-    }
-    console.log(output);
+    // let creeps = {};
+    // let output = '';
+    // for (var role in roles) {
+    //     creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role);
+    //     output += `${role}: ${creeps[role].length} `;
+    // }
+    // console.log(output);
 
     let towers = room.find(FIND_STRUCTURES, {
         filter: structure => structure.structureType == STRUCTURE_TOWER
     });
 
-    let containers = room.find(FIND_STRUCTURES, {
-        filter: structure => structure.structureType == STRUCTURE_CONTAINER
-    });
+    // let containers = room.find(FIND_STRUCTURES, {
+    //     filter: structure => structure.structureType == STRUCTURE_CONTAINER
+    // });
 
-    if (!room.memory.containers) {
-        room.memory.containers = {};
-    }
-    console.log('containers', containers.length, creeps.h2.length);
-    console.log('memory.containers', JSON.stringify(room.memory.containers));
+    // if (!room.memory.containers) {
+    //     room.memory.containers = {};
+    // }
+    // console.log('containers', containers.length, creeps.h2.length);
+    // console.log('memory.containers', JSON.stringify(room.memory.containers));
 
-    for (let j in room.memory.containers) {
-        let y = Game.getObjectById(j);
-        if (!y) {
-            delete room.memory.containers[j];
-        }
-    }
+    // for (let j in room.memory.containers) {
+    //     let y = Game.getObjectById(j);
+    //     if (!y) {
+    //         delete room.memory.containers[j];
+    //     }
+    // }
 
-    for (let x of containers) {
-        if (room.memory.containers[x.id]) {
-            if (room.memory.containers[x.id] == 'available') {
-                console.log('--- container', x.id, 'available')
-            } else {
-                if (Game.creeps[room.memory.containers[x.id]]) {
-                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
-                } else {
-                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
-                    room.memory.containers[x.id] = 'available';
-                }
-            }
-        } else {
-            room.memory.containers[x.id] = 'available';
-        }
-    }
+    // for (let x of containers) {
+    //     if (room.memory.containers[x.id]) {
+    //         if (room.memory.containers[x.id] == 'available') {
+    //             console.log('--- container', x.id, 'available')
+    //         } else {
+    //             if (Game.creeps[room.memory.containers[x.id]]) {
+    //                 console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+    //             } else {
+    //                 console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+    //                 room.memory.containers[x.id] = 'available';
+    //             }
+    //         }
+    //     } else {
+    //         room.memory.containers[x.id] = 'available';
+    //     }
+    // }
 
     // var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 	// var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
