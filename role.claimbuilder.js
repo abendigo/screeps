@@ -2,6 +2,7 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
+        console.log('claimbuilder', creep.name, creep.room.name, creep.memory.building)
         if (creep.fatigue || creep.spawning)
             return;
 
@@ -25,7 +26,7 @@ var role = {
             if (creep.memory.building) {
                 let claim = Game.getObjectById('57ef9ccb86f108ae6e60cd6c')
                 if (claim) {
-                    if (creep.claimController(claim) == ERR_NOT_IN_RANGE)
+                    if (creep.build(claim) == ERR_NOT_IN_RANGE)
                         creep.moveTo(claim);
                 }
             } else {
