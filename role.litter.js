@@ -77,7 +77,8 @@ var role = {
                     }
                 });
                 console.log('flg', flag)
-                creep.moveTo(flag);
+                let rc = creep.moveTo(flag);
+                console.log('rc', rc)
             }
         }
     }
