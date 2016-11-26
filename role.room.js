@@ -19,6 +19,7 @@ var role = {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
         let spawn = spawns[0];
+        console.log('spawn', spawn)
 
 
         let creeps = {};
@@ -87,13 +88,14 @@ var role = {
                 }
             }
             else if (creeps.builder.length < 2) {
-                consle.log('aaaaaaa')
+                console.log('aaaaaaa')
                 if (room.energyAvailable >= 300) {
                     console.log('bbbbbb')
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
                 }
             }
         } else {
+            console.log('###################################')
             if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
