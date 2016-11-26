@@ -15,6 +15,8 @@ var role = {
         //     road.remove();
         // }
 
+    if (room.energyCapacityAvailable >= 300) {
+
         let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
@@ -63,7 +65,7 @@ var role = {
                 room.memory.containers[x.id] = 'available';
             }
         }
-
+    }
 
         if (room.energyCapacityAvailable < 300) {
             console.log('hmm, where are we?')
