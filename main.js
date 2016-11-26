@@ -2,6 +2,7 @@ var roleTower = require('role.tower');
 
  let roles = {
     'builder': require('role.builder'),
+    'claim': require('role.require'),
  	'h2': require('role.h2'),
     'harvester': require('role.harvester'),
     'repair': require('role.repair'),
