@@ -17,7 +17,8 @@ var role = {
         let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
-        console.log('spawns', spawns);
+        let spawn = spawns[0];
+
 
         let creeps = {};
         let output = `${room.name}: `;
@@ -30,7 +31,13 @@ var role = {
         if (creeps['harvester'].length < 1) {
             console.log(`${room.name}: need harvester`);
             if (room.energyAvailable >= 300) {
-                var name = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            }
+        } 
+        
+        if (room.energyAvailable < 550) {
+            if (creeps.builder.length < 1) {
+                spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
             }
         }
         
