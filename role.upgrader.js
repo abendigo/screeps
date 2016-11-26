@@ -21,7 +21,7 @@ var roleUpgrader = {
 
         if (!creep.memory.upgrading) {
             if (creep.room.energyCapacityAvailable < 550) {
-                let soruce = Game.getObjectById('57ef9ccb86f108ae6e60cd6b');
+                let source = Game.getObjectById('57ef9ccb86f108ae6e60cd6b');
                 // var sources = creep.room.find(FIND_SOURCES);
                 if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
