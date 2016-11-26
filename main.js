@@ -1,3 +1,4 @@
+var roleRoom = require('role.room');
 var roleTower = require('role.tower');
 
  let roles = {
@@ -21,6 +22,7 @@ var roleTower = require('role.tower');
 module.exports.loop = function () {
 	for(var name in Game.rooms) {
         console.log('Room "'+name+'" has '+Game.rooms[name].energyAvailable+' energy', 'of', Game.rooms[name].energyCapacityAvailable);
+        roleRoom.run(room);
     }
 
 	for (var i in Memory.creeps) {
