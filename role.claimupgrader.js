@@ -17,7 +17,7 @@ var role = {
         }
 
         if (creep.room.name === 'W63S24') {  // Home
-            if (creep.memory.building) {
+            if (creep.memory.upgrading) {
                 let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
                 creep.moveTo(exit);
             } else {
