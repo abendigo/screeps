@@ -163,7 +163,7 @@ module.exports.loop = function () {
         }
     }
 
-    for (let tower of towers) {
-        roleTower.run(tower);
-    }
+    // for (let tower of towers) {
+    //     roleTower.run(tower);
+    // }
 }

@@ -1,4 +1,5 @@
 //let lib = require('lib');
+var roleTower = require('role.tower');
 
 var role = {
     run: function(room, roles) {
@@ -38,29 +39,29 @@ var role = {
         console.log('containers', containers.length, creeps.h2.length);
         console.log('memory.containers', JSON.stringify(room.memory.containers));
 
-    for (let j in room.memory.containers) {
-        let y = Game.getObjectById(j);
-        if (!y) {
-            delete room.memory.containers[j];
-        }
-    }
-
-    for (let x of containers) {
-        if (room.memory.containers[x.id]) {
-            if (room.memory.containers[x.id] == 'available') {
-                console.log('--- container', x.id, 'available')
-            } else {
-                if (Game.creeps[room.memory.containers[x.id]]) {
-                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
-                } else {
-                    console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
-                    room.memory.containers[x.id] = 'available';
-                }
+        for (let j in room.memory.containers) {
+            let y = Game.getObjectById(j);
+            if (!y) {
+                delete room.memory.containers[j];
             }
-        } else {
-            room.memory.containers[x.id] = 'available';
         }
-    }
+
+        for (let x of containers) {
+            if (room.memory.containers[x.id]) {
+                if (room.memory.containers[x.id] == 'available') {
+                    console.log('--- container', x.id, 'available')
+                } else {
+                    if (Game.creeps[room.memory.containers[x.id]]) {
+                        console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+                    } else {
+                        console.log('--- container', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+                        room.memory.containers[x.id] = 'available';
+                    }
+                }
+            } else {
+                room.memory.containers[x.id] = 'available';
+            }
+        }
 
 
         if (creeps['harvester'].length < 1) {
@@ -126,6 +127,14 @@ var role = {
                 //     Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
                 // }
             }
+        }
+
+        let towers = room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_TOWER
+        });
+        
+        for (let tower of towers) {
+            roleTower.run(tower);
         }
         
     }
