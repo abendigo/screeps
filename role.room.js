@@ -9,7 +9,7 @@ var role = {
         });
         console.log('roads', roads.length);
         for (road of roads) {
-            console.log('road', road);
+            road.remove();
         }
 
         let creeps = {};
