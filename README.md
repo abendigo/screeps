@@ -16,3 +16,5 @@ Game.spawns['home'].createCreep( [CARRY, CARRY, CARRY,MOVE,MOVE,MOVE,MOVE], unde
 Game.spawns['home'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], 'HarvesterBig', { role: 'harvester' } );
 
 W27N68
+
+Game.spawns['home'].createCreep( [WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, { role: 'claimbuilder' } );
