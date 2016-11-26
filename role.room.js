@@ -15,6 +15,7 @@ var role = {
         //     road.remove();
         // }
 
+        let creeps = {};
     if (room.energyCapacityAvailable >= 300) {
 
         let spawns = room.find(FIND_STRUCTURES, {
@@ -24,7 +25,6 @@ var role = {
         console.log('spawn', spawn)
 
 
-        let creeps = {};
         let output = `${room.name}: `;
         for (var role in roles) {
             creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.room.name == room.name);
