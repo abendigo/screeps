@@ -23,7 +23,7 @@ var role = {
         let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
-        let spawn = spawns[0];
+        spawn = spawns[0];
         console.log('spawn', spawn)
 
 
