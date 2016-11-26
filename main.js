@@ -20,9 +20,6 @@ var roleTower = require('role.tower');
 
 
 module.exports.loop = function () {
-    for (let r of Game.rooms) {
-        console.log('r', r)
-    }
 	for (let name in Game.rooms) {
         roleRoom.run(Game.rooms[name]);
     }
