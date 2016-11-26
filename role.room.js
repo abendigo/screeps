@@ -14,6 +14,11 @@ var role = {
         //     road.remove();
         // }
 
+        let spawns = room.find(FIND_STRUCTURE, {
+            filter: structure => structure.structureType == STRUCTURE_SPAWN
+        });
+        console.log('spawns', spawns);
+
         let creeps = {};
         let output = `${room.name}: `;
         for (var role in roles) {
