@@ -70,7 +70,7 @@ var role = {
                 creep.say('deliver');
             } else {
                 creep.say('park');
-                let flag = creep.room.find(FIND_FLAGS. {
+                let flag = creep.room.find(FIND_FLAGS, {
                     filter: structure => structure.name.startsWith('parking')
                 });
                 creep.moveTo(flag);
