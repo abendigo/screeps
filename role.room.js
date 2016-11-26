@@ -4,6 +4,11 @@ var role = {
     run: function(room, roles) {
         console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
 
+        let roads = room.find(FIND_CONSTRUCTION_SITES, {
+            filter: structure => structure.structureType == STRUCTURE_ROAD
+        });
+        console.log('roads', roads.length);
+
         let creeps = {};
         let output = `${room.name}: `;
         for (var role in roles) {
