@@ -24,7 +24,7 @@ var role = {
             }
         } else if (creep.room.name === 'W63S23') {  // Target
             if (creep.memory.building) {
-                let spawn = Game.getObjectById('5839a8a45264786f08944638')
+                let spawn = Game.getObjectById('5839af025264786f08944f6b')
                 console.log('spawn', spawn)
                 if (spawn) {
                     if (creep.build(spawn) == ERR_NOT_IN_RANGE)
