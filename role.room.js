@@ -17,6 +17,7 @@ var role = {
 
         let creeps = {};
         let containers;
+        let spawn;
     if (room.energyCapacityAvailable >= 300) {
 
         let spawns = room.find(FIND_STRUCTURES, {
