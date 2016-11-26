@@ -21,6 +21,14 @@ var role = {
             output += `${role}: ${creeps[role].length} `;
         }
         console.log(output);
+
+        if (creeps['harvester'].length < 1) {
+            console.log(`${room.name}: need harvester`);
+            if (energyAvailable >= 300) {
+                var name = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            }
+        }
+        
     }
 };
 
