@@ -41,33 +41,12 @@ let roleBuilder = {
             }
 	    }
 	    else {
-            if (creep.room.energyCapacityAvailable < 550) {
-                let source = Game.getObjectById('57ef9ccb86f108ae6e60cd6b');
-                // var sources = creep.room.find(FIND_SOURCES);
-                if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source);
-                }
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY && creep.carry.energy > 0) {
+                creep.memory.upgrading = true;
+                creep.say('upgrading');
             } else {
-                lib.refuel(creep);
-            }
-/*
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
-                           (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
-                           (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50);
-                }
-            });
-
-            if (container) {
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
-                }
-            } else {
-                // creep.moveTo(Game.flags.parking);
                 lib.park(creep);
             }
-*/
 	    }
 	}
 };
