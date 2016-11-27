@@ -69,11 +69,6 @@ var role = {
         }
     }
 
-        let storage = room.find(FIND_STRUCTURES, {
-            filter: structure => structure.structureType === STRUCTURE_STORAGE
-        });
-        console.log(room.name, 'storage', storage)
-
         if (room.energyCapacityAvailable < 550) {
             console.log('small room')
             if (containers.length < 2 && creeps.harvester.length < 2) {
