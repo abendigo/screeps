@@ -126,15 +126,15 @@ var role = {
                 }
             }
         } else {
-            if (creeps.h2.length < 2 && creeps.harvester.length < 2) {
-                if (room.energyAvailable >= 300) {
-                    var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-                }
-            } else if (creeps['h2'].length < containers.length) {
+            if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
-            } else if (creeps['upgrader'].length < 10) {
+            } else if (creeps['transport'].length < 2) {
+                if (room.energyAvailable > 350) {
+                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
+                }
+            } else if (creeps['upgrader'].length < 2) {
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
@@ -149,10 +149,6 @@ var role = {
             } else if (creeps['litter'].length < 2) {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
-                }
-            } else if (creeps['transport'].length < 2) {
-                if (room.energyAvailable > 350) {
-                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
                 }
             } else if (creeps['repair'].length < 1) {
                 if (room.energyAvailable >= 500) {
