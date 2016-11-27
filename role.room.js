@@ -89,11 +89,10 @@ var role = {
                 if (room.energyAvailable > 300) {
                     spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
                 }
-                
-            // } else if (creeps['litter'].length < 2) {
-            //     if (room.energyAvailable > 300) {
-            //         spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
-            //     }
+            } else if (creeps['litter'].length < 1) {
+                if (room.energyAvailable > 300) {
+                    spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
+                }
             }
         } else {
             console.log('medium room')
