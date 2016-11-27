@@ -32,7 +32,7 @@ var role = {
             creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.room.name == room.name);
             output += `${role}: ${creeps[role].length} `;
         }
-        console.log(creeps, output);
+        console.log(output);
 
         containers = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_CONTAINER
@@ -68,6 +68,11 @@ var role = {
             }
         }
     }
+
+        let storage = room.find(FIND_STRUCTURE, {
+            filter: structure => structure.type === STRUCTURE_STORAGE
+        });
+        console.log(room.name, 'storage', storage)
 
         if (room.energyCapacityAvailable < 550) {
             console.log('small room')
