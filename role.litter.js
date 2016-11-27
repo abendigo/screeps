@@ -54,14 +54,15 @@ var role = {
             }
         } else {
             if (litter.length) {
-                let target = litter[0];
+                // let target = litter[0];
 
-                for (let i = 1; i < litter.length; i++) {
-                    // console.log(target.amount, '<', litter[i].amount);
-                    if (target.amount < litter[i].amount) {
-                        target = litter[i];
-                    }
-                }
+                // for (let i = 1; i < litter.length; i++) {
+                //     // console.log(target.amount, '<', litter[i].amount);
+                //     if (target.amount < litter[i].amount) {
+                //         target = litter[i];
+                //     }
+                // }
+                let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
 
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
