@@ -82,7 +82,7 @@ var role = {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'repair'});
                 }
-            } else if (creeps.roadcrew.length < 1) {
+            } else if (creeps.roadcrew.length < 3) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'roadcrew'});
                 }
