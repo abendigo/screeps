@@ -41,11 +41,13 @@ let roleBuilder = {
             }
 	    }
 	    else {
-            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY && creep.carry.energy > 0) {
-                creep.memory.upgrading = true;
-                creep.say('upgrading');
-            } else {
-                lib.park(creep);
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+                if (creep.carry.energy > 0) {
+                    creep.memory.building = true;
+                    creep.say('building');
+                } else {
+                    lib.park(creep);
+                }
             }
 	    }
 	}

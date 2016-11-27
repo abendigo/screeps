@@ -20,11 +20,13 @@ var roleUpgrader = {
         }
 
         if (!creep.memory.upgrading) {
-            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY && creep.carry.energy > 0) {
-                creep.memory.upgrading = true;
-                creep.say('upgrading');
-            } else {
-                lib.park(creep);
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+                if (creep.carry.energy > 0) {
+                    creep.memory.upgrading = true;
+                    creep.say('upgrading');
+                } else {
+                    lib.park(creep);
+                }
             }
         }
         else {
