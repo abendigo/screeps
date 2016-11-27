@@ -70,7 +70,7 @@ var role = {
     }
 
         let storage = room.find(FIND_STRUCTURES, {
-            filter: structure => structure.type === STRUCTURE_STORAGE
+            filter: structure => structure.structureType === STRUCTURE_STORAGE
         });
         console.log(room.name, 'storage', storage)
 
