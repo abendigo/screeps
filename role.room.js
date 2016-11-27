@@ -126,17 +126,17 @@ var role = {
                 }
             }
         } else {
-console.log('1', creeps.upgrader.length);            
-            if (creeps['h2'].length < containers.length) {
-console.log('2');            
+            if (containers.h2.length < 2 && creeps.harvester.length < 2) {
                 if (room.energyAvailable >= 300) {
-console.log('3');            
+                    var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                }
+      
+            else if (creeps['h2'].length < containers.length) {
+                if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
             } else if (creeps['upgrader'].length < 10) {
-console.log('4');            
                 if (room.energyAvailable >= 550) {
-console.log('5');            
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
             // } else if (creeps['harvester'].length < 1) {
