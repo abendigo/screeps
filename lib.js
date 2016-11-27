@@ -46,7 +46,8 @@ let lib = {
             }
         });
         console.log('flg', flag, Game.flags.parking)
-        let rc = creep.moveTo(Game.flags.parking);
+        // let rc = creep.moveTo(Game.flags.parking);
+        let rc = creep.moveTo(flag);
         console.log('rc', rc)
     }
 };
