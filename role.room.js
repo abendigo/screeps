@@ -130,7 +130,7 @@ var role = {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
-            } else if (creeps['upgrader'].length < 3) {
+            } else if (creeps['upgrader'].length < 5) {
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
