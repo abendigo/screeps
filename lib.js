@@ -14,7 +14,8 @@ console.log('------------', container)
                 let rc = creep.withdraw(container, RESOURCE_ENERGY);
 console.log('======= rc', rc)                
                 if (rc === ERR_NOT_IN_RANGE) {
-                    rc = creep.moveTo(container);
+                    rc = rc = creep.moveTo(container);
+console.log('####### rc', rc)                
                 }
 
                 return rc;
