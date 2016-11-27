@@ -14,6 +14,7 @@ var roleRoom = require('role.room');
     'sweeper': require('role.sweeper'),
     'litter': require('role.litter'),
     // 'sweeper2': require('role.litter'),
+    'towertransport': require('role.towertransport'),
     'transport': require('role.transport'),
     // 'sweeper3': require('role.transport'),
     'upgrader': require('role.upgrader'),
