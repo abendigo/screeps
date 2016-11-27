@@ -27,7 +27,7 @@ console.log(creep.name, 2)
 console.log(creep.name, 3)
                     console.log('======', JSON.stringify(target))
 
-                    if (target.progress) {
+                    if (target.progress !== undefined) {
 console.log(creep.name, 4)
                         if (creep.build(target) == ERR_NOT_IN_RANGE) {
 console.log(creep.name, 5)
