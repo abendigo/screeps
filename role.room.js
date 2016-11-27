@@ -92,7 +92,7 @@ var role = {
                 }
             }
         } else if (room.energyCapacityAvailable <= 550) {
-console.log('1', reeps.upgrader.length);            
+console.log('1', creeps.upgrader.length);            
             if (containers.length < 2 && creeps.harvester.length < 2) {
 console.log('2');            
                 if (room.energyAvailable >= 300) {
