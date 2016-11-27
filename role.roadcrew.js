@@ -23,12 +23,18 @@ var role = {
                     creep.memory.target = false;
                 } else {
                     console.log('======', target)
-                // } else if (target.hits < target.hitsMax) {
-                //     if (creep.repair(target) == ERR_NOT_IN_RANGE) {
-                //         creep.moveTo(target);
-                //     }
-                // } else {
-                //     creep.memory.target = false;
+
+                    if (target.progress) {
+                        if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(target);
+                        }
+                    } else if (target.hits < target.hitsMax) {
+                        if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(target);
+                        }
+                    } else {
+                        creep.memory.target = false;
+                    }
                 }
             } else {
                 let xxx = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
