@@ -23,7 +23,7 @@ let roleBuilder = {
         console.log('here', JSON.stringify(here))
         for (group of here) {
             // for (type in group) {
-                console.log('type', group.type)
+                console.log('xxxxxx type', group.type)
             // }
         }
 
