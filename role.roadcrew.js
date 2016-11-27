@@ -18,21 +18,30 @@ var role = {
 
         if (creep.memory.repair) {
             if (creep.memory.target) {
+console.log(creep.name, 1)
                 var target = Game.getObjectById(creep.memory.target);
                 if (target == null) {
+console.log(creep.name, 2)
                     creep.memory.target = false;
                 } else {
+console.log(creep.name, 3)
                     console.log('======', target)
 
                     if (target.progress) {
+console.log(creep.name, 4)
                         if (creep.build(target) == ERR_NOT_IN_RANGE) {
+console.log(creep.name, 5)
                             creep.moveTo(target);
                         }
                     } else if (target.hits < target.hitsMax) {
+console.log(creep.name, 6)
                         if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+console.log(creep.name, 7)
                             creep.moveTo(target);
                         }
+console.log(creep.name, 8)
                     } else {
+console.log(creep.name, 9)
                         creep.memory.target = false;
                     }
                 }
