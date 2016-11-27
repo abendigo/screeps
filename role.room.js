@@ -87,8 +87,8 @@ var role = {
                     spawn.createCreep([WORK,CARRY,MOVE], undefined, {role: 'roadcrew'});
                 }
             } else if (creeps.upgrader.length < 4) {
-                if (room.energyAvailable >= 300) {
-                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+                if (room.energyAvailable >= 250) {
+                    spawn.createCreep([WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
             }
         } else if (room.energyCapacityAvailable <= 550) {
