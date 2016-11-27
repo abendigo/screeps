@@ -30,22 +30,23 @@ let lib = {
                     creep.moveTo(container);
                 }
             } else {
-                console.log('not found. parking');
-                creep.moveTo(Game.flags.parking);
+                let flag = creep.pos.findClosestByRange(FIND_FLAGS, {
+                    filter: structure => {
+                        return structure.name.startsWith('parking');
+                    }
+                });
+                creep.moveTo(flag);
             }
         }
     }, 
 
     park: (creep) => {
-        console.log('park', creep.name, creep.role);
-        creep.say('park');
         let flag = creep.pos.findClosestByRange(FIND_FLAGS, {
             filter: structure => {
                 return structure.name.startsWith('parking');
             }
         });
-        let rc = creep.moveTo(flag);
-        console.log('rc', rc)
+        creep.moveTo(flag);
     }
 };
 
