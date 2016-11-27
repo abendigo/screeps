@@ -41,11 +41,11 @@ let lib = {
         creep.say('park');
         let flag = creep.room.find(FIND_FLAGS, {
             filter: structure => {
-                console.log(JSON.stringify(structure));
+                console.log('xxxx', JSON.stringify(structure));
                 return structure.name.startsWith('parking');
             }
         });
-        console.log('flg', flag)
+        console.log('flg', flag, Game.flags.parking)
         let rc = creep.moveTo(Game.flags.parking);
         console.log('rc', rc)
     }
