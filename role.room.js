@@ -96,7 +96,6 @@ var role = {
             }
         } else {
             console.log('medium room')
-/*            
             if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
@@ -146,7 +145,6 @@ var role = {
                 //     Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
                 // }
             }
-*/            
         }
 
         let towers = room.find(FIND_STRUCTURES, {
