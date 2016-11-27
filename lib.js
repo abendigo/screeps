@@ -49,7 +49,7 @@ let lib = {
     },
 
     createRoadsAndQueueRepairs: (creep) => {
-        console.log(`createRoadsAndQueueRepairs: ${creep.name} ${creep.memory.role}`)
+        // console.log(`createRoadsAndQueueRepairs: ${creep.name} ${creep.memory.role}`)
         let here = creep.pos.look();
         if (creep.name === 'Daniel') console.log('here', here)
         let foundStructure = false;
@@ -60,7 +60,8 @@ let lib = {
         if (creep.name === 'Daniel') console.log('found', foundStructure)
 
         if (!foundStructure) {
-            creep.pos.createConstructionSite(STRUCTURE_ROAD);
+            rc = creep.pos.createConstructionSite(STRUCTURE_ROAD);
+            if (creep.name === 'Daniel') console.log('rc', rc)
         }
     }
 };
