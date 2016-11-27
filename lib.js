@@ -34,6 +34,20 @@ let lib = {
                 creep.moveTo(Game.flags.parking);
             }
         }
+    }, 
+
+    park: (creep) => {
+        console.log('park', creep.name, creep.role);
+        creep.say('park');
+        let flag = creep.room.find(FIND_FLAGS, {
+            filter: structure => {
+                console.log(JSON.stringify(structure));
+                return structure.name.startsWith('parking');
+            }
+        });
+        console.log('flg', flag)
+        let rc = creep.moveTo(Game.flags.parking);
+        console.log('rc', rc)
     }
 };
 

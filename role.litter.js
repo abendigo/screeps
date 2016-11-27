@@ -69,16 +69,17 @@ var role = {
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-                creep.say('park');
-                let flag = creep.room.find(FIND_FLAGS, {
-                    filter: structure => {
-                        console.log(structure.name);
-                        return structure.name.startsWith('parking');
-                    }
-                });
-                console.log('flg', flag)
-                let rc = creep.moveTo(Game.flags.parking);
-                console.log('rc', rc)
+                lib.park(creep);
+                // creep.say('park');
+                // let flag = creep.room.find(FIND_FLAGS, {
+                //     filter: structure => {
+                //         console.log(structure.name);
+                //         return structure.name.startsWith('parking');
+                //     }
+                // });
+                // console.log('flg', flag)
+                // let rc = creep.moveTo(Game.flags.parking);
+                // console.log('rc', rc)
             }
         }
     }
