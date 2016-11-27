@@ -21,6 +21,9 @@ let roleBuilder = {
 
         let here = creep.pos.look();
         console.log('here', JSON.stringify(here))
+        for (type of here) {
+            console.log('type', type)
+        }
 
         if (creep.memory.building) {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
