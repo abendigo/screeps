@@ -39,15 +39,13 @@ let lib = {
     park: (creep) => {
         console.log('park', creep.name, creep.role);
         creep.say('park');
-        let flag = creep.room.find(FIND_FLAGS, {
+        let flag = creep.pos.findClosestByRange(FIND_FLAGS, {
             filter: structure => {
                 console.log('xxxx', JSON.stringify(structure));
                 return structure.name.startsWith('parking');
             }
         });
-        console.log('flg', flag, Game.flags.parking)
-        let rc = creep.moveTo(Game.flags.parking);
-//        let rc = creep.moveTo(flag);
+        let rc = creep.moveTo(flag);
         console.log('rc', rc)
     }
 };
