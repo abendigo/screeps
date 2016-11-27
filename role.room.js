@@ -130,8 +130,7 @@ var role = {
                 if (room.energyAvailable >= 300) {
                     var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
                 }
-      
-            else if (creeps['h2'].length < containers.length) {
+            } else if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
