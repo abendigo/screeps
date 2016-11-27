@@ -30,9 +30,9 @@ var role = {
                 }
             } else {
                 let xxx = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
-                    filter: structure => structure.type === STRUCTURE_ROAD
+                    filter: structure => structure.structureType === STRUCTURE_ROAD
                 });
-                    console.log('xxx', xxx)
+                    console.log('xxx', creep.name, xxx)
                 if (xxx) {
                     creep.memory.target = target.id;
                 } else {
