@@ -19,11 +19,15 @@ let roleBuilder = {
 	        creep.say('building');
 	    }
 
-	    if(creep.memory.building) {
+        let here = creep.room.lookAt(creep);
+        console.log('here', here)
+
+        if (creep.memory.building) {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
+
                 }
             } else {
             	var targets = creep.room.find(FIND_STRUCTURES, {
@@ -36,9 +40,6 @@ let roleBuilder = {
 	            	creep.say('repair');
 	                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
 	                    creep.moveTo(targets[0]);
-
-                        let here = creep.room.lookAt(creep);
-                        console.log('here', here)
 	                }
 	            }
             }
