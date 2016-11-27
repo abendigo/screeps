@@ -1,6 +1,6 @@
 let lib = {
     refuel: (creep) => {
-        console.log('refuel', creep.name)
+        console.log('refuel', creep.name, creep.memory.role)
 
         if (creep.room.energyCapacityAvailable < 550) {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
