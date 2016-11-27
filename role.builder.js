@@ -64,7 +64,8 @@ let roleBuilder = {
                     creep.moveTo(container);
                 }
             } else {
-                creep.moveTo(Game.flags.parking);
+                // creep.moveTo(Game.flags.parking);
+                lib.park(creep);
             }
 */
 	    }

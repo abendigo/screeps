@@ -30,23 +30,25 @@ var role = {
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
-            // } else {
-            //     let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            //         filter: (structure) => {
-            //             return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
-            //         }
-            //     });
-            //     if (tower && tower.energy < tower.energyCapacity) {
-            //         if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            //             creep.moveTo(tower);
-            //         }
-            //     } else {
-            //         var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
-            //         if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            //             creep.moveTo(storage);
-            //         }
-            //     }
-                
+            } else {
+                let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
+                    }
+                });
+                if (tower && tower.energy < tower.energyCapacity) {
+                    if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(tower);
+                    }
+                } else {
+                    let storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: structure => structure.structureType === STRUCTURE_STORAGE
+                    });
+                    console.log(room.name, 'storage', storage);
+                    if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(storage);
+                    }
+                }
             }
         } else {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
