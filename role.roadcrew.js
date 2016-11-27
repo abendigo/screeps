@@ -25,7 +25,7 @@ console.log(creep.name, 2)
                     creep.memory.target = false;
                 } else {
 console.log(creep.name, 3)
-                    console.log('======', target)
+                    console.log('======', JSON.stringify(target))
 
                     if (target.progress) {
 console.log(creep.name, 4)
