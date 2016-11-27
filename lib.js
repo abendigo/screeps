@@ -12,7 +12,7 @@ let lib = {
 console.log('------------', container)            
             if (container) {
                 let rc = creep.withdraw(container, RESOURCE_ENERGY);
-console.log('======= rc', rc)                
+console.log('======= rc', rc, container.structureType)                
                 if (rc === ERR_NOT_IN_RANGE) {
                     rc = rc = creep.moveTo(container);
 console.log('####### rc', rc)                
