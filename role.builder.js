@@ -19,14 +19,6 @@ let roleBuilder = {
 	        creep.say('building');
 	    }
 
-        let here = creep.pos.look();
-        console.log('here', JSON.stringify(here))
-        for (group of here) {
-            // for (type in group) {
-                console.log('xxxxxx type', group.type)
-            // }
-        }
-
         if (creep.memory.building) {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
