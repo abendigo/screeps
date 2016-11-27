@@ -156,7 +156,7 @@ var role = {
                 }
             } else if (creeps['builder'].length < 2) {
                 if (room.energyAvailable >= 500) {
-                    spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,,MOVE,MOVE], undefined, {role: 'builder'});
+                    spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
                 }
             } else if (creeps['roadcrew'].length < 1) {
                 if (room.energyAvailable >= 500) {
