@@ -24,7 +24,7 @@ var role = {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
         spawn = spawns[0];
-        console.log('spawn', spawn)
+        // console.log('spawn', spawn)
 
 
         let output = `${room.name}: `;
