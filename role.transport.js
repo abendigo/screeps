@@ -63,8 +63,7 @@ var role = {
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-                creep.say('park');
-                creep.moveTo(Game.flags.parking);
+                lib.park(creep);
             }
         }
     }

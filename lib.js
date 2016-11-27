@@ -41,7 +41,6 @@ let lib = {
         creep.say('park');
         let flag = creep.pos.findClosestByRange(FIND_FLAGS, {
             filter: structure => {
-                console.log('xxxx', JSON.stringify(structure));
                 return structure.name.startsWith('parking');
             }
         });
