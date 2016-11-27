@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log(`${creep.name} is ${creep.memory.role}: {$creep.carry.energy}`);
+        console.log(`${creep.name} is ${creep.memory.role}: ${creep.carry.energy}`);
         if (creep.fatigue || creep.spawning)
             return;
 
@@ -23,6 +23,7 @@ var role = {
                             creep.room.memory.towers[structure.id] == 'available';
                     }
                 });
+
                 if (tower) {
                     creep.room.memory.towers[tower.id] = creep.name;
                     creep.memory.target = tower.id;
