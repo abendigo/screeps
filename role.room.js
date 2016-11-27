@@ -68,6 +68,9 @@ var role = {
             }
         }
     }
+        let towers = room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_TOWER
+        });
 
         if (room.energyCapacityAvailable <= 400) {
             if (containers.length < 2 && creeps.harvester.length < 2) {
@@ -134,6 +137,10 @@ var role = {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
                 }
+            } else if (creeps.towertransport.length < towers.length) {
+                if (room.energyAvailable > 350) {
+                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'towertransport'});
+                }
             } else if (creeps['upgrader'].length < 2) {
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
@@ -177,9 +184,6 @@ var role = {
             }
         }
 
-        let towers = room.find(FIND_STRUCTURES, {
-            filter: structure => structure.structureType == STRUCTURE_TOWER
-        });
 
 
 
