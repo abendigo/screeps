@@ -22,9 +22,9 @@ let roleBuilder = {
         let here = creep.pos.look();
         console.log('here', JSON.stringify(here))
         for (group of here) {
-            for (type in group) {
-                console.log('type', type)
-            }
+            // for (type in group) {
+                console.log('type', group.type)
+            // }
         }
 
         if (creep.memory.building) {
