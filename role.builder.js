@@ -21,7 +21,7 @@ let roleBuilder = {
 
         let here = creep.pos.look();
         console.log('here', JSON.stringify(here))
-        for (type of here) {
+        for (type in here) {
             console.log('type', type)
         }
 
