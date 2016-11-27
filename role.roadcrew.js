@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name}`);
+        console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name} `);
 
         if (creep.fatigue || creep.spawning)
             return;
@@ -29,19 +29,27 @@ var role = {
                     creep.memory.target = false;
                 }
             } else {
-                var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.structureType == STRUCTURE_ROAD &&
-                               structure.hits < structure.hitsMax &&
-                               structure.hits > 0;
-                    }
+                let xxx = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+                    filter: structure => structure.type === STRUCTURE_ROAD
                 });
-
-                if (target) {
-                    creep.say(target.id);
+                    console.log('xxx', xxx)
+                if (xxx) {
                     creep.memory.target = target.id;
                 } else {
-                    creep.say('none');
+                    var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.structureType == STRUCTURE_ROAD &&
+                                structure.hits < structure.hitsMax &&
+                                structure.hits > 0;
+                        }
+                    });
+
+                    if (target) {
+                        creep.say(target.id);
+                        creep.memory.target = target.id;
+                    } else {
+                        creep.say('none');
+                    }
                 }
             }
         } else {
