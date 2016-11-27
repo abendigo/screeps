@@ -22,7 +22,7 @@ let roleRepair = {
 	    }
 
 
-	    if(creep.memory.repair) {
+	    if (creep.memory.repair) {
 			if (creep.memory.target) {
 				var target = Game.getObjectById(creep.memory.target);
 				// console.log(creep.name, 'hits', target.hits, 'of', target.hitsMax)
@@ -55,7 +55,14 @@ let roleRepair = {
             }
 	    }
 	    else {
-            lib.refuel(creep);
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+                if (creep.carry.energy > 0) {
+                    creep.memory.repair = true;
+                    creep.say('repair');
+                } else {
+                    lib.park(creep);
+                }
+            }
 	    }
 	}
 };
