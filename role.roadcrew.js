@@ -34,7 +34,7 @@ var role = {
                 });
                     console.log('xxx', creep.name, xxx)
                 if (xxx) {
-                    creep.memory.target = target.id;
+                    creep.memory.target = xxx.id;
                 } else {
                     var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => {
