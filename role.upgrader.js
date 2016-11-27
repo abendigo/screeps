@@ -33,7 +33,7 @@ var roleUpgrader = {
         }
         console.log('foundStructure', foundStructure);
         if (!foundStructure) {
-            room.pos.createConstructionSite(STRUCTURE_ROAD);
+            creep.pos.createConstructionSite(STRUCTURE_ROAD);
         }
 
 
