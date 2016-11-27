@@ -9,7 +9,7 @@ var role = {
         let hostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (hostile) {
             tower.attack(hostile);
-        } else {
+        } else if (tower.energy > 300) {
             let creep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
                 filter: (next) => {
                     return next.hits < next.hitsMax;
