@@ -71,29 +71,27 @@ var role = {
 
         if (room.energyCapacityAvailable < 550) {
             console.log('small room')
-            if (creeps['h2'].length < containers.length) {
+            if (containers.length < 2 && creeps.harvester.length < 2) {
+                if (room.energyAvailable >= 300) {
+                    var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                }
+            } else if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
-            // } else if (creeps['harvester'].length < 2) {
-            //     if (room.energyAvailable >= 300) {
-            //         var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-            //     }
-            } 
-            else if (creeps.upgrader.length < 4) {
-                if (room.energyAvailable >= 300) {
-                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
-                }
-            }
-            else if (creeps.builder.length < 1) {
+            } else if (creeps.builder.length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'builder'});
                 }
-            } else if (creeps['transport'].length < 1) {
+            } else if (creeps.upgrader.length < 4) {
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+                }
+            } else if (creeps.transport.length < 1) {
                 if (room.energyAvailable > 300) {
                     spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
                 }
-            } else if (creeps['litter'].length < 1) {
+            } else if (creeps.litter.length < 1) {
                 if (room.energyAvailable > 300) {
                     spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
                 }
