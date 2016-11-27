@@ -24,7 +24,15 @@ var roleUpgrader = {
 
 
         if (!creep.memory.upgrading) {
-            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+            let storage = (creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: structure => structure.structureType === STRUCTURE_STORAGE
+            }));
+            if (storage) {
+                if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    rc = creep.moveTo(container);
+                }
+            }
+            else if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
                 if (creep.carry.energy > 0) {
                     creep.memory.upgrading = true;
                     creep.say('upgrading');
