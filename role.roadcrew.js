@@ -1,8 +1,6 @@
 let lib = require('lib');
 
 var role = {
-
-    /** @param {Creep} creep **/
     run: function(creep) {
         if (creep.fatigue || creep.spawning)
             return;
@@ -20,14 +18,12 @@ var role = {
             if (creep.memory.target) {
                 var target = Game.getObjectById(creep.memory.target);
                 if (target == null) {
-                    creep.say('$%#@')
                     creep.memory.target = false;
-                } else if (target.hits < Math.min(target.hitsMax, 5000)) {
+                } else if (target.hits < target.hitsMax) {
                     if (creep.repair(target) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     }
                 } else {
-                    creep.say('done');
                     creep.memory.target = false;
                 }
             } else {
@@ -47,7 +43,14 @@ var role = {
                 }
             }
         } else {
-            lib.refuel(creep);
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+                if (creep.carry.energy > 0) {
+                    creep.memory.repair = true;
+                    creep.say('repair');
+                } else {
+                    lib.park(creep);
+                }
+            }
         }
     }
 };

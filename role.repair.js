@@ -1,14 +1,7 @@
 let lib = require('lib');
 
 let roleRepair = {
-
-	/** @param {Creep} creep **/
-    run: function(creep, options) {
-		// console.log('roleRepair', creep.name, creep.memory.target);
-
-        options = options || {};
-        options.source = options.source || 1;
-
+    run: function(creep) {
         if (creep.fatigue || creep.spawning)
     		return;
 
@@ -21,20 +14,16 @@ let roleRepair = {
 	        creep.say('repair');
 	    }
 
-
 	    if (creep.memory.repair) {
 			if (creep.memory.target) {
 				var target = Game.getObjectById(creep.memory.target);
-				// console.log(creep.name, 'hits', target.hits, 'of', target.hitsMax)
 				if (target == null) {
-					// console.log('target not found')
 					creep.memory.target = false;
 				} else if (target.hits < target.hitsMax) {
 					if(creep.repair(target) == ERR_NOT_IN_RANGE) {
 						creep.moveTo(target);
 					}
 				} else {
-					// console.log('already fixed')
 					creep.memory.target = false;
 				}
 			} else {
