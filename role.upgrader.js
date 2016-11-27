@@ -22,16 +22,11 @@ var roleUpgrader = {
 
 
         let here = creep.pos.look();
-        console.log('here', JSON.stringify(here))
         let foundStructure = false;
         for (group of here) {
-            // for (type in group) {
-            console.log('xxxxxx type', group.type)
-            // }
             if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES)
                 foundStructure = true;
         }
-        console.log('foundStructure', foundStructure);
         if (!foundStructure) {
             creep.pos.createConstructionSite(STRUCTURE_ROAD);
         }
