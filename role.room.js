@@ -42,7 +42,7 @@ var role = {
             room.memory.containers = {};
         }
         console.log(room.name, 'containers', containers.length, creeps.h2.length);
-        // console.log('memory.containers', JSON.stringify(room.memory.containers));
+        console.log(room.name, 'memory.containers', JSON.stringify(room.memory.containers));
 
         for (let j in room.memory.containers) {
             let y = Game.getObjectById(j);
