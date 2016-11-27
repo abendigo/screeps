@@ -49,6 +49,7 @@ let lib = {
     },
 
     createRoadsAndQueueRepairs: (creep) => {
+        console.log(`createRoadsAndQueueRepairs: ${creep.name} ${creep.memory.role}`)
         let here = creep.pos.look();
         let foundStructure = false;
         for (group of here) {
