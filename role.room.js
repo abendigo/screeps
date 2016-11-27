@@ -180,6 +180,53 @@ var role = {
         let towers = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_TOWER
         });
+
+
+
+
+
+        if (!room.memory.towers) {
+            room.memory.towers = {};
+        }
+        console.log(room.name, 'towers', towers.length);
+        console.log(room.name, 'memory.towers', JSON.stringify(room.memory.towers));
+
+        for (let j in room.memory.towers) {
+            let y = Game.getObjectById(j);
+            if (!y) {
+                delete room.memory.towers[j];
+            }
+        }
+
+        for (let x of towers) {
+            if (room.memory.towers[x.id]) {
+                if (room.memory.towers[x.id] == 'available') {
+                    console.log('--- tower', x.id, 'available')
+                } else {
+                    if (Game.creeps[room.memory.towers[x.id]]) {
+                        console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+                    } else {
+                        console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+                        room.memory.towers[x.id] = 'available';
+                    }
+                }
+            } else {
+                room.memory.towers[x.id] = 'available';
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         for (let tower of towers) {
             roleTower.run(tower);
