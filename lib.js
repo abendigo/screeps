@@ -10,10 +10,12 @@ let lib = {
                 }
             });
             if (container) {
-                console.log('found', container.id, container.structureType)
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
+                let rc = creep.withdraw(container, RESOURCE_ENERGY);
+                if (rc === ERR_NOT_IN_RANGE) {
+                    rc = creep.moveTo(container);
                 }
+
+                return rc;
             }
         } else {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -25,17 +27,14 @@ let lib = {
             });
 
             if (container) {
-                console.log('found', container.id, container.structureType)
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container);
+                let rc = creep.withdraw(container, RESOURCE_ENERGY)
+                if (rc === ERR_NOT_IN_RANGE) {
+                    rc = creep.moveTo(container);
                 }
+
+                return rc;
             } else {
-                let flag = creep.pos.findClosestByRange(FIND_FLAGS, {
-                    filter: structure => {
-                        return structure.name.startsWith('parking');
-                    }
-                });
-                creep.moveTo(flag);
+                return ERR_NOT_ENOUGH_ENERGY;
             }
         }
     }, 
@@ -46,7 +45,7 @@ let lib = {
                 return structure.name.startsWith('parking');
             }
         });
-        creep.moveTo(flag);
+        return creep.moveTo(flag);
     }
 };
 
