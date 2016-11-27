@@ -28,8 +28,8 @@ var roleUpgrader = {
                 filter: structure => structure.structureType === STRUCTURE_STORAGE
             }));
             if (storage) {
-                if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    rc = creep.moveTo(container);
+                if (creep.withdraw(storage, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    rc = creep.moveTo(storage);
                 }
             }
             else if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
