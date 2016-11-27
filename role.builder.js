@@ -19,7 +19,7 @@ let roleBuilder = {
 	        creep.say('building');
 	    }
 
-        let here = creep.room.lookAt(creep);
+        let here = creep.pos.look();
         console.log('here', JSON.stringify(here))
 
         if (creep.memory.building) {
