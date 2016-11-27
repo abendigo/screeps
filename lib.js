@@ -1,6 +1,6 @@
 let lib = {
     refuel: (creep) => {
-        console.log('refuel', creep.name, creep.memory.role)
+        // console.log('refuel', creep.name, creep.memory.role)
 
         if (creep.room.energyCapacityAvailable < 550) {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -9,13 +9,10 @@ let lib = {
                         (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50);
                 }
             });
-console.log('------------', container)            
             if (container) {
                 let rc = creep.withdraw(container, RESOURCE_ENERGY);
-console.log('======= rc', rc, container.structureType)                
                 if (rc === ERR_NOT_IN_RANGE) {
                     rc = rc = creep.moveTo(container);
-console.log('####### rc', rc)                
                 }
 
                 return rc;
