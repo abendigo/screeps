@@ -9,6 +9,7 @@ let lib = {
                         (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50);
                 }
             });
+console.log('------------', container)            
             if (container) {
                 let rc = creep.withdraw(container, RESOURCE_ENERGY);
                 if (rc === ERR_NOT_IN_RANGE) {
