@@ -71,7 +71,6 @@ var role = {
 
         if (room.energyCapacityAvailable < 550) {
             console.log('small room')
-/*            
             if (creeps['harvester'].length < 2) {
                 if (room.energyAvailable >= 300) {
                     var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
@@ -96,7 +95,6 @@ var role = {
             //         spawn.createCreep([CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
             //     }
             }
-*/            
         } else {
             console.log('medium room')
 /*            
