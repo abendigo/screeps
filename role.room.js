@@ -41,7 +41,7 @@ var role = {
         if (!room.memory.containers) {
             room.memory.containers = {};
         }
-        // console.log('containers', containers.length, creeps.h2.length);
+        console.log(room.name, 'containers', containers.length, creeps.h2.length);
         // console.log('memory.containers', JSON.stringify(room.memory.containers));
 
         for (let j in room.memory.containers) {
@@ -71,10 +71,14 @@ var role = {
 
         if (room.energyCapacityAvailable < 550) {
             console.log('small room')
-            if (creeps['harvester'].length < 2) {
+            if (creeps['h2'].length < containers.length) {
                 if (room.energyAvailable >= 300) {
-                    var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                    spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
+            // } else if (creeps['harvester'].length < 2) {
+            //     if (room.energyAvailable >= 300) {
+            //         var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            //     }
             } 
             else if (creeps.upgrader.length < 2) {
                 if (room.energyAvailable >= 300) {
