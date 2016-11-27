@@ -36,6 +36,9 @@ let roleBuilder = {
 	            	creep.say('repair');
 	                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
 	                    creep.moveTo(targets[0]);
+
+                        let here = creep.room.lookAt(creep);
+                        console.log('here', here)
 	                }
 	            }
             }
