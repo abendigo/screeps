@@ -3,9 +3,9 @@ var roleRoom = require('role.room');
 
  let roles = {
     'builder': require('role.builder'),
-    'claim': require('role.claim'),
-    'claimbuilder': require('role.claimbuilder'),
-    'claimupgrader': require('role.claimupgrader'),
+    // 'claim': require('role.claim'),
+    // 'claimbuilder': require('role.claimbuilder'),
+    // 'claimupgrader': require('role.claimupgrader'),
  	'h2': require('role.h2'),
     'harvester': require('role.harvester'),
     'repair': require('role.repair'),
@@ -13,9 +13,9 @@ var roleRoom = require('role.room');
     'scout': require('role.scout'),
     'sweeper': require('role.sweeper'),
     'litter': require('role.litter'),
-    'sweeper2': require('role.litter'),
+    // 'sweeper2': require('role.litter'),
     'transport': require('role.transport'),
-    'sweeper3': require('role.transport'),
+    // 'sweeper3': require('role.transport'),
     'upgrader': require('role.upgrader'),
     'wallcrew': require('role.wallcrew'),
  };
