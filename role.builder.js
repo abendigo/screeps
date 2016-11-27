@@ -20,7 +20,7 @@ let roleBuilder = {
 	    }
 
         let here = creep.room.lookAt(creep);
-        console.log('here', here)
+        console.log('here', JSON.stringify(here))
 
         if (creep.memory.building) {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
