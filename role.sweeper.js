@@ -18,6 +18,8 @@ var role = {
 	        creep.say('deliver');
 	    }
 
+        lib.createRoadsAndQueueRepairs(creep);
+
         // Take EXTENSION energy and save it to TOWER or STORAGE
 
         if (creep.memory.deliver) {

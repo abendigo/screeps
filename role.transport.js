@@ -16,6 +16,8 @@ var role = {
 	        creep.say('deliver');
 	    }
 
+        lib.createRoadsAndQueueRepairs(creep);
+
         // Take CONTAINER energy and move it to EXTENSIONS or SPAWN
 
         if (creep.memory.deliver) {

@@ -46,6 +46,18 @@ let lib = {
             }
         });
         return creep.moveTo(flag);
+    },
+
+    createRoadsAndQueueRepairs: (creep) => {
+        let here = creep.pos.look();
+        let foundStructure = false;
+        for (group of here) {
+            if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES)
+                foundStructure = true;
+        }
+        if (!foundStructure) {
+            creep.pos.createConstructionSite(STRUCTURE_ROAD);
+        }
     }
 };
 
