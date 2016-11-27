@@ -47,7 +47,6 @@ var role = {
                     let storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: structure => structure.structureType === STRUCTURE_STORAGE
                     });
-                    console.log(room.name, 'storage', storage);
                     if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(storage);
                     }
