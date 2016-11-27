@@ -51,11 +51,14 @@ let lib = {
     createRoadsAndQueueRepairs: (creep) => {
         console.log(`createRoadsAndQueueRepairs: ${creep.name} ${creep.memory.role}`)
         let here = creep.pos.look();
+        if (creep.name === 'Daniel') console.log('here', here)
         let foundStructure = false;
         for (group of here) {
             if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES)
                 foundStructure = true;
         }
+        if (creep.name === 'Daniel') console.log('found', foundStructure)
+
         if (!foundStructure) {
             creep.pos.createConstructionSite(STRUCTURE_ROAD);
         }
