@@ -54,8 +54,16 @@ var roleScout = {
                             return structure.hits < structure.hitsMax && structure.hits > 0;
                         }
                     });
-                    if (creep.repair(target) == ERR_NOT_IN_RANGE) {
-						creep.moveTo(target);                    
+                    if (target) {
+                        if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(target);
+                        }                    
+                    } else {
+                        let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
+                        if (spawn) {
+                            if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
+                                creep.moveTo(spawn);
+                        }                        
                     }
                 }
             }
