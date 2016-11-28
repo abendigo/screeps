@@ -173,7 +173,7 @@ var role = {
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'wallcrew'});
                 }
-            } else if (creeps['scout'].length < 1) {
+            } else if (creeps.scout && creeps['scout'].length < 1) {
                 if (room.energyAvailable >= 280) {
                     spawn.createCreep([ATTACK,WORK,CARRY,MOVE], undefined, {role: 'scout'});
                 }
