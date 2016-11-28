@@ -36,7 +36,7 @@ console.log('no target')
             }
             if (creep.memory.target) {
                 let target = Game.getObjectById(creep.memory.container);
-console.log('target', target)                
+console.log('target', creep.memory.target, target)                
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
