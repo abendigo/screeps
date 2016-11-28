@@ -192,8 +192,8 @@ var role = {
         if (!room.memory.towers) {
             room.memory.towers = {};
         }
-        console.log(room.name, 'towers', towers.length);
-        console.log(room.name, 'memory.towers', JSON.stringify(room.memory.towers));
+        // console.log(room.name, 'towers', towers.length);
+        // console.log(room.name, 'memory.towers', JSON.stringify(room.memory.towers));
 
         for (let j in room.memory.towers) {
             let y = Game.getObjectById(j);
@@ -205,12 +205,12 @@ var role = {
         for (let x of towers) {
             if (room.memory.towers[x.id]) {
                 if (room.memory.towers[x.id] == 'available') {
-                    console.log('--- tower', x.id, 'available')
+                    // console.log('--- tower', x.id, 'available')
                 } else {
                     if (Game.creeps[room.memory.towers[x.id]]) {
-                        console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
+                        // console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'still alive')
                     } else {
-                        console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'dead')
+                        // console.log('--- tower', x.id,'assigned to', room.memory.containers[x.id], 'dead')
                         room.memory.towers[x.id] = 'available';
                     }
                 }
