@@ -61,7 +61,7 @@ var role = {
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-                lib.park(creep);
+                // lib.park(creep);
             }
         }
     }
