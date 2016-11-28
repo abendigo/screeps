@@ -214,10 +214,10 @@ var role = {
             //     if (energyAvailable >= 550) {
             //         Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
             //     }
-            } else if (creeps['sweeper'].length < 2) {
-                if (room.energyAvailable > 350) {
-                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
-                }
+            // } else if (creeps['sweeper'].length < 2) {
+            //     if (room.energyAvailable > 350) {
+            //         spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
+            //     }
             } else if (creeps['litter'].length < 2) {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
