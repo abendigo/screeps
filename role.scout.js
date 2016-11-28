@@ -1,10 +1,8 @@
 let lib = require('lib');
 
 var roleScout = {
-
-    /** @param {Creep} creep **/
     run: function(creep) {
-    	console.log('roleScout', creep.name, creep.room.name);
+    	console.log('scout', creep.name, creep.room.name);
 
         if (creep.fatigue || creep.spawning)
             return;
