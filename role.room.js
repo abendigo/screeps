@@ -27,9 +27,9 @@ var role = {
         let spawn;
 
 
-        // if (!room.memory.sources) {
+        if (!room.memory.sources) {
             room.memory.sources = {};
-        // }
+        }
         // for (let next in room.memory.sources) {
         //     let source = Game.getObjectById(next);
         //     if (!source) {
