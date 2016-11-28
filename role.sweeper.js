@@ -24,38 +24,27 @@ var role = {
         // Take EXTENSION energy and save it to STORAGE
 
         if (creep.memory.deliver) {
-console.log('---', 1)            
-            // let tower = Game.getObjectById('5833230ecbc9367a7f0c0afe');
             let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
                 }
             });
             if (tower && tower.energy < tower.energyCapacity) {
-console.log('---', 2)            
                 if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-console.log('---', 3)            
                     creep.moveTo(tower);
                 }
             } else {
-console.log('---', 4)            
                 var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: structure => structure.structureType === STRUCTURE_STORAGE
                 });
-                console.log('storage', storage)
                 if (storage) {
-console.log('---', 5)            
                     if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-console.log('---', 6)            
                         creep.moveTo(storage);
                     }
                 }
             }
         } else {
-console.log('---', 7)            
-
             if (creep.room.energyAvailable > 600) {
-console.log('---', 8)            
                 var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType == STRUCTURE_EXTENSION && structure.energy > 0;
@@ -63,23 +52,18 @@ console.log('---', 8)
                 });
 
                 if (container) {
-console.log('---', 9)            
                     if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-console.log('---', 'a')            
                         creep.moveTo(container);
                     }
                 } else {
-console.log('---', 'b')            
 //                    console.log('sweeper', creep.name, 'no extension');
                     creep.say('#$%^');
                 }
 
             } else if (creep.carry.energy > 0) {
-console.log('---', 'c')            
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-console.log('---', 'd')            
                 lib.park(creep);
             }
         }
