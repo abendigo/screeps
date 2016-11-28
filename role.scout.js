@@ -19,7 +19,21 @@ var roleScout = {
 //            let target = Game.getObjectById('58325c0c2873dc77620b2dfc')
             let source = creep.pos.findClosestByRange(FIND_SOURCES);
             console.log('source', source);
-            creep.moveTo(source);
+
+            if (creep.memory.work && creep.carry.energy == 0) {
+                creep.memory.work = false;
+                creep.say('harvesting');
+            }
+            if (!creep.memory.work && creep.carry.energy == creep.carryCapacity) {
+                creep.memory.work = true;
+                creep.say('working');
+            }
+
+            if (!creep.memory.work) {
+                if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+            }
 
         // } else if (creep.room.name === 'W63S23') {  // Target
         //     let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
