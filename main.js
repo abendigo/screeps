@@ -21,7 +21,7 @@ var roleRoom = require('role.room');
     'wallcrew': require('role.wallcrew'),
  };
 
-
+console.log('scout', roles.scout)
 
 module.exports.loop = function () {
     // Clean up memory of dead creeps
