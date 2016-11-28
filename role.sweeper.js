@@ -34,10 +34,10 @@ var role = {
                     creep.moveTo(tower);
                 }
             } else {
-                var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
-                if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(storage);
-                }
+                // var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
+                // if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                //     creep.moveTo(storage);
+                // }
             }
         } else {
 
