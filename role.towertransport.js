@@ -16,7 +16,9 @@ var role = {
         lib.createRoadsAndQueueRepairs(creep);
 
         if (creep.memory.deliver) {
+console.log('dliver')            
             if (!creep.memory.target) {
+console.log('no target')                
                 let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: structure => {
                         return structure.structureType == STRUCTURE_TOWER &&
@@ -34,6 +36,7 @@ var role = {
             }
             if (creep.memory.target) {
                 let target = Game.getObjectById(creep.memory.container);
+console.log('target', target)                
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
