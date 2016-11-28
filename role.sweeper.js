@@ -40,10 +40,7 @@ console.log('---', 3)
             } else {
 console.log('---', 4)            
                 var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: structure => {
-                        // console.log('xx', structure.structureType)
-                        return structure.sturctureType === STRUCTURE_STORAGE
-                    }
+                    filter: structure => structure.structureType === STRUCTURE_STORAGE
                 });
                 console.log('storage', storage)
                 if (storage) {
