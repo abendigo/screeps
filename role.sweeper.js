@@ -45,6 +45,7 @@ console.log('---', 4)
                         return structure.sturctureType === STRUCTURE_STORAGE
                     }
                 });
+                console.log('storage', storage)
                 if (storage) {
 console.log('---', 5)            
                     if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
