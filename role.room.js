@@ -43,8 +43,8 @@ var role = {
         // for (let next in sources) {
         //     console.log('in', next)
         // }
-        for (let next of sources) {
-            console.log('of', next)
+        for (let source of sources) {
+            console.log('of', source)
             if (!room.memory.sources[source.id]) {
                 room.memory.sources[source.id] = 'available';
             } else {
