@@ -32,7 +32,7 @@ var roleScout = {
             if (!creep.memory.work) {
                 let rc = creep.harvest(source);
 
-                if (rc === ERR_OK) {
+                if (rc === OK) {
                     let here = creep.pos.look();
                     let foundStructure = false;
                     for (group of here) {
