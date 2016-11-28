@@ -34,10 +34,14 @@ var role = {
                     creep.moveTo(tower);
                 }
             } else {
-                // var storage = Game.getObjectById('5834d53ba28559d70a076e2c');
-                // if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                //     creep.moveTo(storage);
-                // }
+                var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: structure => structure.sturctureType === STRUCTURE_CONTAINER
+                });
+                if (storage) {
+                    if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(storage);
+                    }
+                }
             }
         } else {
 
@@ -61,7 +65,7 @@ var role = {
                 creep.memory.deliver = true;
                 creep.say('deliver');
             } else {
-                // lib.park(creep);
+                lib.park(creep);
             }
         }
     }
