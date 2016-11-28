@@ -72,7 +72,9 @@ var role = {
             filter: structure => structure.structureType == STRUCTURE_TOWER
         });
 
-        if (room.energyCapacityAvailable <= 400) {
+        if (room.energyCapacityAvailable < 300) {
+
+        } else if (room.energyCapacityAvailable <= 400) {
             if (containers && containers.length < 2 && creeps.harvester.length < 2) {
                 if (room.energyAvailable >= 300) {
                     var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
