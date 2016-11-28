@@ -16,6 +16,13 @@ var role = {
         // }
 
         let creeps = {};
+        let output = `${room.name}: `;
+        for (var role in roles) {
+            creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.room.name == room.name);
+            output += `${role}: ${creeps[role].length} `;
+        }
+        console.log(output);
+
         let containers;
         let spawn;
     if (room.energyCapacityAvailable >= 300) {
@@ -27,12 +34,6 @@ var role = {
         // console.log('spawn', spawn)
 
 
-        let output = `${room.name}: `;
-        for (var role in roles) {
-            creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.room.name == room.name);
-            output += `${role}: ${creeps[role].length} `;
-        }
-        console.log(output);
 
         containers = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_CONTAINER
