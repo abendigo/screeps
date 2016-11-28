@@ -16,10 +16,6 @@ var roleScout = {
             let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W61S24') { 
-//            let target = Game.getObjectById('58325c0c2873dc77620b2dfc')
-            let source = creep.pos.findClosestByRange(FIND_SOURCES);
-            console.log('source', source);
-
             if (creep.memory.work && creep.carry.energy == 0) {
                 creep.memory.work = false;
                 creep.say('harvesting');
@@ -30,6 +26,7 @@ var roleScout = {
             }
 
             if (!creep.memory.work) {
+                let source = creep.pos.findClosestByRange(FIND_SOURCES);
                 let rc = creep.harvest(source);
 
                 if (rc === OK) {
@@ -43,14 +40,26 @@ var roleScout = {
 
                     if (!foundStructure) {
                         rc = creep.pos.createConstructionSite(STRUCTURE_CONTAINER);
-                    }
+                    }  
                 } else if (rc === ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 } 
             } else {
                 let target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-                if (target)
-                    creep.build(target);
+                if (target) {
+                    if (creep.build(target) == ERR_NOT_IN_RANGE) {
+						creep.moveTo(target);                    
+                    }
+                } else {
+                    let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.hits < structure.hitsMax && structure.hits > 0;
+                        }
+                    });
+                    if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+						creep.moveTo(target);                    
+                    }
+                }
             }
 
         // } else if (creep.room.name === 'W63S23') {  // Target
