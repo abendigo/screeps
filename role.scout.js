@@ -10,10 +10,10 @@ var roleScout = {
             return;
 
         if (creep.room.name === 'W63S24') {  // Home
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_EAST);
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W62S24') {
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_EAST);
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W61S24') { 
 //            let target = Game.getObjectById('58325c0c2873dc77620b2dfc')
