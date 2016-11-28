@@ -10,23 +10,32 @@ var roleScout = {
             return;
 
         if (creep.room.name === 'W63S24') {  // Home
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_EAST);
             creep.moveTo(exit);
-        } else if (creep.room.name === 'W63S23') {  // Target
-            let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
-            if (spawn) {
-                if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
-                    creep.moveTo(spawn);
-            } else {
-                let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-                if (enemy) {
-                    if (creep.attack(enemy) == ERR_NOT_IN_RANGE)
-                        creep.moveTo(enemy);
-                } else {
-                    console.log('all gone');
-                    creep.suicide();
-                }
-            }
+        } else if (creep.room.name === 'W62S24') {
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_EAST);
+            creep.moveTo(exit);
+        } else if (creep.room.name === 'W61S24') { 
+//            let target = Game.getObjectById('58325c0c2873dc77620b2dfc')
+            let source = creep.pos.findClosestByRange(FIND_SOURCES);
+            console.log('source', source);
+            creep.moveTo(source);
+
+        // } else if (creep.room.name === 'W63S23') {  // Target
+        //     let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
+        //     if (spawn) {
+        //         if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
+        //             creep.moveTo(spawn);
+        //     } else {
+        //         let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        //         if (enemy) {
+        //             if (creep.attack(enemy) == ERR_NOT_IN_RANGE)
+        //                 creep.moveTo(enemy);
+        //         } else {
+        //             console.log('all gone');
+        //             creep.suicide();
+        //         }
+        //     }
         } else {
             console.log('WHERE AM I?')
             creep.suicide();
