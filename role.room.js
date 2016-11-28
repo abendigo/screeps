@@ -175,10 +175,10 @@ var role = {
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'wallcrew'});
                 }
-            } else if (creeps.scout && creeps['scout'].length < 1) {
-                if (room.energyAvailable >= 330) {
-                    spawn.createCreep([ATTACK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'scout'});
-                }
+            // } else if (creeps.scout && creeps['scout'].length < 1) {
+            //     if (room.energyAvailable >= 330) {
+            //         spawn.createCreep([ATTACK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'scout'});
+            //     }
             } else {
                 // if (energyAvailable >= 600) {
                 //     Game.spawns[home].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
