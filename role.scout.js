@@ -30,9 +30,27 @@ var roleScout = {
             }
 
             if (!creep.memory.work) {
-                if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                let rc = creep.harvest(source);
+
+                if (rc === ERR_OK) {
+                    let here = creep.pos.look();
+                    let foundStructure = false;
+                    for (group of here) {
+                        if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES) {
+                            foundStructure = true;
+                        }
+                    }
+
+                    if (!foundStructure) {
+                        rc = creep.pos.createConstructionSite(STRUCTURE_CONTAINER);
+                    }
+                } else if (rc === ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
-                }
+                } 
+            } else {
+                let target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+                if (target)
+                    creep.build(target);
             }
 
         // } else if (creep.room.name === 'W63S23') {  // Target
