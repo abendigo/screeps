@@ -40,11 +40,20 @@ var role = {
         // }
 
         let sources = room.find(FIND_SOURCES);
-        for (let next in sources) {
-            console.log('in', next)
-        }
+        // for (let next in sources) {
+        //     console.log('in', next)
+        // }
         for (let next of sources) {
             console.log('of', next)
+            if (!room.memory.sources[source.id]) {
+                room.memory.sources[source.id] = 'available';
+            } else {
+                if (room.memory.sources[source.id] !== 'available') {
+                    if (!Game.creeps[room.memory.sources[source.id]]) {
+                        room.memory.sources[source.id] = 'available';
+                    }
+                }
+            }
         }
 
     if (room.energyCapacityAvailable >= 300) {
