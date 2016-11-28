@@ -27,10 +27,9 @@ var role = {
         let spawn;
 
 
-        if (!room.memory.sources) {
+        // if (!room.memory.sources) {
             room.memory.sources = {};
-        }
-        console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+        // }
         // for (let next in room.memory.sources) {
         //     let source = Game.getObjectById(next);
         //     if (!source) {
@@ -44,17 +43,15 @@ var role = {
         //     console.log('in', next)
         // }
         for (let source of sources) {
-            console.log('of', source)
             if (!room.memory.sources[source.id]) {
                 room.memory.sources[source.id] = 'available';
             } else {
-                if (room.memory.sources[source.id] !== 'available') {
-                    if (!Game.creeps[room.memory.sources[source.id]]) {
-                        room.memory.sources[source.id] = 'available';
-                    }
+                if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
+                    room.memory.sources[source.id] = 'available';
                 }
             }
         }
+        console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
 
     if (room.energyCapacityAvailable >= 300) {
 
