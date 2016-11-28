@@ -25,6 +25,28 @@ var role = {
 
         let containers;
         let spawn;
+
+
+        if (!room.memory.sources) {
+            room.memory.sources = {};
+        }
+        console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+        // for (let next in room.memory.sources) {
+        //     let source = Game.getObjectById(next);
+        //     if (!source) {
+        //         console.log('removing old source')
+        //         delete room.memory.sources[source];
+        //     }
+        // }
+
+        let sources = room.find(FIND_SOURCES);
+        for (let next in sources) {
+            console.log('in', next)
+        }
+        for (let next of sources) {
+            console.log('of', next)
+        }
+
     if (room.energyCapacityAvailable >= 300) {
 
         let spawns = room.find(FIND_STRUCTURES, {
