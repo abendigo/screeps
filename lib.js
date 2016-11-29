@@ -50,17 +50,17 @@ let lib = {
 
     createRoadsAndQueueRepairs: (creep) => {
         // console.log(`createRoadsAndQueueRepairs: ${creep.name} ${creep.memory.role}`)
-        let here = creep.pos.look();
-        let foundStructure = false;
-        for (group of here) {
-            if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES) {
-                foundStructure = true;
-            }
-        }
+        // let here = creep.pos.look();
+        // let foundStructure = false;
+        // for (group of here) {
+        //     if (group.type === LOOK_CONSTRUCTION_SITES || group.type === LOOK_STRUCTURES) {
+        //         foundStructure = true;
+        //     }
+        // }
 
-        if (!foundStructure) {
-            rc = creep.pos.createConstructionSite(STRUCTURE_ROAD);
-        }
+        // if (!foundStructure) {
+        //     rc = creep.pos.createConstructionSite(STRUCTURE_ROAD);
+        // }
     }
 };
 
