@@ -2,7 +2,8 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log(`${creep.name} is ${creep.memory.role}: ${creep.carry.energy}`);
+        // console.log(`${creep.name} is ${creep.memory.role}: ${creep.carry.energy}`);
+
         if (creep.fatigue || creep.spawning)
             return;
 
