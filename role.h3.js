@@ -16,7 +16,14 @@ var role = {
                     return creep.room.memory.sources[structure.id] == 'available';
                 }
             });
-            console.log('source', source);
+
+            if (source) {
+                creep.room.memory.sources[source.id] = creep.name;
+                creep.memory.source = source.id;
+            } else {
+                console.log(creep.name, 'HELP NO EMPTY SOURCES');
+                creep.suicide();
+            }
         }
     }
 };
