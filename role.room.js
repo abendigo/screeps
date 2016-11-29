@@ -112,7 +112,7 @@ var role = {
                 if (room.energyAvailable >= 300) {
                     var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
                 }
-            } else if (containers && creeps['h2'].length < containers.length) {
+            } else if (creeps['h2'].length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
@@ -134,7 +134,7 @@ var role = {
                 if (room.energyAvailable >= 300) {
                     var name = spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
                 }
-            } else if (creeps['h2'].length < containers.length) {
+            } else if (creeps['h2'].length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
@@ -168,7 +168,7 @@ var role = {
                 }
             }
         } else if (room.energyCapacityAvailable <= 800) {
-            if (creeps['h2'].length < containers.length) {
+            if (creeps['h2'].length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
@@ -222,7 +222,7 @@ var role = {
                 // }
             }
         } else {
-            if (creeps['h2'].length < containers.length) {
+            if (creeps['h2'].length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
                 }
