@@ -25,7 +25,7 @@ var roleUpgrader = {
 
         if (!creep.memory.upgrading) {
             let storage = (creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: structure => structure.structureType === STRUCTURE_STORAGE
+                filter: structure => structure.structureType === STRUCTURE_STORAGE && structure.energy > 0
             }));
             if (storage) {
                 if (creep.withdraw(storage, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
