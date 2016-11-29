@@ -192,8 +192,11 @@ var role = {
             if (sources.length > creeps.h3.length) {
                 if (room.energyAvailable > 250)
                     spawn.createCreep([WORK,WORK,MOVE], undefined, {role: 'h3'});
-            }
-            else if (creeps['litter'].length < 2) {
+            } else if (creeps['harvester'].length < 1) {
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                }
+            } else if (creeps['litter'].length < 2) {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
                 }
@@ -209,10 +212,6 @@ var role = {
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
-            // } else if (creeps['harvester'].length < 1) {
-            //     if (energyAvailable >= 550) {
-            //         Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
-            //     }
             // } else if (creeps['sweeper'].length < 2) {
             //     if (room.energyAvailable > 350) {
             //         spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
@@ -250,8 +249,11 @@ var role = {
             if (sources.length > creeps.h3.length) {
                 if (room.energyAvailable > 250)
                     spawn.createCreep([WORK,WORK,MOVE], undefined, {role: 'h3'});
-            }
-            else if (creeps['litter'].length < 2) {
+            } else if (creeps['harvester'].length < 1) {
+                if (room.energyAvailable >= 300) {
+                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+                }
+            } else if (creeps['litter'].length < 2) {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
                 }
