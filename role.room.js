@@ -102,7 +102,7 @@ var role = {
         });
 
         if (room.energyCapacityAvailable > 300) {
-            console.log('${room.name} ${sources.length} ${creeps.h3.length}')
+            console.log(`${room.name} ${sources.length} ${creeps.h3.length}`)
             if (sources.length < creeps.h3.length) {
                 spawn.createCreep([WORK,WORK,MOVE], undefined, {role: 'h3'});
             }
