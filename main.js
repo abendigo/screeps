@@ -22,6 +22,12 @@ var roleRoom = require('role.room');
     'wallcrew': require('role.wallcrew'),
  };
 
+ class Foo {
+     constructor(name) {
+         
+     }
+ }
+
 console.log('scout', roles.scout)
 
 module.exports.loop = function () {
