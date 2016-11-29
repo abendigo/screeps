@@ -26,6 +26,9 @@ var role = {
         if (creep.memory.source) {
             let target = Game.getObjectById(creep.memory.source);
             console.log('target', target);
+
+            let rc = creep.moveTo(target);
+            console.log('rc', rc)
         }
     }
 };
