@@ -53,12 +53,12 @@ var role = {
         }
         console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
 
-    if (room.energyCapacityAvailable >= 300) {
-
         let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
-        spawn = spawns[0];
+    if (room.energyCapacityAvailable >= 300) {
+
+        //spawn = spawns[0];
         // console.log('spawn', spawn)
 
 
