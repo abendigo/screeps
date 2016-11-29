@@ -4,7 +4,8 @@ var role = {
 
     /** @param {Creep} creep **/
     run: function(creep, options) {
-        console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name}`)
+        // console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name}`)
+
         if (creep.fatigue || creep.spawning)
             return;
 

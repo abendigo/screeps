@@ -3,7 +3,7 @@ var roleTower = require('role.tower');
 
 var role = {
     run: function(room, roles) {
-        console.log(`xxxxxx Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
+        console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
 
         // let roads = room.find(FIND_CONSTRUCTION_SITES, {
         //     filter: structure => structure.structureType == STRUCTURE_ROAD
@@ -51,7 +51,7 @@ var role = {
                 }
             }
         }
-        console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+        // console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
 
         if (room.energyCapacityAvailable >= 300) {
 
