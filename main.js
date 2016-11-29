@@ -11,7 +11,7 @@ var roleRoom = require('role.room');
     // 'harvester': require('role.harvester'),
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
-    'scout': require('role.scout'),
+    // 'scout': require('role.scout'),
     'sweeper': require('role.sweeper'),
     'litter': require('role.litter'),
     // 'sweeper2': require('role.litter'),
@@ -21,14 +21,6 @@ var roleRoom = require('role.room');
     'upgrader': require('role.upgrader'),
     'wallcrew': require('role.wallcrew'),
  };
-
- class Foo {
-     constructor(name) {
-         
-     }
- }
-
-console.log('scout', roles.scout)
 
 module.exports.loop = function () {
     // Clean up memory of dead creeps
