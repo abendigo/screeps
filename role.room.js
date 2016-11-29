@@ -53,12 +53,12 @@ var role = {
         }
         console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
 
+    if (room.energyCapacityAvailable >= 300) {
+
         let spawns = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_SPAWN
         });
-    if (room.energyCapacityAvailable >= 300) {
-
-        //spawn = spawns[0];
+        spawn = spawns[0];
         // console.log('spawn', spawn)
 
 
@@ -102,7 +102,7 @@ var role = {
         });
 
         if (room.energyCapacityAvailable > 300) {
-            if (spawns.length < creeps.h3.length) {
+            if (sources.length < creeps.h3.length) {
                 spawn.createCreep([WORK,WORK,MOVE], undefined, {role: 'h3'});
             }
         }
