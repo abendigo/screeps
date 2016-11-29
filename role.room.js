@@ -102,11 +102,11 @@ var role = {
         });
 
         if (room.energyCapacityAvailable < 300) {
-            if (creeps.scout.length < 1) {
-                if (Game.rooms['W63S24'].energyAvailable >= 330) {
-                    Game.spawns['home'].createCreep([ATTACK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'scout'});
-                }
-            }
+            // if (creeps.scout.length < 1) {
+            //     if (Game.rooms['W63S24'].energyAvailable >= 330) {
+            //         Game.spawns['home'].createCreep([ATTACK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'scout'});
+            //     }
+            // }
         } else if (room.energyCapacityAvailable <= 400) {
             if (containers && containers.length < 2 && creeps.harvester.length < 2) {
                 if (room.energyAvailable >= 300) {
