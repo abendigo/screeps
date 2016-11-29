@@ -25,10 +25,9 @@ var role = {
 
         if (creep.memory.source) {
             let target = Game.getObjectById(creep.memory.source);
-            console.log('target', target);
-
-            let rc = creep.moveTo(target);
-            console.log('rc', rc)
+            if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            }
         }
     }
 };
