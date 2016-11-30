@@ -1,6 +1,32 @@
 let lib = require('lib');
 
 var role = {
+    preprocess: function() {
+        if (!room.memory.sources) {
+            room.memory.sources = {};
+        }
+        // for (let next in room.memory.sources) {
+        //     let source = Game.getObjectById(next);
+        //     if (!source) {
+        //         console.log('removing old source')
+        //         delete room.memory.sources[source];
+        //     }
+        // }
+        // for (let next in sources) {
+        //     console.log('in', next)
+        // }
+        for (let source of sources) {
+            if (!room.memory.sources[source.id]) {
+                room.memory.sources[source.id] = 'available';
+            } else {
+                if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
+                    room.memory.sources[source.id] = 'available';
+                }
+            }
+        }
+        // console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+    },
+
     run: function(creep) {
         // console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name}`);
 

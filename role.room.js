@@ -27,31 +27,9 @@ var role = {
         let spawn;
 
 
-        if (!room.memory.sources) {
-            room.memory.sources = {};
-        }
-        // for (let next in room.memory.sources) {
-        //     let source = Game.getObjectById(next);
-        //     if (!source) {
-        //         console.log('removing old source')
-        //         delete room.memory.sources[source];
-        //     }
-        // }
 
         let sources = room.find(FIND_SOURCES);
-        // for (let next in sources) {
-        //     console.log('in', next)
-        // }
-        for (let source of sources) {
-            if (!room.memory.sources[source.id]) {
-                room.memory.sources[source.id] = 'available';
-            } else {
-                if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
-                    room.memory.sources[source.id] = 'available';
-                }
-            }
-        }
-        // console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+        roles.h3.preprocess(sources);
 
         if (room.energyCapacityAvailable >= 300) {
 
