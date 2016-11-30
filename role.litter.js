@@ -88,7 +88,7 @@ var role = {
                 });
 
                 if (target) {
-                    creep.room.memory[key][source.id] = creep.name;
+                    creep.room.memory[key][target.id] = creep.name;
                     creep.memory.target = target.id;
                 }
             }
