@@ -83,7 +83,7 @@ var role = {
                     creep.memory.target = false;
                 }
             } else if (creep.carry.energy > 0) {
-                creep.memory.state === 'deliver';
+                creep.memory.state = 'deliver';
             } else {
                 lib.park(creep);
             }
