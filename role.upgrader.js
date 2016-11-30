@@ -20,25 +20,30 @@ var roleUpgrader = {
         }
 
 
-        lib.createRoadsAndQueueRepairs(creep);
+        // lib.createRoadsAndQueueRepairs(creep);
 
 
         if (!creep.memory.upgrading) {
-            let storage = (creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: structure => structure.structureType === STRUCTURE_STORAGE && structure.energy > 0
-            }));
-            if (storage) {
-                if (creep.withdraw(storage, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    rc = creep.moveTo(storage);
+            let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
                 }
+            });
+            if (!container && creep.room.energyAvailable > 700) {
+                container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
+                               (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50);
+                    }
+                });
             }
-            else if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
-                if (creep.carry.energy > 0) {
-                    creep.memory.upgrading = true;
-                    creep.say('upgrading');
-                } else {
-                    lib.park(creep);
+
+            if (container) {
+                if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    rc = creep.moveTo(container);
                 }
+            } else {
+                lib.park(creep);
             }
         }
         else {
