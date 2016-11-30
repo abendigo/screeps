@@ -24,7 +24,7 @@ var roleUpgrader = {
 
 
         if (!creep.memory.upgrading) {
-console.log('111')
+console.log('111', creep.room.name, creep.room.energyAvailable)
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
