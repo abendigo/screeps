@@ -162,8 +162,8 @@ var role = {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
                 }
             } else if (creeps['litter'].length < 2) {
-                if (room.energyAvailable > 350) {
-                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
+                if (room.energyAvailable > 700) {
+                    spawn.createCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
                 }
             } else if (creeps['transport'].length < 1) {
                 if (room.energyAvailable > 350) {
