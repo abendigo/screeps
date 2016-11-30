@@ -86,7 +86,6 @@ var role = {
         });
 
         if (room.name === 'W63S23') {
-console.log('here i am')            
             // if (creeps['h2'].length < 1) {
             //     if (room.energyAvailable >= 300) {
             //         spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
@@ -119,17 +118,14 @@ console.log('here i am')
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'towertransport'});
                 }
             } else if (creeps['roadcrew'].length < 1) {
-console.log('======== build roadcrew')
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'roadcrew'});
                 }
 //             } else if (creeps['builder'].length < 1) {
-// console.log('======== build builder')
 //                 if (room.energyAvailable >= 500) {
 //                     spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
                 }
             } else if (creeps['upgrader'].length < 2) {
-console.log('======== build upgrader')
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
