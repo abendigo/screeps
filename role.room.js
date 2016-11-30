@@ -29,7 +29,7 @@ var role = {
 
 
         let sources = room.find(FIND_SOURCES);
-        roles.h3.preprocess(sources);
+        roles.h3.preprocess(room, sources);
 
         if (room.energyCapacityAvailable >= 300) {
 

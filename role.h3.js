@@ -1,7 +1,7 @@
 let lib = require('lib');
 
 var role = {
-    preprocess: function() {
+    preprocess: function(roo, sources) {
         if (!room.memory.sources) {
             room.memory.sources = {};
         }
