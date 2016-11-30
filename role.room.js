@@ -117,9 +117,8 @@ var role = {
                 if (room.energyAvailable >= 550) {
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
                 }
-            } else if (room.energyAvailable >= 1000) {
-console.log('==================================================')                
-                spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+//             } else if (room.energyAvailable >= 1000) {
+//                 spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
             // } else if (creeps['harvester'].length < 1) {
             //     if (energyAvailable >= 550) {
             //         Game.spawns[home].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
