@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     preprocess: function(room) {
-        let litter = creep.room.find(FIND_DROPPED_ENERGY);
+        let litter = room.find(FIND_DROPPED_ENERGY);
         console.log('litter', litter.length);
     },
 
