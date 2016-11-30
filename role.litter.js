@@ -14,6 +14,8 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
+        console.log(`${creep.room.name} ${creep.name} ${creep.memory.role} ${creep.memory.target}`)
+
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
 
 	    if (creep.memory.deliver && creep.carry.energy == 0) {
@@ -102,19 +104,12 @@ var role = {
             if (creep.memory.target) {
                 let object = Game.getObjectById(creep.memory.target);
                 console.log('====== object', object)
-            // if (litter.length) {
-                // let target = litter[0];
-
-                // for (let i = 1; i < litter.length; i++) {
-                //     // console.log(target.amount, '<', litter[i].amount);
-                //     if (target.amount < litter[i].amount) {
-                //         target = litter[i];
-                //     }
-                // }
-                // let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-
-                if (creep.pickup(object) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(object);
+                if (object) {
+                    if (creep.pickup(object) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(object);
+                    }
+                } else {
+                    creep.memory.target = false;
                 }
             } else if (creep.carry.energy > 0) {
                 creep.memory.deliver = true;
