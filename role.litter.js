@@ -3,10 +3,6 @@ let lib = require('lib');
 var role = {
     preprocess: function(room) {
         let litter = room.find(FIND_DROPPED_ENERGY);
-        console.log('litter', litter.length);
-        if (litter.length)
-            console.log('id', litter[0].id)
-
         lib.cleanupAssignments(room, 'litter', litter);            
     },
 
@@ -14,7 +10,7 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
 
@@ -74,7 +70,6 @@ var role = {
 
             if (creep.memory.target) {
                 let object = Game.getObjectById(creep.memory.target);
-                console.log('====== object', object)
                 if (object) {
                     if (creep.pickup(object) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(object);
