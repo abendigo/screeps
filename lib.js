@@ -61,6 +61,37 @@ let lib = {
         // if (!foundStructure) {
         //     rc = creep.pos.createConstructionSite(STRUCTURE_ROAD);
         // }
+    },
+
+    preprocessAssignments: (room, key, targets) => {
+        console.log(`${room.name}: updateAssignments(${key})`)
+
+        if (!room.memory[key]) {
+            room.memory[key] = {};
+        }
+
+        let memory = room.memory[key];
+        for (let next in memory) {
+            let object = Game.getObjectById(next);
+            console.log('object', next, object)
+            // if (!source) {
+            //     console.log('removing old source')
+            //     delete room.memory.sources[source];
+            // }
+        }
+        // for (let next in sources) {
+        //     console.log('in', next)
+        // }
+        // for (let source of sources) {
+        //     if (!room.memory.sources[source.id]) {
+        //         room.memory.sources[source.id] = 'available';
+        //     } else {
+        //         if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
+        //             room.memory.sources[source.id] = 'available';
+        //         }
+        //     }
+        // }
+        console.log(`memory: ${JSON.stringify(memory)}`)
     }
 };
 

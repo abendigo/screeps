@@ -6,6 +6,32 @@ var role = {
         console.log('litter', litter.length);
         if (litter.length)
             console.log('id', litter[0].id)
+
+        lib.preprocessAssignments(room, 'litter', litter);            
+/*
+        if (!room.memory.litter) {
+            room.memory.litter = {};
+        }
+        // for (let next in room.memory.sources) {
+        //     let source = Game.getObjectById(next);
+        //     if (!source) {
+        //         console.log('removing old source')
+        //         delete room.memory.sources[source];
+        //     }
+        // }
+        // for (let next in sources) {
+        //     console.log('in', next)
+        // }
+        for (let source of sources) {
+            if (!room.memory.sources[source.id]) {
+                room.memory.sources[source.id] = 'available';
+            } else {
+                if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
+                    room.memory.sources[source.id] = 'available';
+                }
+            }
+        }
+*/        
     },
 
     run: function(creep, options) {
