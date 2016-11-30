@@ -110,10 +110,10 @@ console.log('here i am')
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
                 }
-            } else if (creeps['builder'].length < 2) {
-                if (room.energyAvailable >= 500) {
-                    spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
-                }
+            // } else if (creeps['builder'].length < 2) {
+            //     if (room.energyAvailable >= 500) {
+            //         spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+            //     }
             } else if (creeps.towertransport.length < towers.length) {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'towertransport'});
