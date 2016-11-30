@@ -4,6 +4,8 @@ var role = {
     preprocess: function(room) {
         let litter = room.find(FIND_DROPPED_ENERGY);
         console.log('litter', litter.length);
+        if (litter.length)
+            console.log('id', litter[0].id)
     },
 
     run: function(creep, options) {
