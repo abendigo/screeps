@@ -86,6 +86,7 @@ var role = {
         });
 
         if (room.name === 'W63S23') {
+console.log('here i am')            
             // if (creeps['h2'].length < 1) {
             //     if (room.energyAvailable >= 300) {
             //         spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
