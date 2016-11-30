@@ -113,10 +113,10 @@ var role = {
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'towertransport'});
                 }
-            // } else if (creeps['upgrader'].length < 2) {
-            //     if (room.energyAvailable >= 550) {
-            //         spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
-            //     }
+            } else if (creeps['upgrader'].length < 2) {
+                if (room.energyAvailable >= 550) {
+                    spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+                }
             // } else if (room.energyAvailable === 800) {
             //     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
             // } else if (creeps['harvester'].length < 1) {
