@@ -119,7 +119,7 @@ console.log('======== build roadcrew')
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'roadcrew'});
                 }
-            } else if (creeps['builder'].length < 1) {
+            } else if (creeps['builder'].length < 3) {
 console.log('======== build builder')
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
