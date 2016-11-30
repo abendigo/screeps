@@ -14,7 +14,7 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.mempry.state}] ${creep.memory.target}`)
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
 
