@@ -63,8 +63,8 @@ let lib = {
         // }
     },
 
-    preprocessAssignments: (room, key, targets) => {
-        console.log(`${room.name}: updateAssignments(${key})`)
+    cleanupAssignments: (room, key, targets) => {
+        // console.log(`${room.name}: cleanupAssignments(${key})`)
 
         if (!room.memory[key]) {
             room.memory[key] = {};
@@ -73,15 +73,10 @@ let lib = {
         let memory = room.memory[key];
         for (let next in memory) {
             let object = Game.getObjectById(next);
-            console.log('object', next, object)
-            // if (!source) {
-            //     console.log('removing old source')
-            //     delete room.memory.sources[source];
-            // }
+            if (!object) {
+                delete memory[next];
+            }
         }
-        // for (let next in sources) {
-        //     console.log('in', next)
-        // }
         for (let target of targets) {
             console.log('target', target)
             if (!memory[target.id]) {
@@ -92,7 +87,6 @@ let lib = {
                 }
             }
         }
-        console.log(`memory: ${JSON.stringify(memory)}`)
     }
 };
 

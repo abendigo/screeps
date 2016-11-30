@@ -7,31 +7,7 @@ var role = {
         if (litter.length)
             console.log('id', litter[0].id)
 
-        lib.preprocessAssignments(room, 'litter', litter);            
-/*
-        if (!room.memory.litter) {
-            room.memory.litter = {};
-        }
-        // for (let next in room.memory.sources) {
-        //     let source = Game.getObjectById(next);
-        //     if (!source) {
-        //         console.log('removing old source')
-        //         delete room.memory.sources[source];
-        //     }
-        // }
-        // for (let next in sources) {
-        //     console.log('in', next)
-        // }
-        for (let source of sources) {
-            if (!room.memory.sources[source.id]) {
-                room.memory.sources[source.id] = 'available';
-            } else {
-                if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
-                    room.memory.sources[source.id] = 'available';
-                }
-            }
-        }
-*/        
+        lib.cleanupAssignments(room, 'litter', litter);            
     },
 
     run: function(creep, options) {
@@ -50,6 +26,24 @@ var role = {
 	    }
 
         // Find dropped ENERGY and store it in EXTENSIONS or SPAWN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if (creep.memory.deliver) {
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -83,7 +77,32 @@ var role = {
                 }
             }
         } else {
-            if (litter.length) {
+
+
+            let key = 'litter';
+            if (!creep.memory.target && creep.room.memory[key]) {
+                let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY, {
+                    filter: structure => {
+                        return creep.room.memory[key][structure.id] === 'available';
+                    }
+                });
+
+                if (target) {
+                    creep.room.memory[key][source.id] = creep.name;
+                    creep.memory.target = target.id;
+                }
+            }
+
+
+
+
+
+
+
+            if (creep.memory.target) {
+                let object = Game.getObjectById(creep.memory.target);
+                console.log('====== object', object)
+            // if (litter.length) {
                 // let target = litter[0];
 
                 // for (let i = 1; i < litter.length; i++) {
@@ -92,10 +111,10 @@ var role = {
                 //         target = litter[i];
                 //     }
                 // }
-                let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+                // let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
 
-                if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                if (creep.pickup(object) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(object);
                 }
             } else if (creep.carry.energy > 0) {
                 creep.memory.deliver = true;
