@@ -181,7 +181,7 @@ console.log('======== build upgrader')
                 if (room.energyAvailable > 350) {
                     spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'sweeper'});
                 }
-            } else if (creeps['builder'].length < 1) {
+            } else if (creeps['builder'].length < 3) {
                 if (room.energyAvailable >= 500) {
                     spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
                 }
