@@ -26,11 +26,16 @@ var role = {
         let containers;
         let spawn;
 
+        let context = {};
+        function prepareContext() {
+            context.sources = room.find(FIND_SOURCES);
+        }
+        prepareContext();
 
+        roles.h3.preprocess(room, context);
+        roles.litter.preprocess(room, context);
 
-        let sources = room.find(FIND_SOURCES);
-        roles.h3.preprocess(room, sources);
-
+        let sources = context.sources;
         if (room.energyCapacityAvailable >= 300) {
 
             let spawns = room.find(FIND_STRUCTURES, {

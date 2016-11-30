@@ -1,7 +1,14 @@
 let lib = require('lib');
 
 var role = {
-    preprocess: function(room, sources) {
+    preprocess: function(room, context) {
+
+        // if (!context.sources) {
+        //     context.sources = room.find(FIND_SOURCES);
+        // }
+        let sources = context.sources;
+
+
         if (!room.memory.sources) {
             room.memory.sources = {};
         }

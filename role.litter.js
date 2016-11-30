@@ -1,8 +1,9 @@
 let lib = require('lib');
 
 var role = {
+    preprocess: function(room) {
+    },
 
-    /** @param {Creep} creep **/
     run: function(creep, options) {
         if (creep.fatigue || creep.spawning)
             return;
