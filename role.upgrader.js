@@ -26,6 +26,7 @@ var roleUpgrader = {
         if (!creep.memory.upgrading) {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
+                    console.log('type', structure.structureType, STRUCTURE_STORAGE, structure.energy)
                     return structure.structureType == STRUCTURE_STORAGE && structure.energy >= 50;
                 }
             });
