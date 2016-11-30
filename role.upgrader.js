@@ -24,12 +24,14 @@ var roleUpgrader = {
 
 
         if (!creep.memory.upgrading) {
+console.log('111')
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
                 }
             });
             if (!container && creep.room.energyAvailable > 700) {
+console.log('112')
                 container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
@@ -39,10 +41,12 @@ var roleUpgrader = {
             }
 
             if (container) {
+console.log('114')
                 if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     rc = creep.moveTo(container);
                 }
             } else {
+console.log('118')
                 lib.park(creep);
             }
         }
