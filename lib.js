@@ -82,15 +82,16 @@ let lib = {
         // for (let next in sources) {
         //     console.log('in', next)
         // }
-        // for (let source of sources) {
-        //     if (!room.memory.sources[source.id]) {
-        //         room.memory.sources[source.id] = 'available';
-        //     } else {
-        //         if (room.memory.sources[source.id] !== 'available' && !Game.creeps[room.memory.sources[source.id]]) {
-        //             room.memory.sources[source.id] = 'available';
-        //         }
-        //     }
-        // }
+        for (let target of targets) {
+            console.log('target', target)
+            if (!memory[target.id]) {
+                memory[target.id] = 'available';
+            } else {
+                if (memory[target.id] !== 'available' && !Game.creeps[memory[target.id]]) {
+                    memory[target.id] = 'available';
+                }
+            }
+        }
         console.log(`memory: ${JSON.stringify(memory)}`)
     }
 };
