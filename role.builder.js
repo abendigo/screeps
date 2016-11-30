@@ -47,8 +47,6 @@ let roleBuilder = {
 	    else {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    if (structure.structureType === STRUCTURE_STORAGE)
-                        console.log('type', structure.structureType, STRUCTURE_STORAGE, structure.store[RESOURCE_ENERGY])
                     return structure.structureType === STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= 50;
                 }
             });
