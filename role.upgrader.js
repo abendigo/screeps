@@ -26,9 +26,16 @@ var roleUpgrader = {
         if (!creep.memory.upgrading) {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
+                    return structure.structureType == STRUCTURE_STORAGE && structure.energy >= 50;
                 }
             });
+            if (!container) {
+                container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
+                    }
+                });
+            }
             if (!container && creep.room.energyAvailable > 700) {
                 container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
