@@ -47,9 +47,18 @@ let roleBuilder = {
 	    else {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
+                    if (structure.structureType === STRUCTURE_STORAGE)
+                        console.log('type', structure.structureType, STRUCTURE_STORAGE, structure.store[RESOURCE_ENERGY])
+                    return structure.structureType === STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= 50;
                 }
             });
+            if (!container) {
+                container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50
+                    }
+                });
+            }
             if (!container && creep.room.energyAvailable > 700) {
                 container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
