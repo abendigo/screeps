@@ -78,7 +78,6 @@ let lib = {
             }
         }
         for (let target of targets) {
-            console.log('target', target)
             if (!memory[target.id]) {
                 memory[target.id] = 'available';
             } else {
