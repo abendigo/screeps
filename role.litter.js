@@ -14,40 +14,19 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.room.name} ${creep.name} ${creep.memory.role} ${creep.memory.target}`)
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.mempry.state}] ${creep.memory.target}`)
 
         var litter = creep.room.find(FIND_DROPPED_ENERGY);
 
-	    if (creep.memory.deliver && creep.carry.energy == 0) {
-            creep.memory.deliver = false;
-            creep.say('sweeping');
+	    if (creep.memory.state === 'deliver' && creep.carry.energy == 0) {
+            creep.memory.state = 'sweep';
 	    }
-	    if (!creep.memory.deliver && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.deliver = true;
-	        creep.say('deliver');
+	    if (creep.memory.state !== 'deliver' && creep.carry.energy == creep.carryCapacity) {
+	        creep.memory.state = 'deliver';
 	    }
 
         // Find dropped ENERGY and store it in EXTENSIONS or SPAWN
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        if (creep.memory.deliver) {
+        if (creep.memory.state === 'deliver') {
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
@@ -79,8 +58,6 @@ var role = {
                 }
             }
         } else {
-
-
             let key = 'litter';
             if (!creep.memory.target && creep.room.memory[key]) {
                 let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY, {
@@ -95,12 +72,6 @@ var role = {
                 }
             }
 
-
-
-
-
-
-
             if (creep.memory.target) {
                 let object = Game.getObjectById(creep.memory.target);
                 console.log('====== object', object)
@@ -112,20 +83,9 @@ var role = {
                     creep.memory.target = false;
                 }
             } else if (creep.carry.energy > 0) {
-                creep.memory.deliver = true;
-                creep.say('deliver');
+                creep.memory.state === 'deliver';
             } else {
                 lib.park(creep);
-                // creep.say('park');
-                // let flag = creep.room.find(FIND_FLAGS, {
-                //     filter: structure => {
-                //         console.log(structure.name);
-                //         return structure.name.startsWith('parking');
-                //     }
-                // });
-                // console.log('flg', flag)
-                // let rc = creep.moveTo(Game.flags.parking);
-                // console.log('rc', rc)
             }
         }
     }
