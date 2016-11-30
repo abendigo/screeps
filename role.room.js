@@ -101,8 +101,8 @@ var role = {
                     spawn.createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
                 }
             } else if (creeps['transport'].length < 1) {
-                if (room.energyAvailable > 350) {
-                    spawn.createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
+                if (room.energyAvailable > 700) {
+                    spawn.createCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'transport'});
                 }
             } else if (creeps.towertransport.length < towers.length) {
                 if (room.energyAvailable > 350) {
