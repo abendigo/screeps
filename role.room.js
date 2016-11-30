@@ -108,8 +108,8 @@ var role = {
             //         spawn.createCreep([WORK,WORK,MOVE,MOVE], undefined, {role: 'h2'});
             //     }
             if (sources.length > creeps.h3.length) {
-                if (room.energyAvailable > 250)
-                    spawn.createCreep([WORK,WORK,MOVE], undefined, {role: 'h3'});
+                if (room.energyAvailable > 550)
+                    spawn.createCreep([WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'h3'});
             } else if (creeps['harvester'].length < 1) {
                 if (room.energyAvailable >= 300) {
                     spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
