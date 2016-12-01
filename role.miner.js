@@ -26,7 +26,7 @@ var role = {
                 resource = creep.pos.findClosestByRange(FIND_MINERALS);
                 creep.memory.target = resource.id;
             } else {
-                resource = Game.getObejctById(creep.memory.target);
+                resource = Game.getObjectById(creep.memory.target);
             }
             if (resource) {
                 if (creep.harvest(resource) === ERR_NOT_IN_RANGE)
