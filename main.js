@@ -21,6 +21,7 @@ var roleRoom = require('role.room');
     'upgrader': require('role.upgrader'),
     'wallcrew': require('role.wallcrew'),
     'miner': require('role.miner'),
+    'marketTransport': require('role.marketTransport') 
  };
 
 module.exports.loop = function () {
