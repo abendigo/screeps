@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     preprocess: function(room) {
-        let litter = room.find(FIND_DROPPED_ENERGY);
+        let litter = room.find(FIND_DROPPED_RESOURCES);
 //        lib.cleanupAssignments(room, 'litter', litter);
         let key = 'litter';
         let targets = litter;
@@ -39,12 +39,13 @@ var role = {
 
         // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
-        var litter = creep.room.find(FIND_DROPPED_ENERGY);
+        var litter = creep.room.find(FIND_DROPPED_RESOURCES);
 
-	    if (creep.memory.state === 'deliver' && creep.carry.energy == 0) {
+        let total = _.sum(creep.carry);
+	    if (creep.memory.state === 'deliver' && total == 0) {
             creep.memory.state = 'sweep';
 	    }
-	    if (creep.memory.state !== 'deliver' && creep.carry.energy == creep.carryCapacity) {
+	    if (creep.memory.state !== 'deliver' && total == creep.carryCapacity) {
 	        creep.memory.state = 'deliver';
 	    }
 
