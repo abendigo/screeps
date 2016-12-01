@@ -7,6 +7,8 @@ var roleScout = {
         if (creep.fatigue || creep.spawning)
             return;
 
+        creep.moveTo(Game.flags.scout001);
+/*
         if (creep.room.name === 'W63S24') {  // Home
             let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
@@ -87,7 +89,9 @@ var roleScout = {
             console.log('WHERE AM I?')
             creep.suicide();
         }
+*/        
     }
+    
 /*
         if(creep.memory.deliver && creep.carry.energy == 0) {
             creep.memory.deliver = false;
