@@ -174,7 +174,7 @@ var role = {
             //     if (room.energyAvailable >= 300) {
             //         spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
             //     }
-            } else if (creep.miner.length < 2) {
+            } else if (room.miner.length < 2) {
                 if (room.energyAvailable > 700) {
                     spawn.createCreep([WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'miner'});
                 }
