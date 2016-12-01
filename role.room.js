@@ -30,10 +30,10 @@ var role = {
             let context = {};
 
             context.sources = room.find(FIND_SOURCES);
-            context.containers = room.find(FIND_STRUCTURE, {
+            context.containers = room.find(FIND_STRUCTURES, {
                 filter: structure => structure.type === STRUCTURE_CONTAINER
             });
-            context.storage = room.find(FIND_STRUCTURE, {
+            context.storage = room.find(FIND_STRUCTURES, {
                 filter: structure => structure.type === STRUCTURE_STORAGE
             });
 
