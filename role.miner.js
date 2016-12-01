@@ -18,8 +18,8 @@ var role = {
         lib.createRoadsAndQueueRepairs(creep);
 
         if (creep.memory.state === 'deliver') {
-            if (creep.transfer(room.storage, RESOURCE_ZYNTHIUM) === ERR_NOT_IN_RANGE)
-                creep.moveTo(room.storage);
+            if (creep.transfer(creep.room.storage, RESOURCE_ZYNTHIUM) === ERR_NOT_IN_RANGE)
+                creep.moveTo(creep.room.storage);
         } else {
             let resource;
             if (!creep.memory.target) {
