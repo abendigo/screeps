@@ -23,9 +23,9 @@ let lib = {
         }
 
         if (source) {
-            let rc = creep.withdraw(container, RESOURCE_ENERGY);
+            let rc = creep.withdraw(source, RESOURCE_ENERGY);
             if (rc === ERR_NOT_IN_RANGE) {
-                rc = rc = creep.moveTo(container);
+                rc = rc = creep.moveTo(source);
             }
 
             return rc;
