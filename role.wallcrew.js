@@ -91,7 +91,13 @@ var role = {
             }
             }
         } else {
-            lib.refuel(creep);
+            if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
+                if (creep.carry.energy > 0) {
+                    creep.memory.repair = true;
+                } else {
+                    lib.park(creep);
+                }
+            }
         }
     }
 };
