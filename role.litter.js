@@ -3,7 +3,34 @@ let lib = require('lib');
 var role = {
     preprocess: function(room) {
         let litter = room.find(FIND_DROPPED_ENERGY);
-        lib.cleanupAssignments(room, 'litter', litter);            
+//        lib.cleanupAssignments(room, 'litter', litter);
+        let key = 'litter';
+        let targets = litter;
+
+        if (!room.memory[key]) {
+            room.memory[key] = {};
+        }
+
+        let memory = room.memory[key];
+        for (let next in memory) {
+            let object = Game.getObjectById(next);
+            if (!object) {
+                delete memory[next];
+            }
+        }
+        for (let target of targets) {
+            console.log('target', target, target.energy)
+            // let count = target.energy / 400;
+            // console.log('count', count, target.energy);
+            if (!memory[target.id]) {
+                memory[target.id] = 'available';
+            } else {
+                if (memory[target.id] !== 'available' && !Game.creeps[memory[target.id]]) {
+                    memory[target.id] = 'available';
+                }
+            }
+        }
+            
     },
 
     run: function(creep, options) {
