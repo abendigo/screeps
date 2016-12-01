@@ -12,7 +12,7 @@ var roleRoom = require('role.room');
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
     'scout': require('role.scout'),
-    'sweeper': require('role.storageTransport'),
+    // 'sweeper': require('role.storageTransport'),
     'litter': require('role.litter'),
     // 'sweeper2': require('role.litter'),
     'towertransport': require('role.towertransport'),
