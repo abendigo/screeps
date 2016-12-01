@@ -21,7 +21,7 @@ var role = {
             if (creep.transfer(room.storage, RESOURCE_ZYNTHIUM) === ERR_NOT_IN_RANGE)
                 creep.moveTo(room.storage);
         } else {
-            let resoruce = creep.pos.findClosestByRange(FIND_MINERALS);
+            let resource = creep.pos.findClosestByRange(FIND_MINERALS);
             if (resource) {
                 if (creep.harvest(resource) === ERR_NOT_IN_RANGE)
                     creep.moveTo(resource);
