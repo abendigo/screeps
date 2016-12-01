@@ -20,6 +20,7 @@ var roleRoom = require('role.room');
     // 'sweeper3': require('role.transport'),
     'upgrader': require('role.upgrader'),
     'wallcrew': require('role.wallcrew'),
+    'miner': require('role.miner'),
  };
 
 module.exports.loop = function () {

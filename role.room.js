@@ -266,8 +266,18 @@ var role = {
 
 
 
+/*
+        for (let name in Game.creeps) {
+            var creep = Game.creeps[name];
 
-
+            if (creep.room.name === room.name)
+                if (roles[creep.memory.role]) {
+                    roles[creep.memory.role].run(creep);
+                } else {
+                    console.log('no run for role:', creep.memory.role);
+                }
+        }
+*/
 
         
         for (let tower of towers) {
