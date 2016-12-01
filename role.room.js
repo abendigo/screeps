@@ -170,10 +170,10 @@ var role = {
             if (sources.length > creeps.h3.length) {
                 if (room.energyAvailable > 550)
                     spawn.createCreep([WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'h3'});
-            } else if (creeps['harvester'].length < 1) {
-                if (room.energyAvailable >= 300) {
-                    spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
-                }
+            // } else if (creeps['harvester'].length < 1) {
+            //     if (room.energyAvailable >= 300) {
+            //         spawn.createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            //     }
             } else if (creeps['litter'].length < 1) {
                 if (room.energyAvailable > 700) {
                     spawn.createCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'litter'});
