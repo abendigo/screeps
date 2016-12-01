@@ -1,41 +1,36 @@
 let lib = {
     refuel: (creep) => {
-        // console.log('refuel', creep.name, creep.memory.role)
+        // If there is a STORAGE or CONTIANER in this room:
+        //    find closest STORAGE or CONTAINER with avialable ENERGY
+        // Else 
+        //    find the closest SPAWN or EXTENSION
 
-        if (creep.room.energyCapacityAvailable < 550) {
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
-                        (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50);
-                }
+        let structures = creep.room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_CONTAINER ||
+                                 structure.structureType == STRUCTURE_STORAGE
+        });
+
+        if (structures.length) {
+            source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: structure => (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
+                                     (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= 50)
             });
-            if (container) {
-                let rc = creep.withdraw(container, RESOURCE_ENERGY);
-                if (rc === ERR_NOT_IN_RANGE) {
-                    rc = rc = creep.moveTo(container);
-                }
-
-                return rc;
-            }
         } else {
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
-                        (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
-                        (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50);
-                }
+            source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: structure => (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
+                                     (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50)
             });
+        }
 
-            if (container) {
-                let rc = creep.withdraw(container, RESOURCE_ENERGY)
-                if (rc === ERR_NOT_IN_RANGE) {
-                    rc = creep.moveTo(container);
-                }
-
-                return rc;
-            } else {
-                return ERR_NOT_ENOUGH_ENERGY;
+        if (source) {
+            let rc = creep.withdraw(container, RESOURCE_ENERGY);
+            if (rc === ERR_NOT_IN_RANGE) {
+                rc = rc = creep.moveTo(container);
             }
+
+            return rc;
+        } else {
+            return ERR_NOT_ENOUGH_ENERGY;
         }
     }, 
 
