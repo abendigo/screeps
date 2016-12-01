@@ -16,9 +16,9 @@ var role = {
             let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W62S23') {
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
-            creep.moveTo(exit);
-        } else if (creep.room.name === 'W62S22') {
+        //     let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
+        //     creep.moveTo(exit);
+        // } else if (creep.room.name === 'W62S22') {
             let spawn = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
             if (spawn) {
                 if (creep.attack(spawn) == ERR_NOT_IN_RANGE)
