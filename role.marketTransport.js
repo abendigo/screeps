@@ -11,13 +11,13 @@ var role = {
         // let storage = Game.getObjectById('5834d53ba28559d70a076e2c');
 
         let total = _.sum(creep.carry);
-        // if (creep.memory.state === 'deliver' && total == 0) {
-        //     creep.memory.state = 'mining';
-        // }
-        // if (creep.memory.state !== 'deliver' && total == creep.carryCapacity) {
-        //     creep.memory.state = 'deliver';
-        // }
-        if (total == 0) {
+        if (creep.memory.state === 'deposit' && total == 0) {
+            creep.memory.state = 'withdraw';
+        }
+        if (creep.memory.state !== 'deposit' && total == creep.carryCapacity) {
+            creep.memory.state = 'deposit';
+        }
+        if (creep.memory.state !== 'deposit') {
             creep.moveTo(creep.room.storage);
             creep.withdraw(creep.room.storage, RESOURCE_ENERGY, 50);
             creep.withdraw(creep.room.storage, RESOURCE_ZYNTHIUM, 50);
