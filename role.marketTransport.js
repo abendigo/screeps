@@ -19,12 +19,12 @@ var role = {
         // }
         if (total == 0) {
             creep.moveTo(creep.room.storage);
-            creep.withdraw(creep.room.storage, RESOURCE_ENERGY);
-            creep.withdraw(creep.room.storage, RESOURCE_ZYNTHIUM);
+            creep.withdraw(creep.room.storage, RESOURCE_ENERGY, 50);
+            creep.withdraw(creep.room.storage, RESOURCE_ZYNTHIUM, 50);
         } else {
             creep.moveTo(creep.room.terminal);
-            creep.transfer(creep.room.storage, RESOURCE_ENERGY);
-            creep.transfer(creep.room.storage, RESOURCE_ZYNTHIUM);
+            creep.transfer(creep.room.terminal, RESOURCE_ENERGY);
+            creep.transfer(creep.room.terminal, RESOURCE_ZYNTHIUM);
         }
     }
 };
