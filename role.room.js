@@ -44,7 +44,7 @@ var role = {
         roles.h3.preprocess(room, roomContext);
         roles.litter.preprocess(room, roomContext);
 
-        let sources = context.sources;
+        let sources = roomContext.sources;
         if (room.energyCapacityAvailable >= 300) {
 
             let spawns = room.find(FIND_STRUCTURES, {
