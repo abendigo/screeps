@@ -19,8 +19,10 @@ var role = {
         }
         if (creep.memory.state !== 'deposit') {
             creep.moveTo(creep.room.storage);
-            creep.withdraw(creep.room.storage, RESOURCE_ENERGY, 50);
-            creep.withdraw(creep.room.storage, RESOURCE_ZYNTHIUM, 50);
+            if (creep.carry[RESOURCE_ENERGY] === 0)
+                creep.withdraw(creep.room.storage, RESOURCE_ENERGY, 50);
+            else                
+                creep.withdraw(creep.room.storage, RESOURCE_ZYNTHIUM, 50);
         } else {
             creep.moveTo(creep.room.terminal);
             creep.transfer(creep.room.terminal, RESOURCE_ENERGY);
