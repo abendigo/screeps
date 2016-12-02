@@ -1,5 +1,5 @@
 //let lib = require('lib');
-
+console.log('role.claim ==============================================================')
 var role = {
 
     run: function(creep) {
