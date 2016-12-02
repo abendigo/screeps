@@ -13,7 +13,7 @@ var role = {
         // if (creep.memory.target) {
             let claim = Game.getObjectById('57ef9ce186f108ae6e60cf37')
             let other = Game.getObjectById(creep.memory.target);
-            console.log('claim', claim, other);
+            console.log('claim', claim.room.name, other);
 
             let rc = creep.moveTo(claim);
             console.log('rc', rc)
