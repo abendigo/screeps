@@ -12,7 +12,7 @@ var role = {
             let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W62S24') {
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_NORTH);
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W62S23') {
             let claim = Game.getObjectById('57ef9ce186f108ae6e60cf34')
