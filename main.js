@@ -22,7 +22,7 @@ var roleRoom = require('role.room');
     'wallcrew': require('role.wallcrew'),
     'miner': require('role.miner'),
     'marketTransport': require('role.marketTransport') ,
-    'swarm': require('role.swarm') ,
+    'claim': require('role.claim') ,
  };
 
 module.exports.loop = function () {
