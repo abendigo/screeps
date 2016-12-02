@@ -12,8 +12,7 @@ var role = {
 
         if (creep.memory.target) {
             let claim = Game.getObjectById(creep.memory.target)
-            if (claim)
-                console.log('claim', claim);
+            console.log('claim', claim);
         }
         // if (creep.reserveController(claim) == ERR_NOT_IN_RANGE)
         //     creep.moveTo(claim);
