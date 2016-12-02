@@ -3,7 +3,7 @@ var roleRoom = require('role.room');
 
  let roles = {
     'builder': require('role.builder'),
-    // 'claim': require('role.claim'),
+    'claim': require('role.claim'),
     // 'claimbuilder': require('role.claimbuilder'),
     // 'claimupgrader': require('role.claimupgrader'),
  	// 'h2': require('role.h2'),
@@ -22,7 +22,6 @@ var roleRoom = require('role.room');
     'wallcrew': require('role.wallcrew'),
     'miner': require('role.miner'),
     'marketTransport': require('role.marketTransport') ,
-    'claim': require('role.claim') ,
  };
 
 module.exports.loop = function () {
