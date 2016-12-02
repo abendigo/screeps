@@ -10,10 +10,10 @@ var role = {
         // if (!creep.memory.target)
         //     creep.memory.target = '57ef9ce186f108ae6e60cf37';
 
-        if (creep.memory.target) {
-            let claim = Game.getObjectById(creep.memory.target)
+        // if (creep.memory.target) {
+            let claim = Game.getObjectById('57ef9ce186f108ae6e60cf37')
             console.log('claim', claim);
-        }
+        // }
         // if (creep.reserveController(claim) == ERR_NOT_IN_RANGE)
         //     creep.moveTo(claim);
     }
