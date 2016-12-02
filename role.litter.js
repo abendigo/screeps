@@ -19,7 +19,7 @@ var role = {
             }
         }
         for (let target of targets) {
-            console.log('target', target, target.energy)
+            // console.log('target', target, target.energy)
             // let count = target.energy / 400;
             // console.log('count', count, target.energy);
             if (!memory[target.id]) {
