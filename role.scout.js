@@ -7,15 +7,19 @@ var roleScout = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        creep.moveTo(Game.flags.scout001);
-/*
         if (creep.room.name === 'W63S24') {  // Home
             let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
             creep.moveTo(exit);
         } else if (creep.room.name === 'W62S24') {
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_NORTH);
             creep.moveTo(exit);
-        } else if (creep.room.name === 'W61S24') { 
+        } else if (creep.room.name === 'W62S23') {
+            let exit = creep.pos.findClosestByRange(FIND_EXIT_NORTH);
+            creep.moveTo(exit);
+        } else if (creep.room.name === 'W62S22') {
+            let spawn = creep.pos.findClosestByRange()
+        }
+/*         
             if (creep.memory.work && creep.carry.energy == 0) {
                 creep.memory.work = false;
                 creep.say('harvesting');

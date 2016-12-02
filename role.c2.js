@@ -5,7 +5,7 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target} ${creep.ticksToLive}`)
 
         if (!creep.memory.target)
             creep.memory.target = '57ef9ce186f108ae6e60cf37';

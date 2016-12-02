@@ -5,7 +5,7 @@ var roleUpgrader = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
         if (creep.memory.state === 'upgrading' && creep.carry.energy == 0) {
             creep.memory.state = 'fueling';

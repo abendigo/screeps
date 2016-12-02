@@ -1,12 +1,11 @@
 //let lib = require('lib');
-console.log('role.claim ==============================================================')
 var role = {
 
     run: function(creep) {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
         if (creep.room.name === 'W63S24') {  // Home
             let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
