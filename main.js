@@ -9,7 +9,7 @@ var roleRoom = require('role.room');
     // 'claimupgrader': require('role.claimupgrader'),
  	// 'h2': require('role.h2'),
  	'h3': require('role.h3'),
-    'harvester': require('role.harvester'),
+    //'harvester': require('role.harvester'),
     'repair': require('role.repair'),
     'roadcrew': require('role.roadcrew'),
     'scout': require('role.scout'),
@@ -20,7 +20,7 @@ var roleRoom = require('role.room');
     'transport': require('role.transport'),
     // 'sweeper3': require('role.transport'),
     'upgrader': require('role.upgrader'),
-    'wallcrew': require('role.wallcrew'),
+    //'wallcrew': require('role.wallcrew'),
     'miner': require('role.miner'),
     'marketTransport': require('role.marketTransport') ,
  };
