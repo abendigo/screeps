@@ -4,6 +4,7 @@ var roleRoom = require('role.room');
  let roles = {
     'builder': require('role.builder'),
     'claim': require('role.claim'),
+    'c2': require('role.c2'),
     // 'claimbuilder': require('role.claimbuilder'),
     // 'claimupgrader': require('role.claimupgrader'),
  	// 'h2': require('role.h2'),
