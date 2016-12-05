@@ -6,7 +6,11 @@ var role = {
     run: function(tower) {
         // console.log('tower', tower.energy)
 
-        let hostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        let hostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+            filter: (next) => {
+                return next.getActiveBodyparts(ATTACK) || next.getActiveBodyParts(RANGED_ATTACK) || next.getActiveBodyparts(HEAL);
+            }   
+        });
         if (hostile) {
             tower.attack(hostile);
         } else if (tower.energy > 300) {

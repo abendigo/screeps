@@ -2,6 +2,7 @@ let lib = require('lib');
 
 var role = {
     preprocess: function(room) {
+/*
         let litter = room.find(FIND_DROPPED_RESOURCES);
 //        lib.cleanupAssignments(room, 'litter', litter);
         let key = 'litter';
@@ -30,7 +31,7 @@ var role = {
                 }
             }
         }
-            
+*/            
     },
 
     run: function(creep, options) {
@@ -39,7 +40,7 @@ var role = {
 
         // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
-        var litter = creep.room.find(FIND_DROPPED_RESOURCES);
+        // var litter = creep.room.find(FIND_DROPPED_RESOURCES);
 
         let total = _.sum(creep.carry);
 	    if (creep.memory.state === 'deliver' && total == 0) {
@@ -51,71 +52,51 @@ var role = {
 
         // Find dropped ENERGY and store it in EXTENSIONS or SPAWN
         if (creep.memory.state === 'deliver') {
-                var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: structure => structure.structureType === STRUCTURE_STORAGE
-                });
-                if (storage) {
-                    if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(storage);
-                    }
-                }
-            
-            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            let storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity) || 
-                           (structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity) || 
-                           (structure => structure.structureType === STRUCTURE_STORAGE);
+                           (structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity);
                 }
             });
+            // var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //     filter: structure => structure.structureType === STRUCTURE_STORAGE
+            // });
+            if (!storage) {
+                storage = creep.room.storage;
+            }
 
-            if (target) {
-                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
-                }
-            } else {
-                let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
-                    }
-                });
-                if (tower && tower.energy < tower.energyCapacity) {
-                    if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(tower);
-                    }
-                } else {
-                    let storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: structure => structure.structureType === STRUCTURE_STORAGE
-                    });
-                    if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(storage);
-                    }
+            if (storage) {
+                creep.moveTo(storage);
+                for (let resource in creep.carry) {
+                    let rc = creep.transfer(storage, resource) 
                 }
             }
         } else {
-            let key = 'litter';
-            if (!creep.memory.target && creep.room.memory[key]) {
-                let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY, {
-                    filter: structure => {
-                        return creep.room.memory[key][structure.id] === 'available';
-                    }
-                });
+            // let key = 'litter';
+            // if (!creep.memory.target && creep.room.memory[key]) {
+            let target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                // filter: structure => {
+                //     return creep.room.memory[key][structure.id] === 'available';
+                // }
+            });
 
-                if (target) {
-                    creep.room.memory[key][target.id] = creep.name;
-                    creep.memory.target = target.id;
-                }
-            }
+                // if (target) {
+                //     creep.room.memory[key][target.id] = creep.name;
+                //     creep.memory.target = target.id;
+                // }
+            // }
 
-            if (creep.memory.target) {
-                let object = Game.getObjectById(creep.memory.target);
-                if (object) {
-                    if (creep.pickup(object) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(object);
+            if (target) {
+            // if (creep.memory.target) {
+            //     let object = Game.getObjectById(creep.memory.target);
+                // if (object) {
+                    if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
                     }
-                } else {
-                    creep.memory.target = false;
-                }
-            } else if (creep.carry.energy > 0) {
+                // } else {
+                //     creep.memory.target = false;
+                // }
+            } else if (total > 0) {
                 creep.memory.state = 'deliver';
             } else {
                 lib.park(creep);

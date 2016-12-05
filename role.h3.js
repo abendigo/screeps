@@ -35,10 +35,20 @@ var role = {
     },
 
     run: function(creep) {
-        // console.log(`${creep.memory.role}: ${creep.name} in ${creep.room.name}`);
+        // console.log(`${creep.name}[${creep.memory.role}]@${creep.room.name}:${creep.memory.source} ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
 
         if (creep.fatigue || creep.spawning)
             return;
+
+        if (creep.memory.home && creep.memory.home !== creep.room.name) {
+            creep.moveTo(new RoomPosition(10, 10, creep.memory.home))
+            return;
+        }
+
+        if (creep.ticksToLive < 200 && !creep.memory.respawned) {
+            lib.queueSpawn(creep.room, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3', source: creep.memory.source})
+            creep.memory.respawned = true;
+        }
 
         if (!creep.memory.source && creep.room.memory.sources) {
             let source = creep.pos.findClosestByRange(FIND_SOURCES, {

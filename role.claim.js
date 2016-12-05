@@ -6,10 +6,12 @@ var role = {
             return;
 
         console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target} ticks: ${creep.ticksToLive}`)
-
-        if (creep.ticksToLive < 100 && !creep.memory.respawned) {
-            if (Game.spawns['home'].createCreep([CLAIM,CLAIM,MOVE,MOVE], undefined, {role: 'claim'}) === OK)
-                creep.memory.respawned = true;
+        console.log(`respawning: ${creep.memory.respawning}, respawned: ${creep.memory.respawned}`)
+        if (creep.ticksToLive < 100 && !creep.memory.respawning) {
+            creep.memory.respawning = true;
+            if (!creep.memory.respawned)
+                if (Game.spawns['home'].createCreep([CLAIM,CLAIM,MOVE,MOVE], undefined, {role: 'claim'}) === OK)
+                    creep.memory.respawned = true;
         }
 
         if (creep.room.name === 'W63S24') {  // Home

@@ -1,3 +1,12 @@
+
+
+class PriorityQueue {
+    constructor() {
+        console.log('PriorityQueue')
+    }
+}
+
+
 let lib = {
     refuel: (creep) => {
         // If there is a STORAGE or CONTIANER in this room:
@@ -81,6 +90,10 @@ let lib = {
                 }
             }
         }
+    },
+
+    queueSpawn: (room, body, memory) => {
+        room.memory.spawnQueue.push({body: body, memory: memory});
     }
 };
 
