@@ -32,6 +32,8 @@ var role = {
             }
         }
 
+        // console.log(room.name, JSON.stringify(room.memory.transportPickup))
+
         // for (let container of containers) {
         //     console.log(`${container.id}: ${queued[container.id]} of ${container.store[RESOURCE_ENERGY]}`)
         // }
@@ -80,17 +82,23 @@ var role = {
             if (!creep.memory.task) {
                 for (let index in creep.room.memory.transportPickup.queue) {
                     let task = creep.room.memory.transportPickup.queue[index];
-                    // console.log(`task ${index}: ${JSON.stringify(task)}`);
+                    console.log(`task ${index}: ${JSON.stringify(task)}`);
                     if (task.creep === 'available') {
                         creep.memory.task = index;
                         task.creep = creep.name;
                         break;
+                    } else if (!Game.creeps[task.creep]) {
+                        task.creep = 'available'
                     }
                 }
             }
 
             if (creep.memory.task) {
                 let task = creep.room.memory.transportPickup.queue[creep.memory.task];
+                if (!task) {
+                    delete creep.memory.task;
+                    return;
+                }
 
                 let target = Game.getObjectById(task.container);
                 if (!target) {

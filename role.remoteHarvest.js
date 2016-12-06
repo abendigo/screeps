@@ -2,28 +2,43 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}/${creep.memory.home} energy:${creep.carry.energy}/${creep.carryCapacity} ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ` + 
+            `${creep.memory.target}/${creep.memory.home} energy:${creep.carry.energy}/${creep.carryCapacity} ` + 
+            `ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
 
         if (!creep.memory.state)
             creep.memory.state = 'harvest';
         if (!creep.memory.home)
             creep.memory.home = creep.room.name;
 
+        if (!creep.memory.timing)
+            creep.memory.statechange = [];
+
         if (creep.fatigue || creep.spawning)
             return;
 
         if (creep.memory.state === 'deliver' && creep.carry.energy === 0) {
-            creep.memory.state = 'harvest';
+            console.log(creep.name, JSON.stringify(creep.memory.statechange));
+            if (creep.memory.respawned) {
+                creep.suicide();
+            } else {
+                creep.memory.statechange.push({'harvest': creep.ticksToLive});
+                creep.memory.state = 'harvest';
+            }
         }
         if (creep.memory.state !== 'deliver' && creep.carry.energy === creep.carryCapacity) {
+            console.log(creep.name, JSON.stringify(creep.memory.statechange));
+            creep.memory.statechange.push({'deliver': creep.ticksToLive});
             creep.memory.state = 'deliver';
         }
 
         if (creep.ticksToLive < 200 && !creep.memory.respawned) {
-            lib.queueSpawn(creep.room, [WORK,WORK,MOVE,MOVE,
+            console.log(`${creep.name} changes: ${JSON.stringify(creep.memory.statechange)}`)
+            
+            lib.queueSpawn(undefined, [WORK,WORK,MOVE,MOVE,
                     CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,
                     MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], 
-                {role: 'remoteHarvest', target: creep.memory.target})
+                {role: 'remoteHarvest', home: creep.memory.home, target: creep.memory.target})
             creep.memory.respawned = true;
         }
 

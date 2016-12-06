@@ -179,7 +179,7 @@ var role = {
             if (checkForSpawn('builder', 1)) {
                 queueSpawn([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], {role: 'builder'});
             } 
-            if (checkForSpawn('upgrader', 2)) {
+            if (checkForSpawn('upgrader', 1)) {
                 queueSpawn([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,
                             CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,
                             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'upgrader'});
@@ -201,7 +201,7 @@ var role = {
                 }
             }
 
-            if (!spawn.spawning && Memory.spawnQueue.length) {
+            else if (!spawn.spawning && Memory.spawnQueue.length) {
                 let next = Memory.spawnQueue[0];
                 let rc = spawn.canCreateCreep(next.body);
                 if (rc === OK) {

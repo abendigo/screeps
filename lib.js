@@ -93,7 +93,10 @@ let lib = {
     },
 
     queueSpawn: (room, body, memory) => {
-        room.memory.spawnQueue.push({body: body, memory: memory});
+        if (room)
+            room.memory.spawnQueue.push({body: body, memory: memory});
+        else
+            Memory.spawnQueue.push({body: body, memory: memory});
     }
 };
 
