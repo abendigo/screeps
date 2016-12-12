@@ -15,22 +15,24 @@ var role = {
             creep.memory.upgrading = true;
             creep.say('upgrading');
         }
+        let targetRoom = 'W62S23';
 
-        if (creep.room.name === 'W63S24') {  // Home
-            if (creep.memory.upgrading) {
-                let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
-                creep.moveTo(exit);
-            } else {
-                lib.refuel(creep);
-            }
-        } else if (creep.room.name === 'W63S23') {  // Target
+        if (creep.room.name !== targetRoom) {
+            creep.moveTo(new RoomPosition(10, 10, targetRoom));
+        } else {
             if (!creep.memory.upgrading) {
-                let sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[1]);
+                // lib.refuel(creep);
+
+                let source = creep.pos.findClosestByRange(FIND_SOURCES);
+                if (creep.pos.isNearTo(source)) {
+                    creep.harvest(source);
+                } else {                    
+                    creep.moveTo(source);
                 }
             } else {
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                if (creep.pos.isNearTo(creep.room.controller)) {
+                    creep.upgradeController(creep.room.controller);
+                } else {
                     creep.moveTo(creep.room.controller);
                 }
             }

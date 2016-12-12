@@ -5,25 +5,16 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target} ticks: ${creep.ticksToLive}`)
-        console.log(`respawning: ${creep.memory.respawning}, respawned: ${creep.memory.respawned}`)
-        if (creep.ticksToLive < 100 && !creep.memory.respawning) {
-            creep.memory.respawning = true;
-            if (!creep.memory.respawned)
-                if (Game.spawns['home'].createCreep([CLAIM,CLAIM,MOVE,MOVE], undefined, {role: 'claim'}) === OK)
-                    creep.memory.respawned = true;
-        }
+        let targetRoom = 'W62S23';
 
-        if (creep.room.name === 'W63S24') {  // Home
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_RIGHT);
-            creep.moveTo(exit);
-        } else if (creep.room.name === 'W62S24') {
-            let exit = creep.pos.findClosestByRange(FIND_EXIT_TOP);
-            creep.moveTo(exit);
-        } else if (creep.room.name === 'W62S23') {
-            let claim = Game.getObjectById('57ef9ce186f108ae6e60cf34')
-            if (creep.reserveController(claim) == ERR_NOT_IN_RANGE)
-                creep.moveTo(claim);
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role} ${targetRoom} ticks: ${creep.ticksToLive}`)
+
+        if (creep.room.name !== targetRoom) {
+            creep.moveTo(new RoomPosition(10, 10, targetRoom));
+        } else if (creep.pos.isNearTo(creep.room.controller)) {
+            creep.claimController(creep.room.controller); 
+        } else {
+            creep.moveTo(creep.room.controller);
         }
     }
 };

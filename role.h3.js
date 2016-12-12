@@ -46,7 +46,11 @@ var role = {
         }
 
         if (creep.ticksToLive < 200 && !creep.memory.respawned) {
-            lib.queueSpawn(creep.room, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3', source: creep.memory.source})
+            if (creep.room.energyCapacityAvailable < 550) {
+                lib.queueSpawn(creep.room, [WORK,WORK,MOVE,MOVE], {role: 'h3', source: creep.memory.source})
+            } else {
+                lib.queueSpawn(creep.room, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3', source: creep.memory.source})
+            }
             creep.memory.respawned = true;
         }
 

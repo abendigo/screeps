@@ -2,9 +2,9 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ` + 
-            `${creep.memory.target}/${creep.memory.home} energy:${creep.carry.energy}/${creep.carryCapacity} ` + 
-            `ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
+        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ` + 
+        //     `${creep.memory.target}/${creep.memory.home} energy:${creep.carry.energy}/${creep.carryCapacity} ` + 
+        //     `ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
 
         if (!creep.memory.state)
             creep.memory.state = 'harvest';
@@ -18,7 +18,7 @@ var role = {
             return;
 
         if (creep.memory.state === 'deliver' && creep.carry.energy === 0) {
-            console.log(creep.name, JSON.stringify(creep.memory.statechange));
+            // console.log(creep.name, JSON.stringify(creep.memory.statechange));
             if (creep.memory.respawned) {
                 creep.suicide();
             } else {
@@ -27,13 +27,13 @@ var role = {
             }
         }
         if (creep.memory.state !== 'deliver' && creep.carry.energy === creep.carryCapacity) {
-            console.log(creep.name, JSON.stringify(creep.memory.statechange));
+            // console.log(creep.name, JSON.stringify(creep.memory.statechange));
             creep.memory.statechange.push({'deliver': creep.ticksToLive});
             creep.memory.state = 'deliver';
         }
 
         if (creep.ticksToLive < 200 && !creep.memory.respawned) {
-            console.log(`${creep.name} changes: ${JSON.stringify(creep.memory.statechange)}`)
+            // console.log(`${creep.name} changes: ${JSON.stringify(creep.memory.statechange)}`)
             
             lib.queueSpawn(undefined, [WORK,WORK,MOVE,MOVE,
                     CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,

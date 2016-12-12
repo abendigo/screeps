@@ -1,9 +1,171 @@
-//let lib = require('lib');
+let lib = require('lib');
 var roleTower = require('role.tower');
 
 var role = {
     run: function(room, roles) {
-        console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
+        // console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
+
+        // room.memory.spawnPriorityQueue = {};
+
+        let creeps = {};
+        for (var role in roles) {
+            creeps[role] = _.filter(Game.creeps, creep => creep.memory.role === role && creep.room.name === room.name);
+        }
+        let spawning = {};
+        // for (var role in {a:1,b:1,c:1,d:1}) {
+        for (var role in roles) {
+            spawning[role] = 0;
+
+            let keys = Object.keys(room.memory.spawnPriorityQueue);
+            if (keys) {
+                spawning[role] = keys.reduce((result, next) => {
+                    let j = _.filter(room.memory.spawnPriorityQueue[next], creep => creep.memory.role === role);
+                    return result.concat(j);
+                }, [])
+            }
+        }
+        let output = `${room.name}[${room.energyAvailable}/${room.energyCapacityAvailable}]:`;
+        for (var role in roles) {
+            if (creeps[role].length || spawning[role].length)
+                output += `${role}: ${creeps[role].length}/${spawning[role].length} `;
+        }
+        console.log(output);
+
+
+        function checkForSpawn(key, count) {
+            return creeps[key].length + spawning[key].length < count;
+        }
+
+        if (!room.memory.spawnPriorityQueue)
+            room.memory.spawnPriorityQueue = {};
+
+        // function checkForSpawn(key, count) {
+        //     return creeps[key].length + spawning[key].length < count;
+        // }
+        function queueSpawn(priority, body, memory) {
+            // room.memory.spawnQueue.push({body: body, memory: memory});
+
+            let queue = room.memory.spawnPriorityQueue;
+            if (!queue[priority])
+                queue[priority] = [];
+            queue[priority].push({body, memory});
+        }
+
+        function _nextAvailableKey(queue) {
+            let key = undefined;
+            let keys = Object.keys(queue);
+            if (keys) {
+                let sorted = Object.keys(queue).sort((a, b) => a - b);
+                key = sorted[0];
+            }
+
+            return key;
+        }
+
+
+        function peek(queue) {
+            let object = undefined;
+            let key = _nextAvailableKey(queue);
+
+            if (key && queue[key]) {
+                object = queue[key][0]
+            }
+
+            return object;
+        }
+
+        function pop(queue) {
+            let object = undefined;
+            let key = _nextAvailableKey(queue);
+
+            if (key && queue[key]) {
+                object = queue[key].shift();
+                if (queue[key].length === 0)
+                    delete queue[key];
+            }
+
+            return object;
+        }
+
+        // console.log('spawnPriorityQueue', JSON.stringify(room.memory.spawnPriorityQueue))
+        // console.log('spawning', JSON.stringify(spawning))
+        // console.log('_nextAvailableKey', _nextAvailableKey(room.memory.spawnPriorityQueue))
+        // console.log('peek', peek(room.memory.spawnPriorityQueue))
+
+        let construction = room.find(FIND_CONSTRUCTION_SITES, {
+            filter: structure => structure.structureType != STRUCTURE_ROAD &&
+                                    structure.structureType != STRUCTURE_WALL
+        });
+
+        let desiredCreeps = {};
+        let totalCreepsAllowedInGroupB = room.memory.harvestLocations.length; //creeps['harvester'].length;
+        let totalCreepsCurrentlyInGroupB = creeps['builder'].length + creeps['upgrader'].length;
+
+        if (construction.length) {
+            desiredCreeps['upgrader'] = 1;
+            desiredCreeps['builder'] = Math.max(1, totalCreepsAllowedInGroupB - 1);
+        } else {
+            desiredCreeps['builder'] = 0;
+            desiredCreeps['upgrader'] = totalCreepsAllowedInGroupB;
+        }
+        console.log(`max: ${totalCreepsAllowedInGroupB} ${JSON.stringify(desiredCreeps)}`)
+
+        let context = {creeps, spawning, desiredCreeps, construction};
+        for (let role in roles) {
+            if (roles[role].preprocess)
+                roles[role].preprocess(room, context)
+        }
+
+        if (room.name === 'W78S36') {
+            let workerBody = [WORK,WORK,CARRY,MOVE,MOVE,MOVE];
+
+            if (checkForSpawn('harvester', 1)) {
+                console.log('PANIC! THEY ARE ALL DEAD!!')
+                queueSpawn(0, [WORK,CARRY,MOVE,MOVE], {role: 'harvester'});
+            }
+
+            if (checkForSpawn('harvester', room.memory.harvestLocations.length)) {
+                queueSpawn(1, workerBody, {role: 'harvester'});
+            }
+            if (checkForSpawn('upgrader', desiredCreeps['upgrader'])) {
+                queueSpawn(5, workerBody, {role: 'upgrader'});
+            }
+            if (checkForSpawn('builder', desiredCreeps['builder'])) {
+                queueSpawn(3, workerBody, {role: 'builder'});
+            }
+            // if (checkForSpawn('roadcrew', 1)) {
+            //     queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'roadcrew'});
+            // }
+            // if (checkForSpawn('wallcrew', 1)) {
+            //     queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'wallcrew'});
+            // }
+        }
+
+        let spawns = room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_SPAWN
+        });
+        spawn = spawns[0];
+
+        if (spawn && !spawn.spawning) {
+            let next = peek(room.memory.spawnPriorityQueue);
+            if (next) {
+                let rc = spawn.canCreateCreep(next.body);
+                if (rc === OK) {
+                    spawn.createCreep(next.body, next.name, next.memory);
+                    pop(room.memory.spawnPriorityQueue);
+                } else if (rc !== ERR_NOT_ENOUGH_ENERGY) {
+                    console.log('PANIC! INVALID BODY')
+                    pop(room.memory.spawnPriorityQueue);
+                }
+            }
+        }
+/*
+
+
+
+
+
+
 
         // let roads = room.find(FIND_CONSTRUCTION_SITES, {
         //     filter: structure => structure.structureType == STRUCTURE_ROAD
@@ -33,7 +195,8 @@ var role = {
 
         let creeps = {};
         let spawning = {};
-        let output = `${room.name}: `;
+        let output = `${room.name}[${room.energyAvailable}/${room.energyCapacityAvailable}]:`;
+        // console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
         // let soutput = `spawnq: `;
         for (var role in roles) {
             creeps[role] = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.room.name == room.name);
@@ -41,7 +204,7 @@ var role = {
             output += `${role}: ${creeps[role].length}/${spawning[role].length} `;
             // soutput += `${role}: ${spawning[role].length} `;
         }
-        console.log(output);
+        // console.log(output);
         // console.log(soutput);
 
         // let containers;
@@ -63,9 +226,11 @@ var role = {
         }
         let roomContext = prepareRoomContext();
 
-        roles.h3.preprocess(room, roomContext);
-        roles.litter.preprocess(room, roomContext);
-        roles.transport.preprocess(room, roomContext);
+        // roles.h3.preprocess(room, roomContext);
+        // roles.transport.preprocess(room, roomContext);
+
+        lib.preprocessLitterQueue(room);
+        lib.preprocessTransportQueue(room);
 
         let sources = roomContext.sources;
         if (room.energyCapacityAvailable >= 300) {
@@ -77,7 +242,7 @@ var role = {
             // console.log('spawn', spawn)
 
 
-/*
+/ *
             containers = room.find(FIND_STRUCTURES, {
                 filter: structure => structure.structureType == STRUCTURE_CONTAINER
             });
@@ -111,19 +276,48 @@ var role = {
                     room.memory.containers[x.id] = 'available';
                 }
             }
-*/            
+* /            
         }
 
         let towers = room.find(FIND_STRUCTURES, {
             filter: structure => structure.structureType == STRUCTURE_TOWER
         });
 
+        if (!room.memory.spawnPriorityQueue)
+            room.memory.spawnPriorityQueue = {};
+
         function checkForSpawn(key, count) {
             return creeps[key].length + spawning[key].length < count;
         }
-        function queueSpawn(body, memory) {
+        function queueSpawn(priority, body, memory) {
             room.memory.spawnQueue.push({body: body, memory: memory});
+
+            let queue = room.memory.spawnPriorityQueue;
+            if (!queue[priority])
+                queue[priority] = [];
+            queue[priority].push({body, memory});
         }
+
+        function pop() {
+            let object = undefined;
+            let queue = room.memory.spawnPriorityQueue;
+            let sorted = Object.keys(queue).sort((a, b) => a - b);
+            console.log('sorted', sorted)
+            let key = sorted[0];
+            console.log('key', key)
+
+            if (key) {
+                object = queue[key].shift();
+                if (queue[key].length === 0)
+                    delete queue[key];
+            }
+
+            return object;
+        }
+
+        // console.log('pop', JSON.stringify(pop()))
+
+        // console.log('------', JSON.stringify(room.memory.spawnPriorityQueue))
 
         let spawnTargets = {
             'W63S23': {
@@ -135,57 +329,91 @@ var role = {
             }
         };
 
-        if (room.name === 'W63S23') {
+        if (room.name === 'W62S23') {
+            // if (checkForSpawn('harvester', 1)) {
+            //     queueSpawn([WORK,CARRY,MOVE], {role: 'harvester'});
+            // } 
             if (checkForSpawn('h3', sources.length)) {
-                queueSpawn([WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3'});
+                queueSpawn(1, [WORK,WORK,MOVE,MOVE], {role: 'h3'});
             } 
-            if (checkForSpawn('transport', 4)) {
-                queueSpawn([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
+            if (checkForSpawn('litter', 4)) {
+                queueSpawn(3, [CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
+            } 
+            if (checkForSpawn('transport', 2)) {
+                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
             }
-            if (checkForSpawn('litter', 1)) {
-                queueSpawn([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
-            } 
-            if (checkForSpawn('builder', 1)) {
-                queueSpawn([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], {role: 'builder'});
-            } 
             if (checkForSpawn('towertransport', towers.length)) {
-                queueSpawn([CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], {role: 'towertransport'});
+                queueSpawn(5, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], {role: 'towertransport'});
+            } 
+            if (checkForSpawn('repair', 1)) {
+                queueSpawn(5, [WORK,CARRY,MOVE,MOVE], {role: 'repair'});
+            } 
+            if (checkForSpawn('wallcrew', 1)) {
+                queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'wallcrew'});
             } 
             if (checkForSpawn('roadcrew', 1)) {
-                queueSpawn([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'roadcrew'});
+                queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'roadcrew'});
+            } 
+            if (checkForSpawn('builder', 1)) {
+                queueSpawn(7, [WORK,CARRY,MOVE,MOVE], {role: 'builder'});
+            } 
+            if (checkForSpawn('upgrader', 8)) {
+                queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'upgrader'});
+            }
+        } else if (room.name === 'W63S23') {
+            if (checkForSpawn('h3', sources.length)) {
+                queueSpawn(1, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3'});
+            } 
+            if (checkForSpawn('transport', 4)) {
+                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
+            }
+            if (checkForSpawn('litter', 1)) {
+                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
+            } 
+            if (checkForSpawn('builder', 1)) {
+                queueSpawn(7, [WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], {role: 'builder'});
+            } 
+            if (checkForSpawn('towertransport', towers.length)) {
+                queueSpawn(5, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], {role: 'towertransport'});
+            } 
+            if (checkForSpawn('miner', 1)) {
+                queueSpawn(9, [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'miner'});
+            } 
+            if (checkForSpawn('roadcrew', 1)) {
+                queueSpawn(9, [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'roadcrew'});
             }
             if (checkForSpawn('upgrader', 2)) {
-                queueSpawn([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,
+                queueSpawn(9, [WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,
                             CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,
                             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'upgrader'});
             }
 
         } else if (room.name === 'W63S24') {
             if (checkForSpawn('h3', sources.length)) {
-                queueSpawn([WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3'});
+                queueSpawn(1, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3'});
             } 
-            // if (checkForSpawn('miner', 1)) {
-            //     queueSpawn([WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'miner'});
-            // } 
+            if (checkForSpawn('miner', 1)) {
+                queueSpawn(9, [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'miner'});
+            } 
             if (checkForSpawn('litter', 1)) {
-                queueSpawn([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
+                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
             } 
             if (checkForSpawn('transport', 4)) {
-                queueSpawn([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
+                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
             }
             if (checkForSpawn('towertransport', towers.length)) {
-                queueSpawn([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'towertransport'});
+                queueSpawn(5, [CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'towertransport'});
             } 
             if (checkForSpawn('builder', 1)) {
-                queueSpawn([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], {role: 'builder'});
+                queueSpawn(7, [WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], {role: 'builder'});
             } 
-            if (checkForSpawn('upgrader', 1)) {
-                queueSpawn([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,
+            if (checkForSpawn('upgrader', 4)) {
+                queueSpawn(9, [WORK,WORK,WORK,WORK,WORK,
                             CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,
                             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], {role: 'upgrader'});
             }
             if (checkForSpawn('roadcrew', 1)) {
-                queueSpawn([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'roadcrew'});
+                queueSpawn(9, [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'roadcrew'});
             }
         }
 
@@ -248,29 +476,30 @@ var role = {
 
 
 
+*/
 
 
 
 
 
 
-/*
         for (let name in Game.creeps) {
             var creep = Game.creeps[name];
 
-            if (creep.room.name === room.name)
+            if (creep.room.name === room.name) {
                 if (roles[creep.memory.role]) {
-                    roles[creep.memory.role].run(creep);
+                    roles[creep.memory.role].run(creep, {creeps, desiredCreeps});
                 } else {
                     console.log('no run for role:', creep.memory.role);
                 }
+            }
         }
-*/
+
 
         
-        for (let tower of towers) {
-            roleTower.run(tower);
-        }
+        // for (let tower of towers) {
+        //     roleTower.run(tower);
+        // }
         
     }
 };

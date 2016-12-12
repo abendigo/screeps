@@ -2,36 +2,39 @@ let lib = require('lib');
 
 var role = {
     preprocess: function(room) {
-/*
-        let litter = room.find(FIND_DROPPED_RESOURCES);
-//        lib.cleanupAssignments(room, 'litter', litter);
-        let key = 'litter';
-        let targets = litter;
+        if (!room.memory.litterPickup)
+            room.memory.litterPickup = {
+                next: 1, queue: {}
+            };
 
-        if (!room.memory[key]) {
-            room.memory[key] = {};
+        // console.log(`${room.name} taskQueue: ${JSON.stringify(room.memory.litterPickup)}`)
+
+        let queued = {};
+        for (let index in room.memory.litterPickup.queue) {
+            let task = room.memory.litterPickup.queue[index];
+            if (!queued[task.container])
+                queued[task.container] = 0;
+            queued[task.container] += task.amount;
         }
+        
+        let litter = room.find(FIND_DROPPED_ENERGY);
 
-        let memory = room.memory[key];
-        for (let next in memory) {
-            let object = Game.getObjectById(next);
-            if (!object) {
-                delete memory[next];
+        for (let next of litter) {
+            if (!queued[next.id]) {
+                queued[next.id] = 0;
+            }
+            if ((queued[next.id] + 50) <= next.amount) {
+                room.memory.litterPickup.queue[room.memory.litterPickup.next++] = {
+                    container: next.id, amount: 50, creep: 'available' 
+                };
             }
         }
-        for (let target of targets) {
-            // console.log('target', target, target.energy)
-            // let count = target.energy / 400;
-            // console.log('count', count, target.energy);
-            if (!memory[target.id]) {
-                memory[target.id] = 'available';
-            } else {
-                if (memory[target.id] !== 'available' && !Game.creeps[memory[target.id]]) {
-                    memory[target.id] = 'available';
-                }
-            }
-        }
-*/            
+
+        // console.log(room.name, JSON.stringify(room.memory.litterPickup))
+
+        // for (let container of containers) {
+        //     console.log(`${container.id}: ${queued[container.id]} of ${container.store[RESOURCE_ENERGY]}`)
+        // }
     },
 
     run: function(creep, options) {
@@ -44,7 +47,7 @@ var role = {
 
         let total = _.sum(creep.carry);
 	    if (creep.memory.state === 'deliver' && total == 0) {
-            creep.memory.state = 'sweep';
+            creep.memory.state = 'pickup';
 	    }
 	    if (creep.memory.state !== 'deliver' && total == creep.carryCapacity) {
 	        creep.memory.state = 'deliver';
@@ -64,6 +67,15 @@ var role = {
             if (!storage) {
                 storage = creep.room.storage;
             }
+            if (!storage) {
+                storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        // if (structure.structureType == STRUCTURE_CONTAINER)
+                        //     console.log(creep.name, structure.store[RESOURCE_ENERGY], structure.storeCapacity)
+                        return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity)
+                    }
+                });
+            }
 
             if (storage) {
                 creep.moveTo(storage);
@@ -72,12 +84,55 @@ var role = {
                 }
             }
         } else {
+            if (!creep.memory.task) {
+                for (let index in creep.room.memory.litterPickup.queue) {
+                    let task = creep.room.memory.litterPickup.queue[index];
+                    // console.log(`task ${index}: ${JSON.stringify(task)}`);
+                    if (task.creep === 'available') {
+                        creep.memory.task = index;
+                        task.creep = creep.name;
+                        break;
+                    } else if (!Game.creeps[task.creep]) {
+                        task.creep = 'available'
+                    }
+                }
+            }
+            if (creep.memory.task) {
+                let task = creep.room.memory.litterPickup.queue[creep.memory.task];
+                if (!task) {
+                    delete creep.memory.task;
+                    return;
+                }
+
+                let target = Game.getObjectById(task.container);
+                if (!target) {
+                    console.log('PANIC! INVALID TARGET')
+                    delete creep.room.memory.litterPickup.queue[creep.memory.task];
+                    delete creep.memory.task;
+                } else {
+                    if (creep.pos.isNearTo(target)) {
+//                        let rc = creep.withdraw(target, RESOURCE_ENERGY, task.amount);
+                        let rc = creep.pickup(target);
+                        if (rc === ERR_FULL) {
+                            creep.memory.state = 'deliver'
+                        } else {
+                            delete creep.room.memory.litterPickup.queue[creep.memory.task];
+                            delete creep.memory.task;
+                        }
+                    } else {
+                        creep.moveTo(target);
+                    }
+                }
+            } else if (creep.carry.energy > 0) {
+                creep.memory.state = 'deliver';
+            } else {
+                lib.park(creep);
+            }
+/*            
             // let key = 'litter';
             // if (!creep.memory.target && creep.room.memory[key]) {
             let target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                // filter: structure => {
-                //     return creep.room.memory[key][structure.id] === 'available';
-                // }
+                filter: resource => resource.amount > 50
             });
 
                 // if (target) {
@@ -101,6 +156,7 @@ var role = {
             } else {
                 lib.park(creep);
             }
+*/            
         }
     }
 };

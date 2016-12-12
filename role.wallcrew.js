@@ -86,7 +86,7 @@ var role = {
                     creep.memory.target = target.id;
                     creep.memory.targetHits = targetHits;
                 } else {
-                    creep.say('none');
+                    lib.park(creep);
                 }
             }
             }

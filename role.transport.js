@@ -25,9 +25,9 @@ var role = {
             if (!queued[container.id]) {
                 queued[container.id] = 0;
             }
-            if ((queued[container.id] + 100) <= container.store[RESOURCE_ENERGY]) {
+            if ((queued[container.id] + 50) <= container.store[RESOURCE_ENERGY]) {
                 room.memory.transportPickup.queue[room.memory.transportPickup.next++] = {
-                    container: container.id, amount: 100, creep: 'available' 
+                    container: container.id, amount: 50, creep: 'available' 
                 };
             }
         }
@@ -82,7 +82,7 @@ var role = {
             if (!creep.memory.task) {
                 for (let index in creep.room.memory.transportPickup.queue) {
                     let task = creep.room.memory.transportPickup.queue[index];
-                    console.log(`task ${index}: ${JSON.stringify(task)}`);
+                    // console.log(`task ${index}: ${JSON.stringify(task)}`);
                     if (task.creep === 'available') {
                         creep.memory.task = index;
                         task.creep = creep.name;

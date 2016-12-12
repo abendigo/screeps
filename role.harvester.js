@@ -1,25 +1,88 @@
 let lib = require('lib');
 
 var roleHarvester = {
+    preprocess: function(room, context) {
+        // delete room.memory.harvestLocations;
+        if (!room.memory.harvestLocations) {
+            room.memory.harvestLocations = [];
 
-    /** @param {Creep} creep **/
-    run: function(creep, options) {
-        options = options || {};
-        options.source = options.source || 1;
+            let sources = room.find(FIND_SOURCES);
 
+            for (let source of sources) {
+                // console.log(source)
+                let locations = source.room.lookForAtArea(LOOK_TERRAIN, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true)
+                // console.log(JSON.stringify(j))
+
+                for (let location of locations) {
+                    if (location.terrain === 'plain') {
+                        console.log(JSON.stringify(location))
+                        room.memory.harvestLocations.push(Object.assign({source: source.id, creep: 'available'}, location));
+                    }
+                }
+            }
+        }
+        // console.log(JSON.stringify(room.memory.harvestLocations));
+/*
+        for (let location of room.memory.harvestLocations) {
+            console.log(location.source, location.creep)
+        //     if (location.creep && location.creep !== 'available') {
+        //         if (!Game.creeps[location.creep])
+        //             location.creep = 'available';
+        //     }
+        }
+*/        
+    },
+
+    run: function(creep, context) {
+        // console.log(`${creep.name}@${creep.room.name}: ${creep.memory.role}[${JSON.stringify(creep.memory.target)}]: ` +
+        //     `${creep.memory.state}[${creep.carry.energy}/${creep.carryCapacity}] ttl ${creep.ticksToLive}`);
+
+        // creep.suicide();
         if (creep.fatigue || creep.spawning)
             return;
 
-        if(creep.memory.deliver && creep.carry.energy == 0) {
-            creep.memory.deliver = false;
-            creep.say('harvesting');
+        // if (creep.memory.home && creep.memory.home !== creep.room.name) {
+        //     creep.moveTo(new RoomPosition(10, 10, creep.memory.home))
+        //     return;
+        // }
+
+        if (!creep.memory.target) {
+            for (let location of creep.room.memory.harvestLocations) {
+                // console.log(creep.room.memory.harvestLocations.length, location.source, location.creep)
+                if (location.creep !== 'available') {
+                    if (!Game.creeps[location.creep]) {
+                        location.creep = 'available';
+                    }
+                }
+                if (location.creep === 'available') {
+                    creep.memory.target = location;
+                    location.creep = creep.name;
+                    break;
+                }
+            }
+/*            
+            // let sources = creep.memory
+            let sources = creep.room.find(FIND_SOURCES);
+            let harvesters = _.filter(Game.creeps, next => 
+                next.memory.role === creep.memory.role && next.room.name === creep.room.name);
+
+            creep.memory.target = harvesters.length % sources.length;
+
+            let _sources = creep.memory.harvestLocations;
+*/            
+        }        
+
+        if (!creep.memory.state)
+            creep.memory.state = 'harvest';
+
+        if (creep.memory.state === 'deliver' && creep.carry.energy === 0) {
+            creep.memory.state = 'harvest';
         }
-        if(!creep.memory.deliver && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.deliver = true;
-            creep.say('delivering');
+        if (creep.memory.state !== 'deliver' && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.state = 'deliver';
         }
 
-        if (creep.memory.deliver) {
+        if (creep.memory.state === 'deliver') {
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
@@ -32,9 +95,16 @@ var roleHarvester = {
                 }
             }
         } else {
-            var source = creep.pos.findClosestByRange(FIND_SOURCES);
-            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            let target = creep.memory.target;
+            // console.log('===', JSON.stringify(target))
+            let source = Game.getObjectById(target.source)
+            // let sources = creep.room.find(FIND_SOURCES);
+            // let source = sources[creep.memory.target];
+            // var source = creep.pos.findClosestByRange(FIND_SOURCES);
+            if (!creep.pos.isNearTo(source)) {
                 creep.moveTo(source);
+            } else {                    
+                creep.harvest(source);
             }
         }
 	}

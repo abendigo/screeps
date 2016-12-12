@@ -1,11 +1,18 @@
 let lib = require('lib');
 
-var roleUpgrader = {
+var role = {
+	preprocess: function(room, context) {
+		console.log('upgrader preprocess', room.name)
+	},
+
     run: function(creep) {
         if (creep.fatigue || creep.spawning)
             return;
 
-        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        // creep.suicide();
+
+        // if (creep.room.name === 'W62S23')
+        //     console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
 
         if (creep.memory.state === 'upgrading' && creep.carry.energy == 0) {
             creep.memory.state = 'fueling';
@@ -33,4 +40,4 @@ var roleUpgrader = {
 	}
 };
 
-module.exports = roleUpgrader;
+module.exports = role;

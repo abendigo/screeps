@@ -53,7 +53,7 @@ var role = {
                         creep.say(target.id);
                         creep.memory.target = target.id;
                     } else {
-                        creep.say('none');
+                        lib.park(creep);
                     }
                 }
             }

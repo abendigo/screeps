@@ -1,25 +1,31 @@
 let lib = require('lib');
 
-let roleBuilder = {
+let role = {
+	preprocess: function(room, context) {
+		// console.log('builder preprocess', room.name)
+	},
 
-    /** @param {Creep} creep **/
-    run: function(creep, options) {
-        options = options || {};
-        options.source = options.source || 1;
-
+    run: function(creep, context) {
     	if (creep.fatigue || creep.spawning)
     		return;
 
-	    if(creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-            creep.say('harvesting: ' + options.source);
+		// console.log(`${creep.name}[${creep.memory.role}]`)
+			let role = creep.memory.role;
+			let currentCount = context.creeps[role].length;
+			console.log(`xount ${currentCount} of ${context.desiredCreeps[role]}`)
+
+	    if (creep.memory.state === 'building' && creep.carry.energy === 0) {
+			if (creep.memory.suicide) {
+				creep.suicide();
+			} else {
+            	creep.memory.state = 'fueling';
+			}
 	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.building = true;
-	        creep.say('building');
+	    if (creep.memory.state !== 'building' && creep.carry.energy === creep.carryCapacity) {
+	        creep.memory.state = 'building';
 	    }
 
-        if (creep.memory.building) {
+        if (creep.memory.state === 'building') {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
 				filter: structure => structure.structureType != STRUCTURE_ROAD &&
 						       		 structure.structureType != STRUCTURE_WALL
@@ -41,13 +47,15 @@ let roleBuilder = {
 	                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
 	                    creep.moveTo(targets[0]);
 	                }
-	            }
+	            } else {
+					creep.memory.role = 'upgrader'
+				}
             }
 	    }
 	    else {
             if (lib.refuel(creep) === ERR_NOT_ENOUGH_ENERGY) {
                 if (creep.carry.energy > 0) {
-                    creep.memory.state = 'upgrading';
+                    creep.memory.state = 'building';
                 } else {
                     lib.park(creep);
                 }
@@ -56,4 +64,4 @@ let roleBuilder = {
 	}
 };
 
-module.exports = roleBuilder;
+module.exports = role;
