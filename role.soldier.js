@@ -5,10 +5,26 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        let target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        rc = creep.attack(target);
-        if (rc === ERR_NOT_IN_RANGE)
-            creep.moveTo(target);
+            creep.suicide();
+
+        let target = 'W78S38'
+        if (creep.room.name !== target) {
+            creep.moveTo(new RoomPosition(23, 42, target));
+        } else {
+            let enemy = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
+                // enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (!enemy) {
+                enemy = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            }
+            rc = creep.attack(enemy);
+            if (rc === ERR_NOT_IN_RANGE)
+                creep.moveTo(enemy);
+        }
+
+        // let target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        // rc = creep.attack(target);
+        // if (rc === ERR_NOT_IN_RANGE)
+        //     creep.moveTo(target);
             
     }
 };

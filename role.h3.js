@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     preprocess: function(room, context) {
-
+/*
         // if (!context.sources) {
         //     context.sources = room.find(FIND_SOURCES);
         // }
@@ -32,6 +32,7 @@ var role = {
             }
         }
         // console.log(`room.memory.sources: ${JSON.stringify(room.memory.sources)}`)
+*/        
     },
 
     run: function(creep) {
@@ -40,19 +41,19 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        if (creep.memory.home && creep.memory.home !== creep.room.name) {
-            creep.moveTo(new RoomPosition(10, 10, creep.memory.home))
-            return;
-        }
+        // if (creep.memory.home && creep.memory.home !== creep.room.name) {
+        //     creep.moveTo(new RoomPosition(10, 10, creep.memory.home))
+        //     return;
+        // }
 
-        if (creep.ticksToLive < 200 && !creep.memory.respawned) {
-            if (creep.room.energyCapacityAvailable < 550) {
-                lib.queueSpawn(creep.room, [WORK,WORK,MOVE,MOVE], {role: 'h3', source: creep.memory.source})
-            } else {
-                lib.queueSpawn(creep.room, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3', source: creep.memory.source})
-            }
-            creep.memory.respawned = true;
-        }
+        // if (creep.ticksToLive < 200 && !creep.memory.respawned) {
+        //     if (creep.room.energyCapacityAvailable < 550) {
+        //         lib.queueSpawn(creep.room, [WORK,WORK,MOVE,MOVE], {role: 'h3', source: creep.memory.source})
+        //     } else {
+        //         lib.queueSpawn(creep.room, [WORK,WORK,WORK,WORK,WORK,MOVE], {role: 'h3', source: creep.memory.source})
+        //     }
+        //     creep.memory.respawned = true;
+        // }
 
         if (!creep.memory.source && creep.room.memory.sources) {
             let source = creep.pos.findClosestByRange(FIND_SOURCES, {

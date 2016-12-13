@@ -1,29 +1,62 @@
 let lib = require('lib');
 var roleTower = require('role.tower');
 
+function summarizeCurrentCreeps(room, roles) {
+    let creeps = {};
+    for (var role in roles) {
+        creeps[role] = _.filter(Game.creeps, creep => creep.memory.role === role && creep.room.name === room.name);
+    }
+
+    return creeps;
+}
+
+// Get a count of all crreps currently spawned and spawing in this room
+function summarizeSpawningCreeps(room, roles) {
+    let spawning = {};
+    for (var role in roles) {
+        let keys = Object.keys(room.memory.spawnPriorityQueue);
+        if (keys) {
+            spawning[role] = keys.reduce((result, next) => {
+                let j = _.filter(room.memory.spawnPriorityQueue[next], creep => creep.memory.role === role);
+                return result.concat(j);
+            }, [])
+        }
+    }
+
+    return spawning; 
+}
+
+
 var role = {
     run: function(room, roles) {
         // console.log(`Room "${room.name}" has ${room.energyAvailable} energy of ${room.energyCapacityAvailable}`);
 
         // room.memory.spawnPriorityQueue = {};
+        if (!room.memory.spawnPriorityQueue)
+            room.memory.spawnPriorityQueue = {};
 
-        let creeps = {};
-        for (var role in roles) {
-            creeps[role] = _.filter(Game.creeps, creep => creep.memory.role === role && creep.room.name === room.name);
-        }
-        let spawning = {};
-        // for (var role in {a:1,b:1,c:1,d:1}) {
-        for (var role in roles) {
-            spawning[role] = 0;
 
-            let keys = Object.keys(room.memory.spawnPriorityQueue);
-            if (keys) {
-                spawning[role] = keys.reduce((result, next) => {
-                    let j = _.filter(room.memory.spawnPriorityQueue[next], creep => creep.memory.role === role);
-                    return result.concat(j);
-                }, [])
-            }
-        }
+        // let creeps = {};
+        // for (var role in roles) {
+        //     creeps[role] = _.filter(Game.creeps, creep => creep.memory.role === role && creep.room.name === room.name);
+        // }
+        // let spawning = {};
+        // // for (var role in {a:1,b:1,c:1,d:1}) {
+        // for (var role in roles) {
+        //     spawning[role] = 0;
+
+        //     let keys = Object.keys(room.memory.spawnPriorityQueue);
+        //     if (keys) {
+        //         spawning[role] = keys.reduce((result, next) => {
+        //             let j = _.filter(room.memory.spawnPriorityQueue[next], creep => creep.memory.role === role);
+        //             return result.concat(j);
+        //         }, [])
+        //     }
+        // }
+        let creeps = summarizeCurrentCreeps(room, roles);
+        let spawning = summarizeSpawningCreeps(room, roles);
+
+
         let output = `${room.name}[${room.energyAvailable}/${room.energyCapacityAvailable}]:`;
         for (var role in roles) {
             if (creeps[role].length || spawning[role].length)
@@ -35,9 +68,6 @@ var role = {
         function checkForSpawn(key, count) {
             return creeps[key].length + spawning[key].length < count;
         }
-
-        if (!room.memory.spawnPriorityQueue)
-            room.memory.spawnPriorityQueue = {};
 
         // function checkForSpawn(key, count) {
         //     return creeps[key].length + spawning[key].length < count;
@@ -51,41 +81,6 @@ var role = {
             queue[priority].push({body, memory});
         }
 
-        function _nextAvailableKey(queue) {
-            let key = undefined;
-            let keys = Object.keys(queue);
-            if (keys) {
-                let sorted = Object.keys(queue).sort((a, b) => a - b);
-                key = sorted[0];
-            }
-
-            return key;
-        }
-
-
-        function peek(queue) {
-            let object = undefined;
-            let key = _nextAvailableKey(queue);
-
-            if (key && queue[key]) {
-                object = queue[key][0]
-            }
-
-            return object;
-        }
-
-        function pop(queue) {
-            let object = undefined;
-            let key = _nextAvailableKey(queue);
-
-            if (key && queue[key]) {
-                object = queue[key].shift();
-                if (queue[key].length === 0)
-                    delete queue[key];
-            }
-
-            return object;
-        }
 
         // console.log('spawnPriorityQueue', JSON.stringify(room.memory.spawnPriorityQueue))
         // console.log('spawning', JSON.stringify(spawning))
@@ -96,17 +91,26 @@ var role = {
             filter: structure => structure.structureType != STRUCTURE_ROAD &&
                                     structure.structureType != STRUCTURE_WALL
         });
+        let repairs = room.find(FIND_CONSTRUCTION_SITES, {
+            filter: structure => structure.structureType != STRUCTURE_ROAD &&
+						         structure.structureType != STRUCTURE_WALL &&
+                                 structure.structureType != STRUCTURE_RAMPART &&
+                                 structure.hits < structure.hitsMax &&
+                                 structure.hits > 0
+        });
 
         let desiredCreeps = {};
-        let totalCreepsAllowedInGroupB = room.memory.harvestLocations.length; //creeps['harvester'].length;
+        let totalCreepsAllowedInGroupB = 3; //room.memory.harvestLocations.length; //creeps['harvester'].length;
         let totalCreepsCurrentlyInGroupB = creeps['builder'].length + creeps['upgrader'].length;
 
         if (construction.length) {
+            desiredCreeps['repair'] = 1;
             desiredCreeps['upgrader'] = 1;
-            desiredCreeps['builder'] = Math.max(1, totalCreepsAllowedInGroupB - 1);
+            desiredCreeps['builder'] = Math.max(1, totalCreepsAllowedInGroupB - 2);
         } else {
+            desiredCreeps['repair'] = 1;
             desiredCreeps['builder'] = 0;
-            desiredCreeps['upgrader'] = totalCreepsAllowedInGroupB;
+            desiredCreeps['upgrader'] = totalCreepsAllowedInGroupB - 1;
         }
         console.log(`max: ${totalCreepsAllowedInGroupB} ${JSON.stringify(desiredCreeps)}`)
 
@@ -117,9 +121,16 @@ var role = {
         }
 
         if (room.name === 'W78S36') {
-            let workerBody = [WORK,WORK,CARRY,MOVE,MOVE,MOVE];
-
-            if (checkForSpawn('harvester', 1)) {
+            let workerBody;
+            if (room.energyCapacityAvailable < 400) {
+                workerBody = [WORK,CARRY,MOVE,MOVE];
+            } else if (room.energyCapacityAvailable < 550) {
+                workerBody = [WORK,WORK,CARRY,MOVE,MOVE,MOVE];
+            } else { //if (room.energyCapacityAvailable < 700) {
+                workerBody = [WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE];
+            }
+ 
+            if (creeps['harvester'].length + creeps['h3'].length === 0) {
                 console.log('PANIC! THEY ARE ALL DEAD!!')
                 queueSpawn(0, [WORK,CARRY,MOVE,MOVE], {role: 'harvester'});
             }
@@ -132,6 +143,9 @@ var role = {
             }
             if (checkForSpawn('builder', desiredCreeps['builder'])) {
                 queueSpawn(3, workerBody, {role: 'builder'});
+            }
+            if (checkForSpawn('repair', desiredCreeps['repair'])) {
+                queueSpawn(9, workerBody, {role: 'repair'});
             }
             // if (checkForSpawn('roadcrew', 1)) {
             //     queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'roadcrew'});
@@ -147,15 +161,15 @@ var role = {
         spawn = spawns[0];
 
         if (spawn && !spawn.spawning) {
-            let next = peek(room.memory.spawnPriorityQueue);
+            let next = lib.peek(room.memory.spawnPriorityQueue);
             if (next) {
                 let rc = spawn.canCreateCreep(next.body);
                 if (rc === OK) {
                     spawn.createCreep(next.body, next.name, next.memory);
-                    pop(room.memory.spawnPriorityQueue);
+                    lib.pop(room.memory.spawnPriorityQueue);
                 } else if (rc !== ERR_NOT_ENOUGH_ENERGY) {
                     console.log('PANIC! INVALID BODY')
-                    pop(room.memory.spawnPriorityQueue);
+                    lib.pop(room.memory.spawnPriorityQueue);
                 }
             }
         }

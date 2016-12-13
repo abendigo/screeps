@@ -9,28 +9,27 @@ var roleHarvester = {
             let sources = room.find(FIND_SOURCES);
 
             for (let source of sources) {
-                // console.log(source)
                 let locations = source.room.lookForAtArea(LOOK_TERRAIN, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true)
-                // console.log(JSON.stringify(j))
 
+                let containerCreated = false;
                 for (let location of locations) {
                     if (location.terrain === 'plain') {
-                        console.log(JSON.stringify(location))
-                        room.memory.harvestLocations.push(Object.assign({source: source.id, creep: 'available'}, location));
+                        let crop = Object.assign({source: source.id, creep: 'available'}, location);
+
+                        if (!containerCreated) {
+                            let pos = new RoomPosition(location.x, location.y, room.name);
+                            pos.createConstructionSite(STRUCTURE_CONTAINER);
+                            containerCreated = true;
+
+                            crop.container = 'surveyed';
+                        }
+
+                        room.memory.harvestLocations.push(crop);
                     }
                 }
             }
         }
         // console.log(JSON.stringify(room.memory.harvestLocations));
-/*
-        for (let location of room.memory.harvestLocations) {
-            console.log(location.source, location.creep)
-        //     if (location.creep && location.creep !== 'available') {
-        //         if (!Game.creeps[location.creep])
-        //             location.creep = 'available';
-        //     }
-        }
-*/        
     },
 
     run: function(creep, context) {
@@ -49,10 +48,8 @@ var roleHarvester = {
         if (!creep.memory.target) {
             for (let location of creep.room.memory.harvestLocations) {
                 // console.log(creep.room.memory.harvestLocations.length, location.source, location.creep)
-                if (location.creep !== 'available') {
-                    if (!Game.creeps[location.creep]) {
-                        location.creep = 'available';
-                    }
+                if (location.creep !== 'available' && !Game.creeps[location.creep]) {
+                    location.creep = 'available';
                 }
                 if (location.creep === 'available') {
                     creep.memory.target = location;
