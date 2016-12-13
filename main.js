@@ -1,10 +1,11 @@
 var roomHandler = require('role.room');
 
-const roles = ['harvester', 'h3', 'upgrader', 'builder', 'repair', 'soldier'];
+const roles = ['harvester', 'h3', 'upgrader', 'builder', 'repair', 'towertransport'];
 let modules = {};
 for (let role of roles) {
     modules[role] = require(`role.${role}`);
 }
+
 
 module.exports.loop = function () {
     // let spawn = Game.spawns['home']

@@ -98,6 +98,9 @@ var role = {
                                  structure.hits < structure.hitsMax &&
                                  structure.hits > 0
         });
+        let towers = room.find(FIND_STRUCTURES, {
+            filter: structure => structure.structureType == STRUCTURE_TOWER
+        });
 
         let desiredCreeps = {};
         let totalCreepsAllowedInGroupB = 3; //room.memory.harvestLocations.length; //creeps['harvester'].length;
@@ -147,6 +150,10 @@ var role = {
             if (checkForSpawn('repair', desiredCreeps['repair'])) {
                 queueSpawn(9, workerBody, {role: 'repair'});
             }
+            if (checkForSpawn('towertransport', towers.length)) {
+                queueSpawn(5, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'towertransport'});
+            } 
+            
             // if (checkForSpawn('roadcrew', 1)) {
             //     queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'roadcrew'});
             // }
@@ -511,9 +518,9 @@ var role = {
 
 
         
-        // for (let tower of towers) {
-        //     roleTower.run(tower);
-        // }
+        for (let tower of towers) {
+            roleTower.run(tower);
+        }
         
     }
 };
