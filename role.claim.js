@@ -5,12 +5,11 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        let targetRoom = 'W62S23';
+        creep.memory.target = 'W79S36';
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role} ${creep.memory.target} ticks: ${creep.ticksToLive}`)
 
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role} ${targetRoom} ticks: ${creep.ticksToLive}`)
-
-        if (creep.room.name !== targetRoom) {
-            creep.moveTo(new RoomPosition(10, 10, targetRoom));
+        if (creep.room.name !== creep.memory.target) {
+            creep.moveTo(new RoomPosition(29, 22, creep.memory.target));
         } else if (creep.pos.isNearTo(creep.room.controller)) {
             creep.claimController(creep.room.controller); 
         } else {

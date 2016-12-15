@@ -3,6 +3,19 @@ let lib = require('lib');
 var roleHarvester = {
     preprocess: function(room, context) {
         // delete room.memory.harvestLocations;
+        // delete room.memory.sources;
+        if (!room.memory.sources) {
+            room.memory.sources = {};
+
+            let sources = room.find(FIND_SOURCES);
+            for (let source of sources) {
+                room.memory.sources[source.id] = {
+                    id: source.id,
+                    mode: 'harvester'
+                };
+            }
+        }
+
         if (!room.memory.harvestLocations) {
             room.memory.harvestLocations = [];
 
@@ -13,7 +26,7 @@ var roleHarvester = {
 
                 let containerCreated = false;
                 for (let location of locations) {
-                    if (location.terrain === 'plain') {
+                    if (location.terrain !== 'wall') {
                         let crop = Object.assign({source: source.id, creep: 'available'}, location);
 
                         if (!containerCreated) {
@@ -21,6 +34,8 @@ var roleHarvester = {
                             pos.createConstructionSite(STRUCTURE_CONTAINER);
                             containerCreated = true;
 
+                            room.memory.sources[source.id].container = 'surveyed';
+                            // room.memory.sources[source.id].location = location;
                             crop.container = 'surveyed';
                         }
 
@@ -29,7 +44,35 @@ var roleHarvester = {
                 }
             }
         }
+
+        if (room.memory.harvestLocations) {
+            let xx = _.filter(room.memory.harvestLocations, next => next.container === 'surveyed');
+            for (let next of xx) {
+                let jj = room.lookForAt(LOOK_STRUCTURES, next.x, next.y);
+                for (let i of jj) {
+                    if (i.structureType === STRUCTURE_CONTAINER) {
+                        room.memory.sources[next.source].mode = 'h3';
+                        room.memory.sources[next.source].container = i.id;
+                        next.container = 'available';
+                    }
+                }
+            }
+        }
+        // if (room.memory.sources) {
+        //     let xx = _.filter(room.memory.sources, next => next.container === 'surveyed');
+        //     for (let next of xx) {
+        //         let jj = room.lookForAt(LOOK_STRUCTURES, next.x, next.y);
+        //         for (let i of jj) {
+        //             if (i.structureType === STRUCTURE_CONTAINER) {
+        //                 room.memory.sources[next.source].mode = 'h3';
+        //                 room.memory.sources[next.source].container = i.id;
+        //                 next.container = 'available';
+        //             }
+        //         }
+        //     }
+        // }
         // console.log(JSON.stringify(room.memory.harvestLocations));
+        // console.log(JSON.stringify(room.memory.sources));
     },
 
     run: function(creep, context) {
@@ -93,15 +136,17 @@ var roleHarvester = {
             }
         } else {
             let target = creep.memory.target;
-            // console.log('===', JSON.stringify(target))
-            let source = Game.getObjectById(target.source)
-            // let sources = creep.room.find(FIND_SOURCES);
-            // let source = sources[creep.memory.target];
-            // var source = creep.pos.findClosestByRange(FIND_SOURCES);
-            if (!creep.pos.isNearTo(source)) {
-                creep.moveTo(source);
-            } else {                    
-                creep.harvest(source);
+            if (target) {
+                // console.log('===', JSON.stringify(target))
+                let source = Game.getObjectById(target.source)
+                // let sources = creep.room.find(FIND_SOURCES);
+                // let source = sources[creep.memory.target];
+                // var source = creep.pos.findClosestByRange(FIND_SOURCES);
+                if (!creep.pos.isNearTo(source)) {
+                    creep.moveTo(source);
+                } else {                    
+                    creep.harvest(source);
+                }
             }
         }
 	}

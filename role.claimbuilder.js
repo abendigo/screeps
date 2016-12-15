@@ -2,8 +2,10 @@ let lib = require('lib');
 
 var role = {
     run: function(creep) {
-        let targetRoom = 'W62S23';
-        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role} ${targetRoom} ticks: ${creep.ticksToLive}`)
+        console.log(`${creep.name}@${creep.room.name}:${creep.memory.role} ${creep.memory.target} ticks: ${creep.ticksToLive}`)
+
+        creep.memory.target = 'W79S36';
+        let targetRoom = creep.memory.target;
 
         if (creep.fatigue || creep.spawning)
             return;
@@ -19,7 +21,7 @@ var role = {
 
 
         if (creep.room.name !== targetRoom) {
-            creep.moveTo(new RoomPosition(10, 10, targetRoom));
+            creep.moveTo(new RoomPosition(23, 41, targetRoom));
         } else {
             if (creep.memory.building) {
                 // var targets = creep.room.find(FIND_STRUCTURES, {

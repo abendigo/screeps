@@ -15,10 +15,11 @@ var role = {
             creep.memory.upgrading = true;
             creep.say('upgrading');
         }
-        let targetRoom = 'W62S23';
+
+        let targetRoom = creep.memory.target;
 
         if (creep.room.name !== targetRoom) {
-            creep.moveTo(new RoomPosition(10, 10, targetRoom));
+            creep.moveTo(new RoomPosition(29, 22, targetRoom));
         } else {
             if (!creep.memory.upgrading) {
                 // lib.refuel(creep);

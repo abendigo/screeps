@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
 	preprocess: function(room, context) {
-		console.log('upgrader preprocess', room.name)
+		// console.log('upgrader preprocess', room.name)
 	},
 
     run: function(creep) {
