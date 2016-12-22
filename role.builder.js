@@ -8,11 +8,11 @@ let role = {
     run: function(creep, context) {
     	if (creep.fatigue || creep.spawning)
     		return;
-
-		// console.log(`${creep.name}[${creep.memory.role}]`)
+    		
+		// console.log(`${creep.name}[${creep.memory.role}] ${creep.memory.state}`)
 			let role = creep.memory.role;
 			let currentCount = context.creeps[role].length;
-			console.log(`xount ${currentCount} of ${context.desiredCreeps[role]}`)
+			// console.log(`xount ${currentCount} of ${context.desiredCreeps[role]}`)
 
 	    if (creep.memory.state === 'building' && creep.carry.energy === 0) {
 			if (creep.memory.suicide) {
@@ -30,8 +30,9 @@ let role = {
 				filter: structure => structure.structureType != STRUCTURE_ROAD &&
 						       		 structure.structureType != STRUCTURE_WALL
 			});
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+            if (targets.length) {
+				let rc = creep.build(targets[0]);
+                if (rc == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
 
                 }
@@ -42,13 +43,13 @@ let role = {
 				   }
 				});
 
-	            if(targets.length) {
+	            if (targets.length) {
 	            	creep.say('repair');
 	                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
 	                    creep.moveTo(targets[0]);
 	                }
 	            } else {
-					creep.memory.role = 'upgrader'
+					// creep.memory.role = 'upgrader'
 				}
             }
 	    }

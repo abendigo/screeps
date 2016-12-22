@@ -140,35 +140,42 @@ var role = {
         //     h3Body = [WORK,WORK,WORK,WORK,WORK,MOVE,MOVE,MOVE,MOVE,MOVE];
         }
         if (room.name === 'W79S36') {
+            workerBody = [WORK,CARRY,MOVE,MOVE];
             // if (creeps['harvester'].length + creeps['h3'].length === 0) {
             //     console.log('PANIC! THEY ARE ALL DEAD!!')
             //     queueSpawn(0, [WORK,CARRY,MOVE,MOVE], {role: 'harvester'});
             // }
 
-            // if (checkForSpawn('harvester', room.memory.harvestLocations.length)) {
-            //     queueSpawn(1, workerBody, {role: 'harvester'});
-            // }
-            if (checkForSpawn('h3', 2)) {
-                queueSpawn(1, h3Body, {role: 'h3'});
+            if (checkForSpawn('harvester', room.memory.harvestLocations.length)) {
+                queueSpawn(1, workerBody, {role: 'harvester'});
             }
+            // if (checkForSpawn('h3', 2)) {
+            //     queueSpawn(1, h3Body, {role: 'h3'});
+            // }
             if (checkForSpawn('upgrader', 1)) { //desiredCreeps['upgrader'])) {
                 queueSpawn(5, workerBody, {role: 'upgrader'});
             }
-            // if (checkForSpawn('builder', 0)) { //desiredCreeps['builder'])) {
-            //     queueSpawn(3, workerBody, {role: 'builder'});
-            // }
-            if (checkForSpawn('repair', 1)) { //desiredCreeps['repair'])) {
-                queueSpawn(9, workerBody, {role: 'repair'});
+            if (checkForSpawn('builder', 2)) { //desiredCreeps['builder'])) {
+                queueSpawn(3, workerBody, {role: 'builder'});
             }
-            if (checkForSpawn('roadcrew', 2)) {
+            // if (checkForSpawn('repair', 1)) { //desiredCreeps['repair'])) {
+            //     queueSpawn(9, workerBody, {role: 'repair'});
+            // }
+            // if (checkForSpawn('towertransport', towers.length)) {
+            //     queueSpawn(5, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'towertransport'});
+            // } 
+            if (checkForSpawn('roadcrew', 1)) {
                 queueSpawn(9, workerBody, {role: 'roadcrew'});
             }
-            if (checkForSpawn('wallcrew', 1)) {
-                queueSpawn(9, workerBody, {role: 'wallcrew'});
-            }
-            if (checkForSpawn('transport', 2)) {
-                queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
-            }
+            // if (checkForSpawn('wallcrew', 1)) {
+            //     queueSpawn(9, workerBody, {role: 'wallcrew'});
+            // }
+            // if (checkForSpawn('transport', 4)) {
+            //     queueSpawn(3, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'transport'});
+            // }
+            // if (checkForSpawn('litter', 2)) {
+            //     queueSpawn(6, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
+            // }
         }
 
         if (room.name === 'W78S36') {
@@ -180,15 +187,15 @@ var role = {
             // if (checkForSpawn('harvester', room.memory.harvestLocations.length)) {
             //     queueSpawn(1, workerBody, {role: 'harvester'});
             // }
-            // if (checkForSpawn('h3', 2)) {
-            //     queueSpawn(1, h3Body, {role: 'h3'});
-            // }
-            if (checkForSpawn('upgrader', desiredCreeps['upgrader'])) {
+            if (checkForSpawn('h3', 2)) {
+                queueSpawn(1, h3Body, {role: 'h3'});
+            }
+            if (checkForSpawn('upgrader', 4)) { //desiredCreeps['upgrader'])) {
                 queueSpawn(5, workerBody, {role: 'upgrader'});
             }
-            if (checkForSpawn('builder', desiredCreeps['builder'])) {
-                queueSpawn(3, workerBody, {role: 'builder'});
-            }
+            // if (checkForSpawn('builder', 4)) { //desiredCreeps['builder'])) {
+            //     queueSpawn(3, workerBody, {role: 'builder'});
+            // }
             // if (checkForSpawn('repair', desiredCreeps['repair'])) {
             //     queueSpawn(9, workerBody, {role: 'repair'});
             // }
@@ -201,6 +208,15 @@ var role = {
             
             if (checkForSpawn('roadcrew', 1)) {
                 queueSpawn(9, workerBody, {role: 'roadcrew'});
+            }
+            if (checkForSpawn('litter', 1)) {
+                queueSpawn(6, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'litter'});
+            }
+
+            if (room.storage) {
+                if (checkForSpawn('storageTransport', 2)) {
+                    queueSpawn(6, [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], {role: 'storageTransport'});
+                }
             }
             // if (checkForSpawn('wallcrew', 1)) {
             //     queueSpawn(9, [WORK,CARRY,MOVE,MOVE], {role: 'wallcrew'});

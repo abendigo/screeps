@@ -60,22 +60,50 @@ var role = {
         // Take CONTAINER energy and move it to EXTENSIONS or SPAWN
 
         if (creep.memory.state === 'deliver') {
-            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            // var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //     filter: (structure) => {
+            //         return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+            //             structure.energy < structure.energyCapacity;
+            //     }
+            // });
+
+            // if (!target) { 
+            //     target = creep.room.storage;
+            // }
+
+            // if (target) {
+            //     if (creep.pos.isNearTo(target)) {
+            //         creep.transfer(target, RESOURCE_ENERGY);
+            //     } else { 
+            //         creep.moveTo(target);
+            //     }
+            // }
+            let storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
-                        structure.energy < structure.energyCapacity;
+                    return (structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity) || 
+                           (structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity);
                 }
             });
-
-            if (!target) { 
-                target = creep.room.storage;
+            // var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //     filter: structure => structure.structureType === STRUCTURE_STORAGE
+            // });
+            if (!storage) {
+                storage = creep.room.storage;
+            }
+            if (!storage) {
+                storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        // if (structure.structureType == STRUCTURE_CONTAINER)
+                        //     console.log(creep.name, structure.store[RESOURCE_ENERGY], structure.storeCapacity)
+                        return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity)
+                    }
+                });
             }
 
-            if (target) {
-                if (creep.pos.isNearTo(target)) {
-                    creep.transfer(target, RESOURCE_ENERGY);
-                } else { 
-                    creep.moveTo(target);
+            if (storage) {
+                let rc = creep.moveTo(storage);
+                for (let resource in creep.carry) {
+                    let rc = creep.transfer(storage, resource) 
                 }
             }
         } else {

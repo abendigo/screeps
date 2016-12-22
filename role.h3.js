@@ -2,7 +2,7 @@ let lib = require('lib');
 
 var role = {
     run: function(creep, context) {
-        // console.log(`${creep.name}[${creep.memory.role}]@${creep.room.name}:${JSON.stringify(creep.memory.source)} ttl ${creep.ticksToLive}:${creep.memory.respawned}`);
+        // console.log(`${creep.name}[${creep.memory.role}]@${creep.room.name}:${JSON.stringify(creep.memory.source)} ttl ${creep.ticksToLive}:${creep.memory.arrivedAt}`);
 
         if (creep.fatigue || creep.spawning)
             return;
@@ -30,6 +30,8 @@ var role = {
             let source = Game.getObjectById(creep.memory.source.id);
             // console.log('container', container, 'source', source);
             if (creep.pos.isEqualTo(container)) {
+                if (!creep.memory.arrivedAt)
+                    creep.memory.arrivedAt = creep.ticksToLive;
                 creep.harvest(source);
             } else {                
                 creep.moveTo(container);

@@ -40,7 +40,9 @@ let roleRepair = {
 					var index = parseInt(Math.random() * targets.length);
 					creep.say(index + ':' + targets.length)
 					creep.memory.target = targets[index].id;
-				}
+                } else {
+                    lib.park(creep);
+                }
             }
 	    }
 	    else {

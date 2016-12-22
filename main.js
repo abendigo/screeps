@@ -2,7 +2,7 @@ var roomHandler = require('role.room');
 
 const roles = ['claim', 'claimbuilder', 'claimupgrader',
                'harvester', 'h3',
-               'transport',
+               'transport', 'storageTransport', 'litter',
                'soldier',
                'upgrader', 'builder', 'repair', 'towertransport',
                'roadcrew', 'wallcrew'];

@@ -102,7 +102,7 @@ let lib = {
                 let spawning = lib.peek(creep.room.memory.spawnPriorityQueue)
                 source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: structure =>
-                        (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= 50) ||
+                        (structure.structureType == STRUCTURE_CONTAINER && !spawning && structure.store[RESOURCE_ENERGY] >= 50) ||
                         (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= 50) || 
                         (structure.structureType == STRUCTURE_EXTENSION && !spawning && structure.energy >= 50) ||
                         (structure.structureType == STRUCTURE_SPAWN && !spawning && structure.energy >= 50)
@@ -125,10 +125,10 @@ let lib = {
                                         (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= 50)
                 });
             } else {
-                source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: structure => (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
-                                        (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50)
-                });
+                // source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                //     filter: structure => (structure.structureType == STRUCTURE_EXTENSION && structure.energy >= 50) ||
+                //                         (structure.structureType == STRUCTURE_SPAWN && structure.energy >= 50)
+                // });
             }
         }
 

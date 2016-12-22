@@ -41,11 +41,11 @@ var role = {
         if (creep.fatigue || creep.spawning)
             return;
 
-        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target}`)
+        let total = _.sum(creep.carry);
+        // console.log(`${creep.name}@${creep.room.name}:${creep.memory.role}[${creep.memory.state}] ${creep.memory.target} ${creep.carry.energy}/${creep.carryCapacity}`)
 
         // var litter = creep.room.find(FIND_DROPPED_RESOURCES);
 
-        let total = _.sum(creep.carry);
 	    if (creep.memory.state === 'deliver' && total == 0) {
             creep.memory.state = 'pickup';
 	    }
@@ -78,7 +78,7 @@ var role = {
             }
 
             if (storage) {
-                creep.moveTo(storage);
+                let rc = creep.moveTo(storage);
                 for (let resource in creep.carry) {
                     let rc = creep.transfer(storage, resource) 
                 }
