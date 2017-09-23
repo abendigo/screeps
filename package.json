@@ -1,9 +1,0 @@
-{
-  "name": "screeps",
-  "devDependencies": {
-    "doctest": "^0.10.0"
-  },
-  "scripts": {
-    "test": "doctest --module commonjs lib.js"
-  }
-}
