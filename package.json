@@ -1,0 +1,17 @@
+{
+  "name": "screeps-bot",
+  "version": "0.1.0",
+  "description": "Screeps AI, written in TypeScript.",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "lint": "eslint src --ext .ts"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "@types/screeps": "^3.3.0",
+    "typescript": "^5.5.0"
+  }
+}
