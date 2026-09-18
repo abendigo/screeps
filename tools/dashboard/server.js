@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const TOKEN = process.env.SCREEPS_TOKEN;
-const SHARD = process.env.SCREEPS_SHARD ?? "shard3";
+const SHARD = process.env.SCREEPS_SHARD ?? "shard1";
 const API_BASE = process.env.SCREEPS_API_BASE ?? "https://screeps.com/api";
 const PORT = process.env.PORT ?? 3141;
 
