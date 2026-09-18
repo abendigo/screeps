@@ -39,8 +39,11 @@ function decodeMemoryValue(data) {
   }
 }
 
-async function fetchMemoryPath(memoryPath) {
-  const url = `${API_BASE}/user/memory?path=${encodeURIComponent(memoryPath)}&shard=${SHARD}`;
+async function fetchMemory() {
+  // Fetch the whole Memory object in one request rather than one request per
+  // top-level key - Screeps' per-token rate limit is easy to blow through
+  // otherwise (see git history: 3 requests every 4s hit a ~23h lockout).
+  const url = `${API_BASE}/user/memory?shard=${SHARD}`;
   const res = await fetch(url, { headers: { "X-Token": TOKEN } });
   const text = await res.text();
 
@@ -48,25 +51,32 @@ async function fetchMemoryPath(memoryPath) {
   try {
     body = JSON.parse(text);
   } catch {
-    throw new Error(`Non-JSON response for Memory.${memoryPath} (HTTP ${res.status}): ${text.slice(0, 200)}`);
+    throw new Error(`Non-JSON response for Memory (HTTP ${res.status}): ${text.slice(0, 300)}`);
   }
   if (!body.ok) {
-    throw new Error(`Screeps API rejected request for Memory.${memoryPath}: ${text.slice(0, 200)}`);
+    throw new Error(`Screeps API rejected request for Memory: ${text.slice(0, 300)}`);
   }
-  return decodeMemoryValue(body.data);
+  return decodeMemoryValue(body.data) ?? {};
 }
 
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 
+// A small server-side cache so multiple open tabs (or a low client poll
+// interval) can't multiply requests against Screeps' rate limit - everyone
+// polling within CACHE_TTL_MS shares one upstream fetch.
+const CACHE_TTL_MS = 15_000;
+let cached = null;
+let cachedAt = 0;
+
 app.get("/api/state", async (_req, res) => {
   try {
-    const [policyMem, metrics, status] = await Promise.all([
-      fetchMemoryPath("policy"),
-      fetchMemoryPath("metrics"),
-      fetchMemoryPath("status"),
-    ]);
-    res.json({ ok: true, policy: policyMem, metrics, status, fetchedAt: Date.now() });
+    if (!cached || Date.now() - cachedAt > CACHE_TTL_MS) {
+      const memory = await fetchMemory();
+      cached = { ok: true, policy: memory.policy ?? null, metrics: memory.metrics ?? null, status: memory.status ?? null };
+      cachedAt = Date.now();
+    }
+    res.json({ ...cached, fetchedAt: cachedAt });
   } catch (err) {
     console.error(err);
     res.status(502).json({ ok: false, error: String(err.message ?? err) });
