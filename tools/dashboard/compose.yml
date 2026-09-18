@@ -1,0 +1,34 @@
+services:
+  dashboard:
+    image: ghcr.io/abendigo/screeps-dashboard:latest
+    container_name: screeps-dashboard
+    restart: unless-stopped
+    environment:
+      - SCREEPS_TOKEN=${SCREEPS_TOKEN}
+      - SCREEPS_SHARD=${SCREEPS_SHARD:-shard3}
+      - PORT=3141
+    ports:
+      - "3141:3141"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3141/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # This page shows your Screeps API token's data and isn't meant to be
+    # public. Either leave it off Traefik (reach it via the port above, e.g.
+    # over a VPN/tailnet) or put it behind an auth middleware if you expose
+    # it, the way claude-code-server gates its admin tool:
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.screeps-dashboard.rule=Host(`screeps.oosterveld.org`)"
+    #   - "traefik.http.routers.screeps-dashboard.entrypoints=websecure"
+    #   - "traefik.http.routers.screeps-dashboard.tls.certresolver=leresolver"
+    #   - "traefik.http.routers.screeps-dashboard.middlewares=authelia@docker"
+    #   - "traefik.http.services.screeps-dashboard.loadbalancer.server.port=3141"
+    # networks:
+    #   - traefik_default
+
+# networks:
+#   traefik_default:
+#     external: true
