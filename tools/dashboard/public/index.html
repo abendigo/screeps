@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Screeps bot dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --good:           #0ca30c;
+    --critical:       #d03b3b;
+    --series-1:       #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --good:           #0ca30c;
+      --critical:       #e66767;
+      --series-1:       #3987e5;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --good:           #0ca30c;
+    --critical:       #e66767;
+    --series-1:       #3987e5;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+  }
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  h1 { font-size: 18px; margin: 0; }
+  .sub { color: var(--text-secondary); font-size: 13px; }
+  #theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #error-banner {
+    display: none;
+    background: var(--surface-1);
+    border: 1px solid var(--critical);
+    color: var(--critical);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  section {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  section h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .tile .label { color: var(--text-secondary); font-size: 12px; }
+  .tile .value { font-size: 22px; font-weight: 600; margin-top: 2px; }
+  .tile .sub { font-size: 12px; margin-top: 2px; }
+
+  .legend { display: flex; gap: 16px; margin-bottom: 10px; font-size: 12px; color: var(--text-secondary); }
+  .legend .chip { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  #chart-wrap { position: relative; }
+  #tooltip {
+    position: fixed;
+    display: none;
+    background: var(--text-primary);
+    color: var(--surface-1);
+    font-size: 12px;
+    padding: 6px 9px;
+    border-radius: 6px;
+    pointer-events: none;
+    max-width: 260px;
+    z-index: 10;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--gridline); }
+  th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.status-good { color: var(--good); }
+  td.status-critical { color: var(--critical); }
+
+  .empty { color: var(--text-muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Screeps bot dashboard</h1>
+      <div class="sub" id="subtitle">Connecting&hellip;</div>
+    </div>
+    <button id="theme-toggle" type="button">Toggle theme</button>
+  </header>
+
+  <div id="error-banner"></div>
+
+  <section>
+    <h2>Colony status</h2>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section>
+    <h2>Policy reward by window</h2>
+    <div class="legend">
+      <span class="chip"><span class="dot" style="background: var(--good)"></span>&check; accepted</span>
+      <span class="chip"><span class="dot" style="background: var(--critical)"></span>&cross; reverted</span>
+    </div>
+    <div id="chart-wrap">
+      <svg id="chart" viewBox="0 0 800 220" width="100%" height="220" preserveAspectRatio="none"></svg>
+      <div id="tooltip"></div>
+    </div>
+    <div class="empty" id="chart-empty">No policy decisions yet &mdash; the first window takes a while to complete.</div>
+  </section>
+
+  <section>
+    <h2>Window history</h2>
+    <table id="history-table">
+      <thead>
+        <tr><th>Tick</th><th>Weights</th><th class="num">Reward</th><th>Result</th></tr>
+      </thead>
+      <tbody id="history-body"></tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+(function () {
+  const POLL_MS = 4000;
+  const root = document.documentElement;
+  const themeToggle = document.getElementById("theme-toggle");
+
+  function loadTheme() {
+    try {
+      return localStorage.getItem("theme");
+    } catch {
+      return null;
+    }
+  }
+  function saveTheme(value) {
+    try {
+      localStorage.setItem("theme", value);
+    } catch {
+      // ignore (private browsing, blocked storage, etc.)
+    }
+  }
+  const savedTheme = loadTheme();
+  if (savedTheme) root.setAttribute("data-theme", savedTheme);
+  themeToggle.addEventListener("click", () => {
+    const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const next = current === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    saveTheme(next);
+  });
+
+  const style = getComputedStyle(root);
+  function cssVar(name) {
+    return getComputedStyle(root).getPropertyValue(name).trim();
+  }
+
+  function fmt(n) {
+    if (n === null || n === undefined || Number.isNaN(n)) return "–";
+    return Math.round(n).toLocaleString();
+  }
+
+  function tile(label, value, sub) {
+    const div = document.createElement("div");
+    div.className = "tile";
+    div.innerHTML =
+      '<div class="label">' + label + '</div>' +
+      '<div class="value">' + value + '</div>' +
+      (sub ? '<div class="sub" style="color:var(--text-muted)">' + sub + '</div>' : "");
+    return div;
+  }
+
+  function renderTiles(state) {
+    const tiles = document.getElementById("tiles");
+    tiles.innerHTML = "";
+    const status = state.status;
+    const policy = state.policy;
+    const metrics = state.metrics;
+
+    if (!status) {
+      tiles.appendChild(tile("Status", "waiting for data", "the bot hasn't written Memory.status yet"));
+      return;
+    }
+
+    const pct = status.controllerProgressTotal
+      ? Math.floor((100 * status.controllerProgress) / status.controllerProgressTotal)
+      : 100;
+    tiles.appendChild(tile("Controller level", "RCL " + status.rcl, pct + "% to next level"));
+    tiles.appendChild(tile("Energy available", fmt(status.energyAvailable) + " / " + fmt(status.energyCapacityAvailable)));
+    tiles.appendChild(tile("Stored energy", fmt(status.storedEnergy)));
+
+    const counts = status.creepCounts || {};
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    const breakdown = Object.entries(counts).map(([role, n]) => role + ": " + n).join(", ") || "none";
+    tiles.appendChild(tile("Creeps", String(total), breakdown));
+
+    if (policy) {
+      const target = policy.weights.targetHarvesters;
+      const trialing = policy.candidateWeights && policy.candidateWeights.targetHarvesters !== target
+        ? "trialing " + policy.candidateWeights.targetHarvesters
+        : "stable";
+      tiles.appendChild(tile("Harvester target", String(target), trialing));
+
+      const elapsed = status.tick - policy.windowStartTick;
+      tiles.appendChild(tile("Learning window", fmt(elapsed) + " ticks", "since tick " + fmt(policy.windowStartTick)));
+    }
+
+    if (metrics) {
+      tiles.appendChild(tile("Deaths this window", String(metrics.deathsThisWindow ?? 0)));
+    }
+  }
+
+  function roundedBarPath(x, w, baselineY, tipY, radius) {
+    const up = tipY < baselineY;
+    const height = Math.abs(baselineY - tipY);
+    const r = Math.min(radius, w / 2, height / 2);
+    if (up) {
+      const top = tipY;
+      return [
+        "M", x, baselineY,
+        "L", x, top + r,
+        "Q", x, top, x + r, top,
+        "L", x + w - r, top,
+        "Q", x + w, top, x + w, top + r,
+        "L", x + w, baselineY,
+        "Z",
+      ].join(" ");
+    }
+    const bottom = tipY;
+    return [
+      "M", x, baselineY,
+      "L", x, bottom - r,
+      "Q", x, bottom, x + r, bottom,
+      "L", x + w - r, bottom,
+      "Q", x + w, bottom, x + w, bottom - r,
+      "L", x + w, baselineY,
+      "Z",
+    ].join(" ");
+  }
+
+  const NS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+
+  const tooltip = document.getElementById("tooltip");
+  function showTooltip(evt, entry) {
+    tooltip.style.display = "block";
+    tooltip.style.left = evt.clientX + 12 + "px";
+    tooltip.style.top = evt.clientY + 12 + "px";
+    tooltip.innerHTML =
+      "tick " + entry.tick + "<br>" +
+      JSON.stringify(entry.weights) + "<br>" +
+      "reward " + entry.reward.toFixed(1) + " — " + (entry.accepted ? "accepted" : "reverted");
+  }
+  function hideTooltip() {
+    tooltip.style.display = "none";
+  }
+
+  function renderChart(history) {
+    const svg = document.getElementById("chart");
+    const emptyMsg = document.getElementById("chart-empty");
+    svg.innerHTML = "";
+
+    if (!history || history.length === 0) {
+      emptyMsg.style.display = "block";
+      svg.style.display = "none";
+      return;
+    }
+    emptyMsg.style.display = "none";
+    svg.style.display = "block";
+
+    const W = 800, H = 220, PAD_TOP = 16, PAD_BOTTOM = 16;
+    const baselineY = H / 2;
+    const maxAbs = Math.max(1, ...history.map((e) => Math.abs(e.reward)));
+    const scale = (H / 2 - PAD_TOP) / maxAbs;
+
+    svg.appendChild(svgEl("line", {
+      x1: 0, x2: W, y1: baselineY, y2: baselineY,
+      stroke: cssVar("--baseline"), "stroke-width": 1,
+    }));
+
+    const slot = W / history.length;
+    const barWidth = Math.min(24, slot - 2);
+
+    history.forEach((entry, i) => {
+      const x = i * slot + (slot - barWidth) / 2;
+      const tipY = baselineY - entry.reward * scale;
+      const color = entry.accepted ? cssVar("--good") : cssVar("--critical");
+      const path = svgEl("path", {
+        d: roundedBarPath(x, barWidth, baselineY, tipY, 4),
+        fill: color,
+      });
+      path.style.cursor = "pointer";
+      path.addEventListener("mousemove", (evt) => showTooltip(evt, entry));
+      path.addEventListener("mouseleave", hideTooltip);
+      svg.appendChild(path);
+    });
+  }
+
+  function renderTable(history) {
+    const body = document.getElementById("history-body");
+    body.innerHTML = "";
+    (history || []).slice().reverse().forEach((entry) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + entry.tick + "</td>" +
+        "<td>" + JSON.stringify(entry.weights) + "</td>" +
+        '<td class="num">' + entry.reward.toFixed(1) + "</td>" +
+        '<td class="' + (entry.accepted ? "status-good" : "status-critical") + '">' +
+        (entry.accepted ? "✓ accepted" : "✗ reverted") + "</td>";
+      body.appendChild(tr);
+    });
+  }
+
+  function showError(message) {
+    const banner = document.getElementById("error-banner");
+    banner.textContent = message;
+    banner.style.display = "block";
+  }
+  function hideError() {
+    document.getElementById("error-banner").style.display = "none";
+  }
+
+  async function refresh() {
+    try {
+      const res = await fetch("/api/state");
+      const body = await res.json();
+      if (!body.ok) throw new Error(body.error || "unknown error");
+      hideError();
+      document.getElementById("subtitle").textContent =
+        (body.status ? body.status.roomName : "colony") +
+        " · updated " + new Date(body.fetchedAt).toLocaleTimeString();
+      renderTiles(body);
+      renderChart(body.policy ? body.policy.history : []);
+      renderTable(body.policy ? body.policy.history : []);
+    } catch (err) {
+      showError("Couldn't reach the bot's memory: " + err.message);
+    }
+  }
+
+  refresh();
+  setInterval(refresh, POLL_MS);
+})();
+</script>
+</body>
+</html>
