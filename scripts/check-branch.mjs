@@ -31,12 +31,14 @@ try {
   }
 
   const code = await api.userCodeGet(branch);
+  console.log("Raw response keys:", Object.keys(code));
   const modules = code.modules || {};
   const names = Object.keys(modules);
   console.log(`Modules on branch "${branch}" (${names.length}):`);
   for (const [name, content] of Object.entries(modules)) {
     const length = typeof content === "string" ? content.length : JSON.stringify(content).length;
-    console.log(`  "${name}": ${length} chars`);
+    const preview = typeof content === "string" ? content.slice(0, 80) : JSON.stringify(content).slice(0, 80);
+    console.log(`  "${name}" (${typeof content}, ${length} chars): ${JSON.stringify(preview)}`);
   }
 } catch (err) {
   console.error("Check failed:", err.response?.data ?? err.message);
