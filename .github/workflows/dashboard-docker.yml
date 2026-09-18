@@ -6,6 +6,7 @@ on:
     paths:
       - "tools/dashboard/**"
       - ".github/workflows/dashboard-docker.yml"
+  workflow_dispatch: {}
 
 concurrency:
   group: dashboard-deploy-${{ github.ref }}
