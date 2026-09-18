@@ -15,6 +15,7 @@ if (!token) {
 const branch = process.env.SCREEPS_BRANCH || "default";
 const mainPath = fileURLToPath(new URL("../dist/main.js", import.meta.url));
 const main = readFileSync(mainPath, "utf8");
+console.log(`Read ${main.length} chars from ${mainPath}`);
 
 const api = new ScreepsHttpClient({
   token,
@@ -28,11 +29,15 @@ try {
   const { list } = await api.userBranches();
   const exists = list.some((b) => b.branch === branch);
 
+  let response;
   if (exists) {
-    await api.userCodeSet({ branch, modules: { main } });
+    console.log(`Branch "${branch}" exists, using userCodeSet`);
+    response = await api.userCodeSet({ branch, modules: { main } });
   } else {
-    await api.userCloneBranch("", branch, { main });
+    console.log(`Branch "${branch}" does not exist, using userCloneBranch`);
+    response = await api.userCloneBranch("", branch, { main });
   }
+  console.log("API response:", JSON.stringify(response));
 
   console.log(`Deployed dist/main.js to Screeps branch "${branch}"`);
 } catch (err) {
