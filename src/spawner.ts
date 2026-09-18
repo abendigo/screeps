@@ -1,5 +1,6 @@
+import * as policy from "policy";
+
 const BODY_HARVESTER: BodyPartConstant[] = [WORK, CARRY, MOVE];
-const MIN_HARVESTERS_PER_ROOM = 3;
 
 export function run(room: Room): void {
   const spawn = room.find(FIND_MY_SPAWNS)[0];
@@ -11,7 +12,7 @@ export function run(room: Room): void {
     (creep) => creep.memory.role === "harvester" && creep.room.name === room.name,
   );
 
-  if (harvesters.length < MIN_HARVESTERS_PER_ROOM) {
+  if (harvesters.length < policy.getTargetHarvesters(room)) {
     const name = `harvester_${Game.time}`;
     const result = spawn.spawnCreep(BODY_HARVESTER, name, {
       memory: { role: "harvester", working: false },
