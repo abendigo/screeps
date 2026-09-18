@@ -222,6 +222,25 @@
     return Math.round(n).toLocaleString();
   }
 
+  function formatUptime(seconds) {
+    if (typeof seconds !== "number" || seconds < 60) return (seconds || 0) + "s";
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const parts = [];
+    if (days) parts.push(days + "d");
+    if (hours) parts.push(hours + "h");
+    if (!days && mins) parts.push(mins + "m");
+    return parts.join(" ") || "0m";
+  }
+
+  function formatBuildDate(iso) {
+    if (!iso) return null;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
   function tile(label, value, sub) {
     const div = document.createElement("div");
     div.className = "tile";
@@ -392,9 +411,17 @@
       const body = await res.json();
       if (!body.ok) throw new Error(body.error || "unknown error");
       hideError();
+      const version = body.version || {};
+      const versionBits = [];
+      if (version.gitSha && version.gitSha !== "unknown") versionBits.push(version.gitSha);
+      const buildDate = formatBuildDate(version.gitDate);
+      if (buildDate) versionBits.push("built " + buildDate);
+      if (typeof version.uptimeSeconds === "number") versionBits.push("up " + formatUptime(version.uptimeSeconds));
+
       document.getElementById("subtitle").textContent =
         (body.status ? body.status.roomName : "colony") +
-        " · updated " + new Date(body.fetchedAt).toLocaleTimeString();
+        " · updated " + new Date(body.fetchedAt).toLocaleTimeString() +
+        (versionBits.length ? " · " + versionBits.join(" · ") : "");
       renderTiles(body);
       renderChart(body.policy ? body.policy.history : []);
       renderTable(body.policy ? body.policy.history : []);

@@ -10,6 +10,9 @@ const TOKEN = process.env.SCREEPS_TOKEN;
 const SHARD = process.env.SCREEPS_SHARD ?? "shard1";
 const API_BASE = process.env.SCREEPS_API_BASE ?? "https://screeps.com/api";
 const PORT = process.env.PORT ?? 3141;
+const GIT_SHA = process.env.GIT_SHA ?? "unknown";
+const GIT_DATE = process.env.GIT_DATE ?? null;
+const STARTED_AT = Date.now();
 
 if (!TOKEN) {
   console.error(
@@ -76,7 +79,11 @@ app.get("/api/state", async (_req, res) => {
       cached = { ok: true, policy: memory.policy ?? null, metrics: memory.metrics ?? null, status: memory.status ?? null };
       cachedAt = Date.now();
     }
-    res.json({ ...cached, fetchedAt: cachedAt });
+    res.json({
+      ...cached,
+      fetchedAt: cachedAt,
+      version: { gitSha: GIT_SHA, gitDate: GIT_DATE, uptimeSeconds: Math.floor((Date.now() - STARTED_AT) / 1000) },
+    });
   } catch (err) {
     console.error(err);
     res.status(502).json({ ok: false, error: String(err.message ?? err) });
