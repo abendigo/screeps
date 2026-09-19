@@ -413,7 +413,8 @@
     }
 
     if (metrics) {
-      tiles.appendChild(tile("Deaths this window", String(metrics.deathsThisWindow ?? 0)));
+      tiles.appendChild(tile("Unexpected losses", String(metrics.deathsThisWindow ?? 0), "this window"));
+      tiles.appendChild(tile("Natural expirations", String(metrics.expiredThisWindow ?? 0), "this window"));
     }
   }
 
