@@ -44,12 +44,58 @@ function ensureContainer(source: Source): void {
   }
 }
 
+// Caps how many road sites get placed in a single planning pass, so a
+// freshly-explored room with several long unpaved routes doesn't dump a
+// CPU-heavy burst of pathfinding + site creation into one tick. Anything
+// left over just gets picked up on the next PLAN_INTERVAL pass.
+const MAX_ROAD_SITES_PER_PASS = 10;
+
+function hasRoadAt(pos: RoomPosition): boolean {
+  return (
+    pos.lookFor(LOOK_STRUCTURES).some((s) => s.structureType === STRUCTURE_ROAD) ||
+    pos.lookFor(LOOK_CONSTRUCTION_SITES).some((s) => s.structureType === STRUCTURE_ROAD)
+  );
+}
+
+function ensureRoad(from: RoomPosition, to: RoomPosition, budget: { remaining: number }): void {
+  if (budget.remaining <= 0) {
+    return;
+  }
+
+  const path = from.findPathTo(to, { ignoreCreeps: true, range: 1 });
+  for (const step of path) {
+    if (budget.remaining <= 0) {
+      return;
+    }
+    const pos = new RoomPosition(step.x, step.y, from.roomName);
+    if (!hasRoadAt(pos)) {
+      if (pos.createConstructionSite(STRUCTURE_ROAD) === OK) {
+        budget.remaining -= 1;
+      }
+    }
+  }
+}
+
 export function run(room: Room): void {
   if (Game.time % PLAN_INTERVAL !== 0) {
     return;
   }
 
-  for (const source of room.find(FIND_SOURCES)) {
+  const sources = room.find(FIND_SOURCES);
+  for (const source of sources) {
     ensureContainer(source);
+  }
+
+  const spawn = room.find(FIND_MY_SPAWNS)[0];
+  if (!spawn) {
+    return;
+  }
+
+  const budget = { remaining: MAX_ROAD_SITES_PER_PASS };
+  for (const source of sources) {
+    ensureRoad(spawn.pos, source.pos, budget);
+  }
+  if (room.controller) {
+    ensureRoad(spawn.pos, room.controller.pos, budget);
   }
 }
