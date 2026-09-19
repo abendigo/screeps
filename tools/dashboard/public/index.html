@@ -72,12 +72,70 @@
   }
   h1 { font-size: 18px; margin: 0; }
   .sub { color: var(--text-secondary); font-size: 13px; }
-  #theme-toggle {
+  #theme-toggle, #lift-rate-limit {
     border: 1px solid var(--border);
     background: var(--surface-1);
     color: var(--text-secondary);
     border-radius: 6px;
     padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #rate-limit-overlay {
+    display: none;
+    position: fixed;
+    inset: 8%;
+    z-index: 30;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  #rate-limit-overlay iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: none;
+  }
+  #rate-limit-setup {
+    display: none;
+    max-width: 420px;
+    padding: 40px 28px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  #rate-limit-setup p { margin: 0 0 14px; line-height: 1.5; }
+  #rate-limit-setup a { color: var(--series-1); }
+  #rate-limit-token-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--page);
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+  #rate-limit-token-save {
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #rate-limit-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 31;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    padding: 4px 9px;
     font-size: 12px;
     cursor: pointer;
   }
@@ -149,10 +207,29 @@
       <h1>Screeps bot dashboard</h1>
       <div class="sub" id="subtitle">Connecting&hellip;</div>
     </div>
-    <button id="theme-toggle" type="button">Toggle theme</button>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span class="sub" id="rate-limit-status"></span>
+      <button id="lift-rate-limit" type="button">Lift rate limit (2h)</button>
+      <button id="theme-toggle" type="button">Toggle theme</button>
+    </div>
   </header>
 
   <div id="error-banner"></div>
+
+  <div id="rate-limit-overlay">
+    <button id="rate-limit-close" type="button">&times; Close</button>
+    <div id="rate-limit-setup">
+      <p>
+        Paste your Screeps auth token to build the rate-limit-bypass link.
+        It's stored only in this browser (<code>localStorage</code>) &mdash;
+        never sent to the dashboard server or anywhere else. Generate one at
+        <a href="https://screeps.com/a/#!/account/auth-tokens" target="_blank" rel="noopener">screeps.com/a/#!/account/auth-tokens</a>.
+      </p>
+      <input id="rate-limit-token-input" type="password" placeholder="Screeps auth token" autocomplete="off" />
+      <button id="rate-limit-token-save" type="button">Save &amp; open</button>
+    </div>
+    <iframe id="rate-limit-iframe" title="Lift Screeps rate limit"></iframe>
+  </div>
 
   <section>
     <h2>Colony status</h2>
@@ -432,6 +509,84 @@
 
   refresh();
   setInterval(refresh, POLL_MS);
+
+  // Rate-limit bypass: Screeps lets a token run unlimited requests for 2h
+  // after the account owner passes a reCAPTCHA on a page keyed to that
+  // token. Entirely client-side: the token is read from/written to this
+  // browser's localStorage only, never sent to the dashboard server or
+  // committed anywhere. We watch for the "screepsTokenSuccess" message
+  // Screeps posts back on completion.
+  const RATE_LIMIT_TOKEN_KEY = "screepsRateLimitToken";
+  const liftBtn = document.getElementById("lift-rate-limit");
+  const overlay = document.getElementById("rate-limit-overlay");
+  const closeBtn = document.getElementById("rate-limit-close");
+  const setupPanel = document.getElementById("rate-limit-setup");
+  const tokenInput = document.getElementById("rate-limit-token-input");
+  const tokenSaveBtn = document.getElementById("rate-limit-token-save");
+  const iframe = document.getElementById("rate-limit-iframe");
+  const rateLimitStatus = document.getElementById("rate-limit-status");
+
+  function loadRateLimitToken() {
+    try {
+      return localStorage.getItem(RATE_LIMIT_TOKEN_KEY);
+    } catch {
+      return null;
+    }
+  }
+  function saveRateLimitToken(value) {
+    try {
+      localStorage.setItem(RATE_LIMIT_TOKEN_KEY, value);
+    } catch {
+      // ignore (private browsing, blocked storage, etc.)
+    }
+  }
+
+  function closeOverlay() {
+    overlay.style.display = "none";
+    setupPanel.style.display = "none";
+    iframe.style.display = "none";
+    iframe.src = "about:blank";
+  }
+
+  function openBypassPage(token) {
+    iframe.src = "https://screeps.com/a/#!/account/auth-tokens/noratelimit?token=" + encodeURIComponent(token);
+    setupPanel.style.display = "none";
+    iframe.style.display = "block";
+  }
+
+  liftBtn.addEventListener("click", () => {
+    overlay.style.display = "block";
+    const stored = loadRateLimitToken();
+    if (stored) {
+      openBypassPage(stored);
+    } else {
+      tokenInput.value = "";
+      setupPanel.style.display = "block";
+      tokenInput.focus();
+    }
+  });
+
+  tokenSaveBtn.addEventListener("click", () => {
+    const value = tokenInput.value.trim();
+    if (!value) return;
+    saveRateLimitToken(value);
+    openBypassPage(value);
+  });
+  tokenInput.addEventListener("keydown", (evt) => {
+    if (evt.key === "Enter") tokenSaveBtn.click();
+  });
+
+  closeBtn.addEventListener("click", closeOverlay);
+
+  window.addEventListener("message", (evt) => {
+    if (evt.origin !== "https://screeps.com") return;
+    const data = evt.data;
+    const succeeded = data === "screepsTokenSuccess" || (data && data.type === "screepsTokenSuccess");
+    if (!succeeded) return;
+    closeOverlay();
+    const until = new Date(Date.now() + 2 * 60 * 60 * 1000);
+    rateLimitStatus.textContent = "Unlimited until " + until.toLocaleTimeString();
+  });
 })();
 </script>
 </body>
