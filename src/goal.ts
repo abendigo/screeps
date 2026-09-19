@@ -11,8 +11,8 @@ export const GOAL: GoalMemory = {
     "Expanding to a second room needs a higher GCL than this account has yet, and there's a lot of real growth available in this one room first (extensions, towers, storage, etc.) - get the most out of it before expanding.",
   subGoals: [
     { id: "defense-basics", summary: "Defender role + safe-mode-on-loss", status: "done" },
-    { id: "rcl2", summary: "Reach RCL2, unlock extensions", status: "active" },
-    { id: "builder-role", summary: "Builder role for roads/containers", status: "pending" },
+    { id: "rcl2", summary: "Reach RCL2, unlock extensions", status: "done" },
+    { id: "builder-role", summary: "Builder role for roads/containers", status: "active" },
     { id: "rcl3-towers", summary: "Reach RCL3, add a tower for real defense", status: "pending" },
     { id: "hauler-role", summary: "Hauler role once containers exist, freeing harvesters from delivery", status: "pending" },
     { id: "storage-economy", summary: "Reach RCL4, build storage, stabilize the energy economy", status: "pending" },
