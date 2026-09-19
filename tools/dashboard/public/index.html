@@ -482,29 +482,44 @@
     document.getElementById("error-banner").style.display = "none";
   }
 
+  function formatVersionText(version) {
+    version = version || {};
+    const bits = [];
+    if (version.gitSha && version.gitSha !== "unknown") bits.push(version.gitSha);
+    const buildDate = formatBuildDate(version.gitDate);
+    if (buildDate) bits.push("built " + buildDate);
+    if (typeof version.uptimeSeconds === "number") bits.push("up " + formatUptime(version.uptimeSeconds));
+    return bits.join(" · ");
+  }
+
   async function refresh() {
+    let body;
     try {
       const res = await fetch("/api/state");
-      const body = await res.json();
-      if (!body.ok) throw new Error(body.error || "unknown error");
-      hideError();
-      const version = body.version || {};
-      const versionBits = [];
-      if (version.gitSha && version.gitSha !== "unknown") versionBits.push(version.gitSha);
-      const buildDate = formatBuildDate(version.gitDate);
-      if (buildDate) versionBits.push("built " + buildDate);
-      if (typeof version.uptimeSeconds === "number") versionBits.push("up " + formatUptime(version.uptimeSeconds));
-
-      document.getElementById("subtitle").textContent =
-        (body.status ? body.status.roomName : "colony") +
-        " · updated " + new Date(body.fetchedAt).toLocaleTimeString() +
-        (versionBits.length ? " · " + versionBits.join(" · ") : "");
-      renderTiles(body);
-      renderChart(body.policy ? body.policy.history : []);
-      renderTable(body.policy ? body.policy.history : []);
+      body = await res.json();
     } catch (err) {
-      showError("Couldn't reach the bot's memory: " + err.message);
+      showError("Couldn't reach the dashboard server: " + err.message);
+      return;
     }
+
+    // Build/uptime describes this dashboard server, not the upstream Screeps
+    // API, so it should render even when the Memory fetch below fails.
+    const versionText = formatVersionText(body.version);
+
+    if (!body.ok) {
+      document.getElementById("subtitle").textContent = versionText || "dashboard server up";
+      showError("Couldn't reach the bot's memory: " + (body.error || "unknown error"));
+      return;
+    }
+
+    hideError();
+    document.getElementById("subtitle").textContent =
+      (body.status ? body.status.roomName : "colony") +
+      " · updated " + new Date(body.fetchedAt).toLocaleTimeString() +
+      (versionText ? " · " + versionText : "");
+    renderTiles(body);
+    renderChart(body.policy ? body.policy.history : []);
+    renderTable(body.policy ? body.policy.history : []);
   }
 
   refresh();
