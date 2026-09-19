@@ -72,6 +72,13 @@ const CACHE_TTL_MS = 15_000;
 let cached = null;
 let cachedAt = 0;
 
+// Build/uptime info describes this server process, not the upstream Screeps
+// API - always include it, even when the Memory fetch below fails, so the
+// dashboard can show it regardless of API/rate-limit health.
+function versionInfo() {
+  return { gitSha: GIT_SHA, gitDate: GIT_DATE, uptimeSeconds: Math.floor((Date.now() - STARTED_AT) / 1000) };
+}
+
 app.get("/api/state", async (_req, res) => {
   try {
     if (!cached || Date.now() - cachedAt > CACHE_TTL_MS) {
@@ -79,14 +86,10 @@ app.get("/api/state", async (_req, res) => {
       cached = { ok: true, policy: memory.policy ?? null, metrics: memory.metrics ?? null, status: memory.status ?? null };
       cachedAt = Date.now();
     }
-    res.json({
-      ...cached,
-      fetchedAt: cachedAt,
-      version: { gitSha: GIT_SHA, gitDate: GIT_DATE, uptimeSeconds: Math.floor((Date.now() - STARTED_AT) / 1000) },
-    });
+    res.json({ ...cached, fetchedAt: cachedAt, version: versionInfo() });
   } catch (err) {
     console.error(err);
-    res.status(502).json({ ok: false, error: String(err.message ?? err) });
+    res.status(502).json({ ok: false, error: String(err.message ?? err), version: versionInfo() });
   }
 });
 
