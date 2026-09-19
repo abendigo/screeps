@@ -16,7 +16,7 @@ export const GOAL: GoalMemory = {
     { id: "builder-roads", summary: "Planner-placed roads from spawn to sources/controller", status: "done" },
     { id: "extensions", summary: "Planner-placed extensions (RCL2 cap 5, energy capacity 300 -> 550)", status: "done" },
     { id: "rcl3-towers", summary: "Reach RCL3, add a tower for real defense", status: "active" },
-    { id: "hauler-role", summary: "Hauler role once containers exist, freeing harvesters from delivery", status: "pending" },
+    { id: "hauler-role", summary: "Miner/hauler split: stationary miners + haulers, retiring the harvester role", status: "done" },
     { id: "storage-economy", summary: "Reach RCL4, build storage, stabilize the energy economy", status: "pending" },
   ],
 };

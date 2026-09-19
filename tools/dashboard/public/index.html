@@ -402,11 +402,11 @@
     tiles.appendChild(tile("Safe mode", status.safeMode ? "Active" : "Ready", safeModeSub));
 
     if (policy) {
-      const target = policy.weights.targetHarvesters;
-      const trialing = policy.candidateWeights && policy.candidateWeights.targetHarvesters !== target
-        ? "trialing " + policy.candidateWeights.targetHarvesters
+      const target = policy.weights.targetHaulers;
+      const trialing = policy.candidateWeights && policy.candidateWeights.targetHaulers !== target
+        ? "trialing " + policy.candidateWeights.targetHaulers
         : "stable";
-      tiles.appendChild(tile("Harvester target", String(target), trialing));
+      tiles.appendChild(tile("Hauler target", String(target), trialing));
 
       const elapsed = status.tick - policy.windowStartTick;
       tiles.appendChild(tile("Learning window", fmt(elapsed) + " ticks", "since tick " + fmt(policy.windowStartTick)));

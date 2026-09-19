@@ -3,6 +3,8 @@ import * as defender from "roles/defender";
 import * as defense from "defense";
 import { GOAL } from "goal";
 import * as harvester from "roles/harvester";
+import * as hauler from "roles/hauler";
+import * as miner from "roles/miner";
 import * as planner from "planner";
 import * as policy from "policy";
 import * as spawner from "spawner";
@@ -67,7 +69,16 @@ export function loop(): void {
     const creep = Game.creeps[name];
     switch (creep.memory.role) {
       case "harvester":
+        // Old role, being phased out in favor of miner/hauler - no longer
+        // spawned (see spawner.ts), but existing ones keep running until
+        // they age out naturally rather than being abandoned mid-lifespan.
         harvester.run(creep);
+        break;
+      case "miner":
+        miner.run(creep);
+        break;
+      case "hauler":
+        hauler.run(creep);
         break;
       case "defender":
         defender.run(creep);
