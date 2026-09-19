@@ -7,6 +7,7 @@ import * as planner from "planner";
 import * as policy from "policy";
 import * as spawner from "spawner";
 import * as status from "status";
+import * as tower from "tower";
 
 // A creep still had significant ticksToLive the last time we saw it alive
 // but is gone this tick - almost certainly lost to something other than
@@ -55,6 +56,7 @@ export function loop(): void {
       planner.run(room);
       spawner.run(room);
       status.update(room);
+      tower.run(room);
       if (defenderLost) {
         defense.handleDefenderLoss(room);
       }
