@@ -4,7 +4,7 @@
 declare global {
   interface CreepMemory {
     role: string;
-    working: boolean;
+    working?: boolean;
   }
 
   interface Memory {
