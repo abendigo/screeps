@@ -1,7 +1,9 @@
+import * as builder from "roles/builder";
 import * as defender from "roles/defender";
 import * as defense from "defense";
 import { GOAL } from "goal";
 import * as harvester from "roles/harvester";
+import * as planner from "planner";
 import * as policy from "policy";
 import * as spawner from "spawner";
 import * as status from "status";
@@ -29,6 +31,7 @@ export function loop(): void {
     const room = Game.rooms[roomName];
     if (room.controller && room.controller.my) {
       policy.tick(room);
+      planner.run(room);
       spawner.run(room);
       status.update(room);
       if (defenderDied) {
@@ -45,6 +48,9 @@ export function loop(): void {
         break;
       case "defender":
         defender.run(creep);
+        break;
+      case "builder":
+        builder.run(creep);
         break;
       default:
         console.log(`${name}: unknown role "${creep.memory.role}"`);
