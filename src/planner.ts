@@ -159,11 +159,14 @@ function ensureCappedStructure(
 // left over just gets picked up on the next PLAN_INTERVAL pass.
 const MAX_ROAD_SITES_PER_PASS = 10;
 
-function hasRoadAt(pos: RoomPosition): boolean {
-  return (
-    pos.lookFor(LOOK_STRUCTURES).some((s) => s.structureType === STRUCTURE_ROAD) ||
-    pos.lookFor(LOOK_CONSTRUCTION_SITES).some((s) => s.structureType === STRUCTURE_ROAD)
-  );
+// Checking only "is there already a road here" let a planned road silently
+// overwrite a different pending site (observed live: a road path happened
+// to land exactly on a source's only viable container spot and replaced
+// its construction site outright, with no error - Screeps allows one
+// construction site per tile and just swaps it). Roads should route around
+// anything already claimed, not through it.
+function isOccupied(pos: RoomPosition): boolean {
+  return pos.lookFor(LOOK_STRUCTURES).length > 0 || pos.lookFor(LOOK_CONSTRUCTION_SITES).length > 0;
 }
 
 function ensureRoad(from: RoomPosition, to: RoomPosition, budget: { remaining: number }): void {
@@ -177,7 +180,7 @@ function ensureRoad(from: RoomPosition, to: RoomPosition, budget: { remaining: n
       return;
     }
     const pos = new RoomPosition(step.x, step.y, from.roomName);
-    if (!hasRoadAt(pos)) {
+    if (!isOccupied(pos)) {
       if (pos.createConstructionSite(STRUCTURE_ROAD) === OK) {
         budget.remaining -= 1;
       }
