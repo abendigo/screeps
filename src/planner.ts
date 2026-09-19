@@ -44,6 +44,65 @@ function ensureContainer(source: Source): void {
   }
 }
 
+function findOpenSpots(center: RoomPosition, count: number): RoomPosition[] {
+  const terrain = new Room.Terrain(center.roomName);
+  const spots: RoomPosition[] = [];
+
+  // Search outward in rings starting at radius 2, so extensions don't sit
+  // on the tiles immediately around the spawn that creeps need to move
+  // through.
+  for (let radius = 2; radius <= 6 && spots.length < count; radius++) {
+    for (let dx = -radius; dx <= radius; dx++) {
+      for (let dy = -radius; dy <= radius; dy++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== radius) {
+          continue;
+        }
+        const x = center.x + dx;
+        const y = center.y + dy;
+        if (x < 2 || x > 47 || y < 2 || y > 47) {
+          continue;
+        }
+        if (terrain.get(x, y) === TERRAIN_MASK_WALL) {
+          continue;
+        }
+        const pos = new RoomPosition(x, y, center.roomName);
+        if (pos.lookFor(LOOK_STRUCTURES).length > 0 || pos.lookFor(LOOK_CONSTRUCTION_SITES).length > 0) {
+          continue;
+        }
+        spots.push(pos);
+        if (spots.length >= count) {
+          return spots;
+        }
+      }
+    }
+  }
+  return spots;
+}
+
+function ensureExtensions(room: Room, spawn: StructureSpawn): void {
+  const controller = room.controller;
+  if (!controller) {
+    return;
+  }
+
+  const max = CONTROLLER_STRUCTURES.extension[controller.level] ?? 0;
+  const existing = room.find(FIND_MY_STRUCTURES, {
+    filter: (s) => s.structureType === STRUCTURE_EXTENSION,
+  }).length;
+  const queued = room.find(FIND_CONSTRUCTION_SITES, {
+    filter: (s) => s.structureType === STRUCTURE_EXTENSION,
+  }).length;
+
+  const needed = max - existing - queued;
+  if (needed <= 0) {
+    return;
+  }
+
+  for (const spot of findOpenSpots(spawn.pos, needed)) {
+    spot.createConstructionSite(STRUCTURE_EXTENSION);
+  }
+}
+
 // Caps how many road sites get placed in a single planning pass, so a
 // freshly-explored room with several long unpaved routes doesn't dump a
 // CPU-heavy burst of pathfinding + site creation into one tick. Anything
@@ -90,6 +149,8 @@ export function run(room: Room): void {
   if (!spawn) {
     return;
   }
+
+  ensureExtensions(room, spawn);
 
   const budget = { remaining: MAX_ROAD_SITES_PER_PASS };
   for (const source of sources) {
