@@ -8,24 +8,45 @@ import * as policy from "policy";
 import * as spawner from "spawner";
 import * as status from "status";
 
-function cleanupMemory(): { defenderDied: boolean } {
-  let defenderDied = false;
+// A creep still had significant ticksToLive the last time we saw it alive
+// but is gone this tick - almost certainly lost to something other than
+// old age (natural expiration counts down to ~0 first). 5 ticks of slack
+// covers a creep that died the same tick its TTL would've hit 0 anyway.
+const EXPIRED_TTL_THRESHOLD = 5;
+
+function trackTtl(): void {
+  for (const name in Game.creeps) {
+    Memory.creeps[name].lastKnownTtl = Game.creeps[name].ticksToLive;
+  }
+}
+
+function cleanupMemory(): { defenderLost: boolean } {
+  let defenderLost = false;
   for (const name in Memory.creeps) {
     if (!(name in Game.creeps)) {
-      if (Memory.creeps[name].role === "defender") {
-        defenderDied = true;
+      const mem = Memory.creeps[name];
+      const expired = (mem.lastKnownTtl ?? 0) <= EXPIRED_TTL_THRESHOLD;
+      if (expired) {
+        Memory.metrics.expiredThisWindow += 1;
+        console.log(`${name} (${mem.role}): expired (natural lifespan)`);
+      } else {
+        Memory.metrics.deathsThisWindow += 1;
+        console.log(`${name} (${mem.role}): lost unexpectedly (last known ttl ${mem.lastKnownTtl})`);
+        if (mem.role === "defender") {
+          defenderLost = true;
+        }
       }
       delete Memory.creeps[name];
-      Memory.metrics.deathsThisWindow += 1;
     }
   }
-  return { defenderDied };
+  return { defenderLost };
 }
 
 export function loop(): void {
-  Memory.metrics ??= { deathsThisWindow: 0 };
+  Memory.metrics ??= { deathsThisWindow: 0, expiredThisWindow: 0 };
   Memory.goal = GOAL;
-  const { defenderDied } = cleanupMemory();
+  trackTtl();
+  const { defenderLost } = cleanupMemory();
 
   for (const roomName in Game.rooms) {
     const room = Game.rooms[roomName];
@@ -34,7 +55,7 @@ export function loop(): void {
       planner.run(room);
       spawner.run(room);
       status.update(room);
-      if (defenderDied) {
+      if (defenderLost) {
         defense.handleDefenderLoss(room);
       }
     }
