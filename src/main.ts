@@ -7,6 +7,7 @@ import * as planner from "planner";
 import * as policy from "policy";
 import * as spawner from "spawner";
 import * as status from "status";
+import * as tower from "tower";
 
 function cleanupMemory(): { defenderDied: boolean } {
   let defenderDied = false;
@@ -34,6 +35,7 @@ export function loop(): void {
       planner.run(room);
       spawner.run(room);
       status.update(room);
+      tower.run(room);
       if (defenderDied) {
         defense.handleDefenderLoss(room);
       }

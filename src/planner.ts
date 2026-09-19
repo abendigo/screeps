@@ -79,18 +79,28 @@ function findOpenSpots(center: RoomPosition, count: number): RoomPosition[] {
   return spots;
 }
 
-function ensureExtensions(room: Room, spawn: StructureSpawn): void {
+// Placing a site for a structure type the current RCL hasn't unlocked yet
+// just fails harmlessly (Screeps rejects it), so it's safe to call this
+// every pass regardless of level - once the controller reaches the RCL
+// that unlocks more of a capped structure (extension, tower, ...), the
+// next planning pass queues it automatically with no separate step needed.
+function ensureCappedStructure(
+  room: Room,
+  spawn: StructureSpawn,
+  structureType: BuildableStructureConstant,
+  capsByLevel: { [level: number]: number },
+): void {
   const controller = room.controller;
   if (!controller) {
     return;
   }
 
-  const max = CONTROLLER_STRUCTURES.extension[controller.level] ?? 0;
+  const max = capsByLevel[controller.level] ?? 0;
   const existing = room.find(FIND_MY_STRUCTURES, {
-    filter: (s) => s.structureType === STRUCTURE_EXTENSION,
+    filter: (s) => s.structureType === structureType,
   }).length;
   const queued = room.find(FIND_CONSTRUCTION_SITES, {
-    filter: (s) => s.structureType === STRUCTURE_EXTENSION,
+    filter: (s) => s.structureType === structureType,
   }).length;
 
   const needed = max - existing - queued;
@@ -99,7 +109,7 @@ function ensureExtensions(room: Room, spawn: StructureSpawn): void {
   }
 
   for (const spot of findOpenSpots(spawn.pos, needed)) {
-    spot.createConstructionSite(STRUCTURE_EXTENSION);
+    spot.createConstructionSite(structureType);
   }
 }
 
@@ -150,7 +160,8 @@ export function run(room: Room): void {
     return;
   }
 
-  ensureExtensions(room, spawn);
+  ensureCappedStructure(room, spawn, STRUCTURE_EXTENSION, CONTROLLER_STRUCTURES.extension);
+  ensureCappedStructure(room, spawn, STRUCTURE_TOWER, CONTROLLER_STRUCTURES.tower);
 
   const budget = { remaining: MAX_ROAD_SITES_PER_PASS };
   for (const source of sources) {
