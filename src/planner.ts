@@ -44,7 +44,43 @@ function ensureContainer(source: Source): void {
   }
 }
 
-function findOpenSpots(center: RoomPosition, count: number): RoomPosition[] {
+// Would blocking `spot` cut the spawn off from any of `criticalPositions`
+// (the sources and controller - the places creeps actually need to reach)?
+// findOpenSpots only avoids walls and existing occupants on its own; a ring
+// of otherwise-legal spots can still wall off part of the room between
+// them and natural terrain, so this is a separate, explicit check rather
+// than something the ring search would catch by construction.
+function blocksConnectivity(spot: RoomPosition, spawn: StructureSpawn, criticalPositions: RoomPosition[]): boolean {
+  for (const target of criticalPositions) {
+    const result = PathFinder.search(
+      spawn.pos,
+      { pos: target, range: 1 },
+      {
+        plainCost: 2,
+        swampCost: 10,
+        roomCallback: (roomName) => {
+          if (roomName !== spawn.room.name) {
+            return false;
+          }
+          const costs = new PathFinder.CostMatrix();
+          costs.set(spot.x, spot.y, 0xff);
+          return costs;
+        },
+      },
+    );
+    if (result.incomplete) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function findOpenSpots(
+  spawn: StructureSpawn,
+  count: number,
+  criticalPositions: RoomPosition[],
+): RoomPosition[] {
+  const center = spawn.pos;
   const terrain = new Room.Terrain(center.roomName);
   const spots: RoomPosition[] = [];
 
@@ -69,6 +105,9 @@ function findOpenSpots(center: RoomPosition, count: number): RoomPosition[] {
         if (pos.lookFor(LOOK_STRUCTURES).length > 0 || pos.lookFor(LOOK_CONSTRUCTION_SITES).length > 0) {
           continue;
         }
+        if (blocksConnectivity(pos, spawn, criticalPositions)) {
+          continue;
+        }
         spots.push(pos);
         if (spots.length >= count) {
           return spots;
@@ -89,6 +128,7 @@ function ensureCappedStructure(
   spawn: StructureSpawn,
   structureType: BuildableStructureConstant,
   capsByLevel: { [level: number]: number },
+  criticalPositions: RoomPosition[],
 ): void {
   const controller = room.controller;
   if (!controller) {
@@ -108,7 +148,7 @@ function ensureCappedStructure(
     return;
   }
 
-  for (const spot of findOpenSpots(spawn.pos, needed)) {
+  for (const spot of findOpenSpots(spawn, needed, criticalPositions)) {
     spot.createConstructionSite(structureType);
   }
 }
@@ -160,8 +200,9 @@ export function run(room: Room): void {
     return;
   }
 
-  ensureCappedStructure(room, spawn, STRUCTURE_EXTENSION, CONTROLLER_STRUCTURES.extension);
-  ensureCappedStructure(room, spawn, STRUCTURE_TOWER, CONTROLLER_STRUCTURES.tower);
+  const criticalPositions = [...sources.map((s) => s.pos), ...(room.controller ? [room.controller.pos] : [])];
+  ensureCappedStructure(room, spawn, STRUCTURE_EXTENSION, CONTROLLER_STRUCTURES.extension, criticalPositions);
+  ensureCappedStructure(room, spawn, STRUCTURE_TOWER, CONTROLLER_STRUCTURES.tower, criticalPositions);
 
   const budget = { remaining: MAX_ROAD_SITES_PER_PASS };
   for (const source of sources) {
