@@ -90,4 +90,5 @@ export function tick(room: Room): void {
   policy.windowStartTick = Game.time;
   policy.windowStartSnapshot = metrics.snapshot(room);
   Memory.metrics.deathsThisWindow = 0;
+  Memory.metrics.expiredThisWindow = 0;
 }

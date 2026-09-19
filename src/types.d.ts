@@ -5,6 +5,10 @@ declare global {
   interface CreepMemory {
     role: string;
     working?: boolean;
+    // Last-seen Game.creeps[name].ticksToLive, refreshed every tick a creep
+    // is alive. Read once the creep is gone to tell a natural end-of-lifespan
+    // death (this was near 0) from an unexpected one (this was still high).
+    lastKnownTtl?: number;
   }
 
   interface Memory {
@@ -70,7 +74,13 @@ declare global {
   }
 
   interface MetricsMemory {
+    // Unexpected losses only (still had significant ticksToLive) - this is
+    // what feeds the policy reward penalty, so routine aging-out doesn't
+    // get mistaken for a bad harvester-count decision.
     deathsThisWindow: number;
+    // Natural end-of-lifespan deaths - informational only, doesn't affect
+    // policy reward.
+    expiredThisWindow: number;
   }
 }
 
