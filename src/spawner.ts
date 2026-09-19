@@ -49,11 +49,16 @@ export function run(room: Room): void {
     }
   }
 
+  // Haulers only spawn once every source has a miner - they're cheaper
+  // than a miner (150 vs 250 energy), so without this a young colony's
+  // fluctuating energy can let haulers keep winning the affordability race
+  // and starve a source's miner out indefinitely, leaving haulers with
+  // nothing to actually haul.
   const haulers = Object.values(Game.creeps).filter(
     (creep) => creep.memory.role === "hauler" && creep.room.name === room.name,
   );
 
-  if (haulers.length < policy.getTargetHaulers(room)) {
+  if (!unclaimedSource && haulers.length < policy.getTargetHaulers(room)) {
     const name = `hauler_${Game.time}`;
     const result = spawn.spawnCreep(BODY_HAULER, name, {
       memory: { role: "hauler", working: false },
