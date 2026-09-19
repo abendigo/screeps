@@ -12,7 +12,8 @@ export const GOAL: GoalMemory = {
   subGoals: [
     { id: "defense-basics", summary: "Defender role + safe-mode-on-loss", status: "done" },
     { id: "rcl2", summary: "Reach RCL2, unlock extensions", status: "done" },
-    { id: "builder-role", summary: "Builder role for roads/containers", status: "active" },
+    { id: "builder-containers", summary: "Builder role + planner: containers at sources", status: "done" },
+    { id: "builder-roads", summary: "Planner-placed roads from spawn to sources/controller", status: "active" },
     { id: "rcl3-towers", summary: "Reach RCL3, add a tower for real defense", status: "pending" },
     { id: "hauler-role", summary: "Hauler role once containers exist, freeing harvesters from delivery", status: "pending" },
     { id: "storage-economy", summary: "Reach RCL4, build storage, stabilize the energy economy", status: "pending" },
