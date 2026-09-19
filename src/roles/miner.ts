@@ -16,6 +16,11 @@ export function run(creep: Creep): void {
     const container = source.pos.findInRange(FIND_STRUCTURES, 1, {
       filter: (s) => s.structureType === STRUCTURE_CONTAINER,
     })[0];
-    creep.moveTo(container ?? source, { visualizePathStyle: { stroke: "#ffaa00" } });
+    // reusePath: 0 - this walk-to-post trip happens once per creep
+    // lifetime, so it's worth fresh pathfinding every tick instead of the
+    // default cached path, which can go stale and walk the creep straight
+    // into a structure (e.g. an extension) that finished building after
+    // the path was cached.
+    creep.moveTo(container ?? source, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
   }
 }
