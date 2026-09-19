@@ -11,6 +11,10 @@ declare global {
     lastKnownTtl?: number;
     // Miners only: the source this miner is permanently parked on.
     sourceId?: Id<Source>;
+    // Haulers only: the structure/controller this hauler has claimed to
+    // deliver to, so other haulers can treat its incoming energy as
+    // already accounted for (see roles/hauler.ts).
+    deliverTargetId?: Id<StructureSpawn | StructureExtension | StructureTower | StructureController>;
   }
 
   interface Memory {
