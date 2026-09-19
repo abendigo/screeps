@@ -9,6 +9,10 @@ export default defineConfig({
   build: {
     target: "node18",
     sourcemap: false,
+    // Unminified: this bundle is read (and sometimes debugged) directly in
+    // Screeps' in-browser code editor, where a minifier's renamed
+    // identifiers and collapsed whitespace make it unreadable.
+    minify: false,
     outDir: "dist",
     emptyOutDir: true,
     lib: {
