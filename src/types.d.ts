@@ -9,6 +9,8 @@ declare global {
     // is alive. Read once the creep is gone to tell a natural end-of-lifespan
     // death (this was near 0) from an unexpected one (this was still high).
     lastKnownTtl?: number;
+    // Miners only: the source this miner is permanently parked on.
+    sourceId?: Id<Source>;
   }
 
   interface Memory {
@@ -54,7 +56,10 @@ declare global {
   }
 
   interface PolicyWeights {
-    targetHarvesters: number;
+    // Haulers, not harvesters, as of the miner/hauler split - miners are
+    // fixed at 1-per-source (like defenders/builders), so the only thing
+    // left worth tuning is how many haulers keep up with them.
+    targetHaulers: number;
   }
 
   interface PolicyHistoryEntry {

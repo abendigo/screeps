@@ -1,6 +1,7 @@
 import * as policy from "policy";
 
-const BODY_HARVESTER: BodyPartConstant[] = [WORK, CARRY, MOVE];
+const BODY_MINER: BodyPartConstant[] = [WORK, WORK, MOVE];
+const BODY_HAULER: BodyPartConstant[] = [CARRY, CARRY, MOVE];
 const BODY_DEFENDER: BodyPartConstant[] = [RANGED_ATTACK, MOVE];
 const BODY_BUILDER: BodyPartConstant[] = [WORK, CARRY, MOVE];
 
@@ -30,14 +31,32 @@ export function run(room: Room): void {
     }
   }
 
-  const harvesters = Object.values(Game.creeps).filter(
-    (creep) => creep.memory.role === "harvester" && creep.room.name === room.name,
+  // Miners: fixed at 1 per source (like defenders/builders, not policy-tuned)
+  // - there's an obvious right answer (one stationary miner per source), no
+  // need for the reward loop to learn it.
+  const miners = Object.values(Game.creeps).filter(
+    (creep) => creep.memory.role === "miner" && creep.room.name === room.name,
+  );
+  const claimedSourceIds = new Set(miners.map((creep) => creep.memory.sourceId));
+  const unclaimedSource = room.find(FIND_SOURCES).find((source) => !claimedSourceIds.has(source.id));
+
+  if (unclaimedSource) {
+    const name = `miner_${Game.time}`;
+    if (
+      spawn.spawnCreep(BODY_MINER, name, { memory: { role: "miner", sourceId: unclaimedSource.id } }) === OK
+    ) {
+      console.log(`${room.name}: spawning ${name} for source ${unclaimedSource.id}`);
+    }
+  }
+
+  const haulers = Object.values(Game.creeps).filter(
+    (creep) => creep.memory.role === "hauler" && creep.room.name === room.name,
   );
 
-  if (harvesters.length < policy.getTargetHarvesters(room)) {
-    const name = `harvester_${Game.time}`;
-    const result = spawn.spawnCreep(BODY_HARVESTER, name, {
-      memory: { role: "harvester", working: false },
+  if (haulers.length < policy.getTargetHaulers(room)) {
+    const name = `hauler_${Game.time}`;
+    const result = spawn.spawnCreep(BODY_HAULER, name, {
+      memory: { role: "hauler", working: false },
     });
 
     if (result === OK) {

@@ -7,15 +7,15 @@ import * as metrics from "metrics";
 
 const WINDOW_LENGTH = 200;
 const STEP_SIZE = 1;
-const MIN_TARGET_HARVESTERS = 1;
-const MAX_TARGET_HARVESTERS = 6;
+const MIN_TARGET_HAULERS = 1;
+const MAX_TARGET_HAULERS = 6;
 const DEATH_PENALTY = 50;
 const HISTORY_LIMIT = 20;
 
-const DEFAULT_WEIGHTS: PolicyWeights = { targetHarvesters: 3 };
+const DEFAULT_WEIGHTS: PolicyWeights = { targetHaulers: 3 };
 
-function clampTargetHarvesters(value: number): number {
-  return Math.max(MIN_TARGET_HARVESTERS, Math.min(MAX_TARGET_HARVESTERS, value));
+function clampTargetHaulers(value: number): number {
+  return Math.max(MIN_TARGET_HAULERS, Math.min(MAX_TARGET_HAULERS, value));
 }
 
 function randomStep(): number {
@@ -34,16 +34,19 @@ function init(room: Room): PolicyMemory {
 }
 
 function getPolicy(room: Room): PolicyMemory {
-  if (!Memory.policy) {
+  // The targetHarvesters -> targetHaulers rename means any live Memory.policy
+  // from before the miner/hauler split is the wrong shape - reinitialize
+  // rather than let a `NaN` from a missing field silently break spawning.
+  if (!Memory.policy || typeof Memory.policy.weights.targetHaulers !== "number") {
     Memory.policy = init(room);
   }
   return Memory.policy;
 }
 
-export function getTargetHarvesters(room: Room): number {
+export function getTargetHaulers(room: Room): number {
   const policy = getPolicy(room);
   const active = policy.candidateWeights ?? policy.weights;
-  return Math.round(clampTargetHarvesters(active.targetHarvesters));
+  return Math.round(clampTargetHaulers(active.targetHaulers));
 }
 
 // Advance the policy's learning window. Call once per room per tick, before
@@ -85,7 +88,7 @@ export function tick(room: Room): void {
 
   policy.baselineReward = currentReward;
   policy.candidateWeights = {
-    targetHarvesters: clampTargetHarvesters(policy.weights.targetHarvesters + randomStep()),
+    targetHaulers: clampTargetHaulers(policy.weights.targetHaulers + randomStep()),
   };
   policy.windowStartTick = Game.time;
   policy.windowStartSnapshot = metrics.snapshot(room);
