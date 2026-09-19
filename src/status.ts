@@ -21,5 +21,7 @@ export function update(room: Room): void {
     energyCapacityAvailable: room.energyCapacityAvailable,
     storedEnergy: room.storage?.store[RESOURCE_ENERGY] ?? 0,
     creepCounts,
+    safeMode: room.controller?.safeMode ?? null,
+    safeModeAvailable: room.controller?.safeModeAvailable ?? 0,
   };
 }

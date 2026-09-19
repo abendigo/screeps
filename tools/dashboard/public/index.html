@@ -199,6 +199,13 @@
 
   .empty { color: var(--text-muted); font-size: 13px; }
 
+  .subgoal { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
+  .subgoal .mark { width: 14px; text-align: center; flex-shrink: 0; }
+  .subgoal.done { color: var(--text-muted); text-decoration: line-through; }
+  .subgoal.done .mark { color: var(--good); text-decoration: none; }
+  .subgoal.active .mark { color: var(--series-1); }
+  .subgoal.pending .mark { color: var(--text-muted); }
+
   #code-load, #code-module-select {
     border: 1px solid var(--border);
     background: var(--surface-1);
@@ -252,6 +259,13 @@
     </div>
     <iframe id="rate-limit-iframe" title="Lift Screeps rate limit"></iframe>
   </div>
+
+  <section id="goal-section" style="display:none;">
+    <h2>Goal</h2>
+    <div id="goal-summary" style="font-size:15px; font-weight:600; margin-bottom:4px;"></div>
+    <div id="goal-rationale" class="sub" style="margin-bottom:12px;"></div>
+    <ul id="goal-subgoals" style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px;"></ul>
+  </section>
 
   <section>
     <h2>Colony status</h2>
@@ -382,6 +396,11 @@
     const breakdown = Object.entries(counts).map(([role, n]) => role + ": " + n).join(", ") || "none";
     tiles.appendChild(tile("Creeps", String(total), breakdown));
 
+    const safeModeSub = status.safeMode
+      ? fmt(status.safeMode) + " ticks left"
+      : (typeof status.safeModeAvailable === "number" ? status.safeModeAvailable + " charge(s) available" : "");
+    tiles.appendChild(tile("Safe mode", status.safeMode ? "Active" : "Ready", safeModeSub));
+
     if (policy) {
       const target = policy.weights.targetHarvesters;
       const trialing = policy.candidateWeights && policy.candidateWeights.targetHarvesters !== target
@@ -488,6 +507,27 @@
     });
   }
 
+  function renderGoal(goal) {
+    const section = document.getElementById("goal-section");
+    if (!goal) {
+      section.style.display = "none";
+      return;
+    }
+    section.style.display = "block";
+    document.getElementById("goal-summary").textContent = goal.summary || "";
+    document.getElementById("goal-rationale").textContent = goal.rationale || "";
+
+    const list = document.getElementById("goal-subgoals");
+    list.innerHTML = "";
+    (goal.subGoals || []).forEach((sg) => {
+      const li = document.createElement("li");
+      li.className = "subgoal " + sg.status;
+      const mark = sg.status === "done" ? "✓" : sg.status === "active" ? "▸" : "○";
+      li.innerHTML = '<span class="mark">' + mark + "</span><span>" + sg.summary + "</span>";
+      list.appendChild(li);
+    });
+  }
+
   function renderTable(history) {
     const body = document.getElementById("history-body");
     body.innerHTML = "";
@@ -547,6 +587,7 @@
       (body.status ? body.status.roomName : "colony") +
       " · updated " + new Date(body.fetchedAt).toLocaleTimeString() +
       (versionText ? " · " + versionText : "");
+    renderGoal(body.goal);
     renderTiles(body);
     renderChart(body.policy ? body.policy.history : []);
     renderTable(body.policy ? body.policy.history : []);

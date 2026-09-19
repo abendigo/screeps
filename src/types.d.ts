@@ -4,7 +4,7 @@
 declare global {
   interface CreepMemory {
     role: string;
-    working: boolean;
+    working?: boolean;
   }
 
   interface Memory {
@@ -13,6 +13,7 @@ declare global {
     policy: PolicyMemory;
     metrics: MetricsMemory;
     status: StatusMemory;
+    goal: GoalMemory;
   }
 
   interface StatusMemory {
@@ -25,6 +26,22 @@ declare global {
     energyCapacityAvailable: number;
     storedEnergy: number;
     creepCounts: Record<string, number>;
+    safeMode: number | null;
+    safeModeAvailable: number;
+  }
+
+  type SubGoalStatus = "pending" | "active" | "done";
+
+  interface SubGoal {
+    id: string;
+    summary: string;
+    status: SubGoalStatus;
+  }
+
+  interface GoalMemory {
+    summary: string;
+    rationale: string;
+    subGoals: SubGoal[];
   }
 
   interface RewardSnapshot {

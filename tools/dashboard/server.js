@@ -101,7 +101,13 @@ app.get("/api/state", async (_req, res) => {
   try {
     if (!cached || Date.now() - cachedAt > CACHE_TTL_MS) {
       const memory = await fetchMemory();
-      cached = { ok: true, policy: memory.policy ?? null, metrics: memory.metrics ?? null, status: memory.status ?? null };
+      cached = {
+        ok: true,
+        policy: memory.policy ?? null,
+        metrics: memory.metrics ?? null,
+        status: memory.status ?? null,
+        goal: memory.goal ?? null,
+      };
       cachedAt = Date.now();
     }
     res.json({ ...cached, fetchedAt: cachedAt, version: versionInfo() });
