@@ -198,6 +198,28 @@
   td.status-critical { color: var(--critical); }
 
   .empty { color: var(--text-muted); font-size: 13px; }
+
+  #code-load, #code-module-select {
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #code-module-select { margin-left: 8px; }
+  #code-view {
+    margin-top: 12px;
+    max-height: 480px;
+    overflow: auto;
+    background: var(--page);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: pre;
+  }
 </style>
 </head>
 <body>
@@ -257,6 +279,14 @@
       </thead>
       <tbody id="history-body"></tbody>
     </table>
+  </section>
+
+  <section>
+    <h2>Deployed code</h2>
+    <div id="code-meta" class="sub" style="margin-bottom:10px;">Not loaded yet.</div>
+    <button id="code-load" type="button">Load deployed code</button>
+    <select id="code-module-select" style="display:none;"></select>
+    <pre id="code-view" style="display:none;"></pre>
   </section>
 </main>
 
@@ -524,6 +554,54 @@
 
   refresh();
   setInterval(refresh, POLL_MS);
+
+  // Deployed code viewer: fetched on demand only (never polled) since
+  // Screeps rate-limits /api/user/code far more tightly than Memory.
+  const codeLoadBtn = document.getElementById("code-load");
+  const codeMeta = document.getElementById("code-meta");
+  const codeSelect = document.getElementById("code-module-select");
+  const codeView = document.getElementById("code-view");
+  let codeModules = {};
+
+  function showModule(name) {
+    codeView.textContent = codeModules[name] ?? "";
+    codeView.style.display = "block";
+  }
+
+  codeSelect.addEventListener("change", () => showModule(codeSelect.value));
+
+  codeLoadBtn.addEventListener("click", async () => {
+    codeLoadBtn.disabled = true;
+    codeLoadBtn.textContent = "Loading…";
+    try {
+      const res = await fetch("/api/code");
+      const body = await res.json();
+      if (!body.ok) throw new Error(body.error || "unknown error");
+
+      codeModules = body.modules || {};
+      const names = Object.keys(codeModules);
+      codeSelect.innerHTML = "";
+      names.forEach((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        codeSelect.appendChild(opt);
+      });
+      codeSelect.style.display = names.length > 1 ? "inline-block" : "none";
+
+      codeMeta.textContent =
+        "Branch " + body.branch + " · " + names.length + " module(s) · fetched " +
+        new Date(body.fetchedAt).toLocaleTimeString();
+
+      if (names.length) showModule(names[0]);
+      codeLoadBtn.textContent = "Refresh deployed code";
+    } catch (err) {
+      codeMeta.textContent = "Couldn't load deployed code: " + err.message;
+    } finally {
+      codeLoadBtn.disabled = false;
+      if (codeLoadBtn.textContent === "Loading…") codeLoadBtn.textContent = "Load deployed code";
+    }
+  });
 
   // Rate-limit bypass: Screeps lets a token run unlimited requests for 2h
   // after the account owner passes a reCAPTCHA on a page keyed to that

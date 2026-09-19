@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const TOKEN = process.env.SCREEPS_TOKEN;
 const SHARD = process.env.SCREEPS_SHARD ?? "shard1";
+const BRANCH = process.env.SCREEPS_BRANCH ?? "default";
 const API_BASE = process.env.SCREEPS_API_BASE ?? "https://screeps.com/api";
 const PORT = process.env.PORT ?? 3141;
 const GIT_SHA = process.env.GIT_SHA ?? "unknown";
@@ -62,6 +63,23 @@ async function fetchMemory() {
   return decodeMemoryValue(body.data) ?? {};
 }
 
+async function fetchCode() {
+  const url = `${API_BASE}/user/code?branch=${encodeURIComponent(BRANCH)}`;
+  const res = await fetch(url, { headers: { "X-Token": TOKEN } });
+  const text = await res.text();
+
+  let body;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new Error(`Non-JSON response for code (HTTP ${res.status}): ${text.slice(0, 300)}`);
+  }
+  if (!body.ok) {
+    throw new Error(`Screeps API rejected request for code: ${text.slice(0, 300)}`);
+  }
+  return { branch: BRANCH, modules: body.modules ?? {} };
+}
+
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -90,6 +108,27 @@ app.get("/api/state", async (_req, res) => {
   } catch (err) {
     console.error(err);
     res.status(502).json({ ok: false, error: String(err.message ?? err), version: versionInfo() });
+  }
+});
+
+// Screeps rate-limits /api/user/code much more tightly than Memory (60/hour,
+// 240/day per the installed screeps-api client's own limiter config) - this
+// is only ever fetched on demand (a dashboard button), never polled, and
+// still gets a minute-long cache so repeated clicks can't add up.
+const CODE_CACHE_TTL_MS = 60_000;
+let codeCached = null;
+let codeCachedAt = 0;
+
+app.get("/api/code", async (_req, res) => {
+  try {
+    if (!codeCached || Date.now() - codeCachedAt > CODE_CACHE_TTL_MS) {
+      codeCached = { ok: true, ...(await fetchCode()) };
+      codeCachedAt = Date.now();
+    }
+    res.json({ ...codeCached, fetchedAt: codeCachedAt });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ ok: false, error: String(err.message ?? err) });
   }
 });
 
