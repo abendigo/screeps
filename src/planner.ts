@@ -3,6 +3,12 @@
 // re-scanning every tick would just waste CPU on room.find calls.
 const PLAN_INTERVAL = 50;
 
+// Checking only walls/bounds and returning the first match let this keep
+// "finding" a tile that's actually already claimed by something else (e.g.
+// a road construction site) - it would retry the same occupied tile every
+// planning pass and silently fail forever, since createConstructionSite
+// rejects a second site on an already-occupied tile. Skip occupied tiles
+// like findOpenSpots does.
 function openSpotNear(pos: RoomPosition): RoomPosition | null {
   const terrain = new Room.Terrain(pos.roomName);
 
@@ -19,7 +25,11 @@ function openSpotNear(pos: RoomPosition): RoomPosition | null {
       if (terrain.get(x, y) === TERRAIN_MASK_WALL) {
         continue;
       }
-      return new RoomPosition(x, y, pos.roomName);
+      const candidate = new RoomPosition(x, y, pos.roomName);
+      if (isOccupied(candidate)) {
+        continue;
+      }
+      return candidate;
     }
   }
   return null;
