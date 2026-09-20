@@ -10,6 +10,7 @@ import * as policy from "policy";
 import * as spawner from "spawner";
 import * as status from "status";
 import * as tower from "tower";
+import * as upgrader from "roles/upgrader";
 
 // A creep still had significant ticksToLive the last time we saw it alive
 // but is gone this tick - almost certainly lost to something other than
@@ -85,6 +86,9 @@ export function loop(): void {
         break;
       case "builder":
         builder.run(creep);
+        break;
+      case "upgrader":
+        upgrader.run(creep);
         break;
       default:
         console.log(`${name}: unknown role "${creep.memory.role}"`);
