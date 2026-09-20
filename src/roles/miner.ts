@@ -12,15 +12,28 @@ export function run(creep: Creep): void {
     return;
   }
 
-  if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-    const container = source.pos.findInRange(FIND_STRUCTURES, 1, {
-      filter: (s) => s.structureType === STRUCTURE_CONTAINER,
-    })[0];
+  const container = source.pos.findInRange(FIND_STRUCTURES, 1, {
+    filter: (s) => s.structureType === STRUCTURE_CONTAINER,
+  })[0];
+
+  // Once positioned anywhere within harvest range of the source,
+  // creep.harvest() succeeds and this never re-checks movement again - so
+  // if that first in-range tile isn't the container's exact tile, overflow
+  // drops on bare ground and decays there forever instead of ever reaching
+  // the container. Explicitly re-target the container's tile every tick
+  // until actually standing on it (harmless once there, since it's always
+  // within harvest range too).
+  if (container && !creep.pos.isEqualTo(container.pos)) {
     // reusePath: 0 - this walk-to-post trip happens once per creep
     // lifetime, so it's worth fresh pathfinding every tick instead of the
     // default cached path, which can go stale and walk the creep straight
     // into a structure (e.g. an extension) that finished building after
     // the path was cached.
-    creep.moveTo(container ?? source, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
+    creep.moveTo(container.pos, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
+    return;
+  }
+
+  if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+    creep.moveTo(source, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
   }
 }
