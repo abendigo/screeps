@@ -85,12 +85,16 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // A small server-side cache so multiple open tabs (or a low client poll
 // interval) can't multiply requests against Screeps' rate limit - everyone
-// polling within CACHE_TTL_MS shares one upstream fetch. Widened from 15s
-// after repeated account-level rate-limit lockouts (2026-09) - most were
-// actually caused by heavy ad-hoc debugging sessions, not the dashboard
-// itself, but this adds real safety margin for cheap since a status
-// dashboard doesn't need sub-minute freshness.
-const CACHE_TTL_MS = 60_000;
+// polling within CACHE_TTL_MS shares one upstream fetch. Widened to 15
+// minutes after repeated account-level rate-limit lockouts (2026-09) - most
+// were actually caused by heavy ad-hoc debugging sessions, not the
+// dashboard itself, but a status dashboard doesn't need near-real-time
+// freshness, so this trades that for a large safety margin. A manual
+// "Refresh now" button (see public/index.html) can force a fresh fetch
+// early, but even that respects FORCE_REFRESH_MIN_INTERVAL_MS so repeated
+// clicks can't turn into their own request flood.
+const CACHE_TTL_MS = 15 * 60_000;
+const FORCE_REFRESH_MIN_INTERVAL_MS = 10_000;
 let cached = null;
 let cachedAt = 0;
 
@@ -101,9 +105,10 @@ function versionInfo() {
   return { gitSha: GIT_SHA, gitDate: GIT_DATE, uptimeSeconds: Math.floor((Date.now() - STARTED_AT) / 1000) };
 }
 
-app.get("/api/state", async (_req, res) => {
+app.get("/api/state", async (req, res) => {
   try {
-    if (!cached || Date.now() - cachedAt > CACHE_TTL_MS) {
+    const effectiveTtl = req.query.refresh === "1" ? FORCE_REFRESH_MIN_INTERVAL_MS : CACHE_TTL_MS;
+    if (!cached || Date.now() - cachedAt > effectiveTtl) {
       const memory = await fetchMemory();
       cached = {
         ok: true,
