@@ -85,8 +85,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // A small server-side cache so multiple open tabs (or a low client poll
 // interval) can't multiply requests against Screeps' rate limit - everyone
-// polling within CACHE_TTL_MS shares one upstream fetch.
-const CACHE_TTL_MS = 15_000;
+// polling within CACHE_TTL_MS shares one upstream fetch. Widened from 15s
+// after repeated account-level rate-limit lockouts (2026-09) - most were
+// actually caused by heavy ad-hoc debugging sessions, not the dashboard
+// itself, but this adds real safety margin for cheap since a status
+// dashboard doesn't need sub-minute freshness.
+const CACHE_TTL_MS = 60_000;
 let cached = null;
 let cachedAt = 0;
 

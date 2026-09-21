@@ -306,7 +306,10 @@
 
 <script>
 (function () {
-  const POLL_MS = 20000;
+  // Widened from 20s after repeated account-level Screeps rate-limit
+  // lockouts (2026-09) - matches the server's CACHE_TTL_MS so this doesn't
+  // just poll a stale cache more often than it refreshes.
+  const POLL_MS = 60000;
   const root = document.documentElement;
   const themeToggle = document.getElementById("theme-toggle");
 
