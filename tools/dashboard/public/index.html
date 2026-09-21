@@ -72,7 +72,7 @@
   }
   h1 { font-size: 18px; margin: 0; }
   .sub { color: var(--text-secondary); font-size: 13px; }
-  #theme-toggle, #lift-rate-limit {
+  #theme-toggle, #lift-rate-limit, #refresh-now {
     border: 1px solid var(--border);
     background: var(--surface-1);
     color: var(--text-secondary);
@@ -80,6 +80,10 @@
     padding: 5px 10px;
     font-size: 12px;
     cursor: pointer;
+  }
+  #refresh-now:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
   #rate-limit-overlay {
     display: none;
@@ -238,6 +242,7 @@
     </div>
     <div style="display:flex; align-items:center; gap:10px;">
       <span class="sub" id="rate-limit-status"></span>
+      <button id="refresh-now" type="button">Refresh now</button>
       <button id="lift-rate-limit" type="button">Lift rate limit (2h)</button>
       <button id="theme-toggle" type="button">Toggle theme</button>
     </div>
@@ -306,7 +311,11 @@
 
 <script>
 (function () {
-  const POLL_MS = 20000;
+  // Widened to 15 min (matching the server's CACHE_TTL_MS) after repeated
+  // account-level Screeps rate-limit lockouts (2026-09) - a status
+  // dashboard doesn't need near-real-time freshness. The "Refresh now"
+  // button covers anyone who wants current data sooner.
+  const POLL_MS = 15 * 60000;
   const root = document.documentElement;
   const themeToggle = document.getElementById("theme-toggle");
 
@@ -563,10 +572,31 @@
     return bits.join(" · ");
   }
 
-  async function refresh() {
+  // Poll interval is long (15 min), so "updated at HH:MM:SS" would look
+  // stale for most of that window. Instead track when data last actually
+  // changed and tick a relative "updated Xm ago" independently, on a fast
+  // local timer that never touches the network.
+  let lastFetchedAt = null;
+  let subtitlePrefix = "";
+
+  function formatAgo(ms) {
+    const sec = Math.max(0, Math.floor(ms / 1000));
+    if (sec < 60) return "just now";
+    const min = Math.floor(sec / 60);
+    if (min < 60) return min + "m ago";
+    return Math.floor(min / 60) + "h ago";
+  }
+
+  function renderSubtitle() {
+    if (!subtitlePrefix) return;
+    const ago = lastFetchedAt ? formatAgo(Date.now() - lastFetchedAt) : null;
+    document.getElementById("subtitle").textContent = subtitlePrefix + (ago ? " · updated " + ago : "");
+  }
+
+  async function refresh(force) {
     let body;
     try {
-      const res = await fetch("/api/state");
+      const res = await fetch("/api/state" + (force ? "?refresh=1" : ""));
       body = await res.json();
     } catch (err) {
       showError("Couldn't reach the dashboard server: " + err.message);
@@ -578,16 +608,16 @@
     const versionText = formatVersionText(body.version);
 
     if (!body.ok) {
-      document.getElementById("subtitle").textContent = versionText || "dashboard server up";
+      subtitlePrefix = versionText || "dashboard server up";
+      renderSubtitle();
       showError("Couldn't reach the bot's memory: " + (body.error || "unknown error"));
       return;
     }
 
     hideError();
-    document.getElementById("subtitle").textContent =
-      (body.status ? body.status.roomName : "colony") +
-      " · updated " + new Date(body.fetchedAt).toLocaleTimeString() +
-      (versionText ? " · " + versionText : "");
+    lastFetchedAt = body.fetchedAt;
+    subtitlePrefix = (body.status ? body.status.roomName : "colony") + (versionText ? " · " + versionText : "");
+    renderSubtitle();
     renderGoal(body.goal);
     renderTiles(body);
     renderChart(body.policy ? body.policy.history : []);
@@ -596,6 +626,19 @@
 
   refresh();
   setInterval(refresh, POLL_MS);
+  setInterval(renderSubtitle, 10000);
+
+  const refreshNowBtn = document.getElementById("refresh-now");
+  refreshNowBtn.addEventListener("click", async () => {
+    refreshNowBtn.disabled = true;
+    refreshNowBtn.textContent = "Refreshing…";
+    try {
+      await refresh(true);
+    } finally {
+      refreshNowBtn.disabled = false;
+      refreshNowBtn.textContent = "Refresh now";
+    }
+  });
 
   // Deployed code viewer: fetched on demand only (never polled) since
   // Screeps rate-limits /api/user/code far more tightly than Memory.
