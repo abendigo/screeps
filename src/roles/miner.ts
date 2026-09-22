@@ -23,17 +23,22 @@ export function run(creep: Creep): void {
   // the container. Explicitly re-target the container's tile every tick
   // until actually standing on it (harmless once there, since it's always
   // within harvest range too).
+  // reusePath: 0 - this walk-to-post trip happens once per creep lifetime,
+  // so it's worth fresh pathfinding every tick instead of the default
+  // cached path, which can go stale and walk the creep straight into a
+  // structure (e.g. an extension) that finished building after the path
+  // was cached. maxOps raised well past the 2000 default - observed live,
+  // recomputing from scratch every tick on complex terrain could settle
+  // for a partial/local search result that wandered into a dead-end
+  // pocket instead of fully solving the route.
+  const moveOpts = { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0, maxOps: 20000 };
+
   if (container && !creep.pos.isEqualTo(container.pos)) {
-    // reusePath: 0 - this walk-to-post trip happens once per creep
-    // lifetime, so it's worth fresh pathfinding every tick instead of the
-    // default cached path, which can go stale and walk the creep straight
-    // into a structure (e.g. an extension) that finished building after
-    // the path was cached.
-    creep.moveTo(container.pos, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
+    creep.moveTo(container.pos, moveOpts);
     return;
   }
 
   if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-    creep.moveTo(source, { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0 });
+    creep.moveTo(source, moveOpts);
   }
 }
