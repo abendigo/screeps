@@ -1,3 +1,14 @@
+// Creeps get a high but non-maximum cost, not full impassability
+// (0xff) like structures/terrain - this room has at least one narrow,
+// single-tile-wide corridor, and marking a transient occupant there as a
+// hard wall made PathFinder report the route incomplete instead of just
+// more expensive, producing a useless partial path back into a dead end.
+// Structures/terrain are genuinely permanent, so those stay 0xff; a creep
+// usually isn't and will move on its own, so a strong-but-finite cost
+// still lets the search route through as a last resort instead of failing
+// outright.
+const CREEP_COST = 20;
+
 // Obstacle-aware CostMatrix, shared by both moveToward() calls below -
 // PathFinder.search doesn't know about real structures or other creeps
 // unless told. Without the structure check it can (and did, live) treat
@@ -19,7 +30,7 @@ function obstacleCosts(roomName: string, selfId: Id<Creep>): CostMatrix | boolea
   });
   room.find(FIND_CREEPS).forEach((c) => {
     if (c.id !== selfId) {
-      costs.set(c.pos.x, c.pos.y, 0xff);
+      costs.set(c.pos.x, c.pos.y, CREEP_COST);
     }
   });
   return costs;
