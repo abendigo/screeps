@@ -1,3 +1,38 @@
+// Obstacle-aware CostMatrix, shared by both moveToward() calls below -
+// PathFinder.search doesn't know about real structures unless told, so
+// without this it can (and did, live) treat impassable terrain as if it
+// were open, producing paths that dead-end.
+function obstacleCosts(roomName: string): CostMatrix | boolean {
+  const room = Game.rooms[roomName];
+  if (!room) {
+    return false;
+  }
+  const costs = new PathFinder.CostMatrix();
+  room.find(FIND_STRUCTURES).forEach((s) => {
+    if ((OBSTACLE_OBJECT_TYPES as readonly string[]).includes(s.structureType)) {
+      costs.set(s.pos.x, s.pos.y, 0xff);
+    }
+  });
+  return costs;
+}
+
+// This walk-to-post trip happens once per creep lifetime, so it's worth
+// computing a fresh, fully obstacle-aware path every tick and following it
+// directly via moveByPath - moveTo's own built-in pathfinding was observed
+// live repeatedly wandering into a genuine dead-end pocket in this room's
+// terrain (confirmed via a direct PathFinder.search from the same
+// position finding a complete, cheap 56-step route), so rather than trust
+// whatever's different about its internal search, compute and follow the
+// path ourselves.
+function moveToward(creep: Creep, pos: RoomPosition): void {
+  const result = PathFinder.search(
+    creep.pos,
+    { pos, range: 1 },
+    { plainCost: 2, swampCost: 10, maxOps: 20000, roomCallback: obstacleCosts },
+  );
+  creep.moveByPath(result.path);
+}
+
 /**
  * Miner: parks permanently at its assigned source (see spawner.ts for
  * assignment) and just harvests every tick, forever. No CARRY part, so
@@ -23,22 +58,12 @@ export function run(creep: Creep): void {
   // the container. Explicitly re-target the container's tile every tick
   // until actually standing on it (harmless once there, since it's always
   // within harvest range too).
-  // reusePath: 0 - this walk-to-post trip happens once per creep lifetime,
-  // so it's worth fresh pathfinding every tick instead of the default
-  // cached path, which can go stale and walk the creep straight into a
-  // structure (e.g. an extension) that finished building after the path
-  // was cached. maxOps raised well past the 2000 default - observed live,
-  // recomputing from scratch every tick on complex terrain could settle
-  // for a partial/local search result that wandered into a dead-end
-  // pocket instead of fully solving the route.
-  const moveOpts = { visualizePathStyle: { stroke: "#ffaa00" }, reusePath: 0, maxOps: 20000 };
-
   if (container && !creep.pos.isEqualTo(container.pos)) {
-    creep.moveTo(container.pos, moveOpts);
+    moveToward(creep, container.pos);
     return;
   }
 
   if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-    creep.moveTo(source, moveOpts);
+    moveToward(creep, source.pos);
   }
 }
