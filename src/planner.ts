@@ -184,7 +184,16 @@ function ensureRoad(from: RoomPosition, to: RoomPosition, budget: { remaining: n
     return;
   }
 
-  const path = from.findPathTo(to, { ignoreCreeps: true, range: 1 });
+  // Without an explicit plainCost, findPathTo's default treats plain
+  // terrain and existing roads as equally cheap, so a later destination's
+  // route has no incentive to reuse an earlier one's road - it just finds
+  // its own independently-shortest path, even where that runs parallel to
+  // one already built (observed live: two separate near-duplicate roads to
+  // the controller and the far source, running side by side for a long
+  // stretch). Roads always cost 1 regardless of this setting, so raising
+  // plainCost above that makes reusing existing pavement genuinely
+  // cheaper, encouraging a shared trunk instead of parallel duplicates.
+  const path = from.findPathTo(to, { ignoreCreeps: true, range: 1, plainCost: 2, swampCost: 10 });
   for (const step of path) {
     if (budget.remaining <= 0) {
       return;
