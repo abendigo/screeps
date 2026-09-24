@@ -410,6 +410,16 @@
       : (typeof status.safeModeAvailable === "number" ? status.safeModeAvailable + " charge(s) available" : "");
     tiles.appendChild(tile("Safe mode", status.safeMode ? "Active" : "Ready", safeModeSub));
 
+    if (typeof status.ticksToDowngrade === "number") {
+      const changes = state.rclHistory || [];
+      const last = changes[changes.length - 1];
+      tiles.appendChild(tile(
+        "Downgrade timer",
+        fmt(status.ticksToDowngrade) + " ticks",
+        last ? "last level change: " + last.from + "\u2192" + last.to + " at tick " + fmt(last.tick) : "no level changes recorded yet"
+      ));
+    }
+
     if (policy) {
       const target = policy.weights.targetHaulers;
       const trialing = policy.candidateWeights && policy.candidateWeights.targetHaulers !== target

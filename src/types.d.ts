@@ -24,6 +24,7 @@ declare global {
     metrics: MetricsMemory;
     status: StatusMemory;
     goal: GoalMemory;
+    rclHistory: RclChange[];
   }
 
   interface StatusMemory {
@@ -38,6 +39,18 @@ declare global {
     creepCounts: Record<string, number>;
     safeMode: number | null;
     safeModeAvailable: number;
+    ticksToDowngrade: number | null;
+  }
+
+  // One entry per controller level change, kept so an out-of-band notice
+  // (e.g. Screeps' "downgraded" email) can be checked against what the bot
+  // actually saw - nothing else records this once Memory.status is
+  // overwritten each tick.
+  interface RclChange {
+    tick: number;
+    from: number;
+    to: number;
+    progress: number;
   }
 
   type SubGoalStatus = "pending" | "active" | "done";
