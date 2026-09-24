@@ -116,6 +116,7 @@ app.get("/api/state", async (req, res) => {
         metrics: memory.metrics ?? null,
         status: memory.status ?? null,
         goal: memory.goal ?? null,
+        rclHistory: memory.rclHistory ?? [],
       };
       cachedAt = Date.now();
     }
